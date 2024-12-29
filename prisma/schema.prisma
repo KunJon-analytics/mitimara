@@ -12,3 +12,23 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id @default(cuid())
+
+  // pi network platform user credentials
+  username    String
+  accessToken String
+  uid         String @unique
+
+  isActive      Boolean @default(true)
+  /// points accrued for active ecosystem participation / bought
+  points        Int     @default(0)
+  /// username of user's referrer
+  referrer      String?
+  /// no of users referred
+  noOfReferrals Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
