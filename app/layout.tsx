@@ -50,7 +50,11 @@ export default function RootLayout({
         >
           <ReactQueryProvider>
             <SessionProvider>
-              <NuqsAdapter>{children}</NuqsAdapter>
+              <NuqsAdapter>
+                <div vaul-drawer-wrapper="" className="bg-background">
+                  {children}
+                </div>
+              </NuqsAdapter>
             </SessionProvider>
           </ReactQueryProvider>
           <Toaster richColors closeButton />
