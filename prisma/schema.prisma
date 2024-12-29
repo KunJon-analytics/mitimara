@@ -23,7 +23,7 @@ model User {
 
   isActive      Boolean @default(true)
   /// points accrued for active ecosystem participation / bought
-  points        Int     @default(0)
+  points        Float   @default(1)
   /// username of user's referrer
   referrer      String?
   /// no of users referred
@@ -31,4 +31,27 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  amount     Float
+  txId       String?
+  paymentId  String              @unique
+  isRefunded Boolean             @default(false)
+  type       PiTransactionType
+  status     PiTransactionStatus @default(INITIALIZED)
+  purposeId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum PiTransactionType {
+  DONATE
+}
+
+enum PiTransactionStatus {
+  INITIALIZED
+  COMPLETED
+  CANCELLED
 }

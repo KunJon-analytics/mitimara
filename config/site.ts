@@ -1,5 +1,5 @@
 import { env } from "@/env.mjs";
-import { SiteConfig } from "@/types/config";
+import { DonationConfig, SiteConfig } from "@/types/config";
 
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -16,3 +16,5 @@ export const siteConfig: SiteConfig = {
     github: "https://github.com/shadcn/taxonomy",
   },
 };
+
+export const donationConfig: DonationConfig = { userPointsPerPi: 5 };
