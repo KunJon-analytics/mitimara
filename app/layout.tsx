@@ -5,6 +5,8 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
+import ReactQueryProvider from "@/components/providers/react-query";
+import { SessionProvider } from "@/components/providers/session-provider";
 
 import "./globals.css";
 
@@ -46,7 +48,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NuqsAdapter>{children}</NuqsAdapter>
+          <ReactQueryProvider>
+            <SessionProvider>
+              <NuqsAdapter>{children}</NuqsAdapter>
+            </SessionProvider>
+          </ReactQueryProvider>
           <Toaster richColors closeButton />
         </ThemeProvider>
       </body>
