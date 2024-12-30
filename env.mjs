@@ -20,6 +20,9 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
+
+    // MAPTILER
+    NEXT_PUBLIC_MAPTILER_TOKEN: z.string().min(1),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -28,6 +31,9 @@ export const env = createEnv({
     TELEGRAM_PRIVATE_CHANNEL: process.env.TELEGRAM_PRIVATE_CHANNEL,
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+
+    // MAPTILER
+    NEXT_PUBLIC_MAPTILER_TOKEN: process.env.NEXT_PUBLIC_MAPTILER_TOKEN,
 
     // PI NETWORK
     PI_PLATFORM_API_URL: process.env.PI_PLATFORM_API_URL,

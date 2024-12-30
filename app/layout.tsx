@@ -9,6 +9,7 @@ import ReactQueryProvider from "@/components/providers/react-query";
 import { SessionProvider } from "@/components/providers/session-provider";
 import { PiProvider } from "@/components/providers/pi-provider";
 
+import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
 
 const geistSans = Geist({

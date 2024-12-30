@@ -38,9 +38,12 @@ model User {
 }
 
 model Tree {
-  id            String    @id @default(cuid())
-  latitude      Float
-  longitude     Float
+  id             String  @id @default(cuid())
+  code           String  @unique @default(uuid())
+  additionalInfo String?
+  latitude       Float
+  longitude      Float
+
   isAuthentic   Boolean   @default(false)
   rewardClaimed Boolean   @default(false)
   dateVerified  DateTime?
@@ -59,6 +62,7 @@ model TreeVerification {
   id              String  @id @default(cuid())
   rewardClaimed   Boolean @default(false)
   treeIsAuthentic Boolean
+  additionalInfo  String?
 
   mediaEvidence Media[]
 
