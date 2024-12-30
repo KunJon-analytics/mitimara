@@ -6,7 +6,7 @@ const axiosClient = axios.create({
   withCredentials: true,
 });
 
-export const config = {
+export const axiosConfig = {
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
