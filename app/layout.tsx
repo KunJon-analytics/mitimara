@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import ReactQueryProvider from "@/components/providers/react-query";
 import { SessionProvider } from "@/components/providers/session-provider";
+import { PiProvider } from "@/components/providers/pi-provider";
 
 import "./globals.css";
 
@@ -59,6 +60,7 @@ export default function RootLayout({
           </ReactQueryProvider>
           <Toaster richColors closeButton />
         </ThemeProvider>
+        <PiProvider />
       </body>
     </html>
   );

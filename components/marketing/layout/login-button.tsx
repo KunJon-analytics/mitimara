@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import useCurrentSession from "@/components/providers/session-provider";
 import { LoadingAnimation } from "@/components/common/loading-animation";
+import LoginModal from "@/components/auth/login-modal";
 
 export function LoginButton({ className, ...props }: ButtonProps) {
   const { session, isPending } = useCurrentSession();
@@ -19,13 +20,13 @@ export function LoginButton({ className, ...props }: ButtonProps) {
     );
   }
 
-  return (
-    <Button asChild className={cn("rounded-full", className)} {...props}>
-      {session.isLoggedIn ? (
-        <Link href="/dashboard">Dashboard</Link>
-      ) : (
-        <Link href="/login">Sign In</Link>
-      )}
-    </Button>
-  );
+  if (session.isLoggedIn) {
+    return (
+      <Button asChild className={cn("rounded-full", className)} {...props}>
+        <Link href="/app">Get Started</Link>
+      </Button>
+    );
+  }
+
+  return <LoginModal />;
 }

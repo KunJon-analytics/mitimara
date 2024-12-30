@@ -3,6 +3,7 @@
 import { toast } from "sonner";
 import { createContext, ReactNode, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 import useLocalStorage from "@/hooks/use-local-storage";
 import {
@@ -13,6 +14,7 @@ import {
 import useSession from "@/hooks/use-session";
 import { Scope } from "@/types/pi";
 import { onIncompletePaymentFound } from "@/lib/pi/callbacks";
+import { siteConfig } from "@/config/site";
 
 const scopes: Scope[] = ["payments", "username", "wallet_address"];
 
@@ -36,6 +38,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     "access-token",
     ""
   );
+  const router = useRouter();
 
   //if status is error or is not loggedin present the button, disable button
   //if is pending
@@ -50,6 +53,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const login = async (referral?: string) => {
     try {
+      if (window.Pi === undefined) {
+        toast.warning(`You can only access ${siteConfig.name} via Pi Browser`);
+        return;
+      }
       const authResult: AuthResultSchema = await window.Pi.authenticate(
         scopes,
         onIncompletePaymentFound
@@ -67,7 +74,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           },
           onSettled: (data, error, variables, context) => {
             queryClient.invalidateQueries({ queryKey: ["session"] });
-            //   router.refresh();
+            router.push("/app");
           },
         }
       );
