@@ -29,8 +29,57 @@ model User {
   /// no of users referred
   noOfReferrals Int     @default(0)
 
+  // Relationships
+  plantedTrees      Tree[]
+  treeVerifications TreeVerification[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Tree {
+  id            String    @id @default(cuid())
+  latitude      Float
+  longitude     Float
+  isAuthentic   Boolean   @default(false)
+  rewardClaimed Boolean   @default(false)
+  dateVerified  DateTime?
+
+  planter   User   @relation(fields: [planterId], references: [id])
+  planterId String
+
+  mediaEvidence Media[]
+  verifications TreeVerification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TreeVerification {
+  id              String  @id @default(cuid())
+  rewardClaimed   Boolean @default(false)
+  treeIsAuthentic Boolean
+
+  mediaEvidence Media[]
+
+  tree       Tree   @relation(fields: [treeId], references: [id])
+  treeId     String
+  verifier   User   @relation(fields: [verifierId], references: [id])
+  verifierId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Media {
+  id   String    @id @default(cuid())
+  url  String    @unique
+  type MediaType
+
+  treeVerification   TreeVerification? @relation(fields: [treeVerificationId], references: [id])
+  treeVerificationId String?
+  tree               Tree?             @relation(fields: [treeId], references: [id])
+  treeId             String?
 }
 
 model Payment {
@@ -44,6 +93,11 @@ model Payment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
 }
 
 enum PiTransactionType {

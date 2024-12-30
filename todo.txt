@@ -1,0 +1,26 @@
+tree planting can only be done with user points greater than -10
+    => tree loaction gotten from vercel
+
+3 verifications are to chosen (random or user chosses to) and 2 out of three has to authentic for tree to be marked authentic.
+   
+
+verifications can only be done when:
+    => user must be within { 1km }sphere of tree location
+    => user with points greater than -10
+    => total verifications are less then 3
+    => isauthentic/unauthentic verifications are less than 2
+
+once isauthentic/nonauthentic is equal to 2 or total verification is 3:
+    => mark now as date tree is verified.
+    => send tree is verified event
+        => event should set tree authenticity (true if greater than 1 iasuthentic verications)
+        => update tree planter point 
+            => if tree is authentic increment planter point && referrer planter point for referrer
+            => else decrement planter point * 1.5
+        => update verifier points 
+            => if tree.isAuthentic === tree.isAuthentic (increment verifier point) && referrer verifier point for referrer
+            => else decrement verifier point * 1.5
+
+// add this system later (report tree verifications with point deduction system)
+sceneraios where user upload bad image, when verification images are not completed
+    => points will fight this, since users will be deducted points.
