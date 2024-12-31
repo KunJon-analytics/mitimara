@@ -13,15 +13,23 @@ import {
 } from "@/components/ui/credenza";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
+import { LoginParams } from "@/lib/validations/session";
 import useCurrentSession from "../providers/session-provider";
 import { Button, ButtonProps } from "../ui/button";
 import { LoadingAnimation } from "../common/loading-animation";
 
-const LoginModal = ({ className, ...props }: ButtonProps) => {
+type LoginModalProps = ButtonProps & LoginParams;
+
+const LoginModal = ({
+  className,
+  redirect,
+  referral,
+  ...props
+}: LoginModalProps) => {
   const { isPending, login } = useCurrentSession();
 
   const onClick = async () => {
-    await login();
+    await login({ redirect, referral });
   };
 
   return (

@@ -21,3 +21,5 @@ export const defaultSession: SessionData = {
   isLoggedIn: false,
   id: "",
 };
+
+export type LoginParams = { referral?: string; redirect?: string };

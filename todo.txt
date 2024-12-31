@@ -26,3 +26,6 @@ once isauthentic/nonauthentic is equal to 2 or total verification is 3:
 // add this system later (report tree verifications with point deduction system)
 sceneraios where user upload bad image, when verification images are not completed
     => points will fight this, since users will be deducted points.
+
+if a tree is not validated after a week, it is destroyed(uprooted add something catchy) and planter still looses points
+so invite friends around you please

@@ -9,12 +9,12 @@ import useLocalStorage from "@/hooks/use-local-storage";
 import {
   AuthResultSchema,
   defaultSession,
+  LoginParams,
   SessionData,
 } from "@/lib/validations/session";
 import useSession from "@/hooks/use-session";
 import { Scope } from "@/types/pi";
 import { onIncompletePaymentFound } from "@/lib/pi/callbacks";
-import { siteConfig } from "@/config/site";
 
 const scopes: Scope[] = ["payments", "username", "wallet_address"];
 
@@ -24,7 +24,7 @@ type SessionContextType = {
   session: SessionData;
   isPending: boolean;
   accessToken: string;
-  login: (referral?: string) => Promise<void>;
+  login: (params?: LoginParams) => Promise<void>;
   logout: () => void;
   status: "error" | "success" | "pending";
 };
@@ -51,18 +51,14 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     queryClient.removeQueries({ queryKey: ["session"] });
   };
 
-  const login = async (referral?: string) => {
+  const login = async (params?: LoginParams) => {
     try {
-      if (window.Pi === undefined) {
-        toast.warning(`You can only access ${siteConfig.name} via Pi Browser`);
-        return;
-      }
       const authResult: AuthResultSchema = await window.Pi.authenticate(
         scopes,
         onIncompletePaymentFound
       );
       mutate(
-        { ...authResult, referral },
+        { ...authResult, referral: params?.referral },
         {
           onSuccess: (data, variables, context) => {
             setAccessToken(variables.accessToken);
@@ -74,7 +70,9 @@ export function SessionProvider({ children }: { children: ReactNode }) {
           },
           onSettled: (data, error, variables, context) => {
             queryClient.invalidateQueries({ queryKey: ["session"] });
-            router.push("/app");
+            if (params?.redirect) {
+              router.push(params.redirect);
+            }
           },
         }
       );
