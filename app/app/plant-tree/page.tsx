@@ -1,74 +1,59 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Map, { Marker } from "react-map-gl/maplibre";
 import Link from "next/link";
+import { type Geo } from "@vercel/functions";
+import { ChevronLeft } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { env } from "@/env.mjs";
-import { createTree } from "@/actions/tree/create-tree";
+import { Button } from "@/components/ui/button";
+import TreeMap from "./_components/tree-map";
+import PlantTreeForm from "./_components/plant-tree-form";
 
-const location = { longitude: -122.4, latitude: 37.8 };
+export const dynamic = "force-dynamic";
 
-export default function PlantTree() {
-  const router = useRouter();
-  const { latitude, longitude } = location;
-  const [isConfirming, setIsConfirming] = useState(false);
+export default async function PlantTree() {
+  const data = await fetch(`${env.NEXT_PUBLIC_APP_URL}/api/my-location`);
+  const myLocation = (await data.json()) as Geo | null;
 
-  const handleConfirm = async () => {
-    setIsConfirming(true);
+  if (!myLocation) {
+    return <div className="text-center p-4">Loading your location...</div>;
+  }
 
-    // TODO: Replace 'user-id' with actual user ID from authentication
-    const result = await createTree(latitude, longitude, "user-id");
-    setIsConfirming(false);
-
-    if (result.success) {
-      router.push(`/tree/${result.treeId}`);
-    } else {
-      // TODO: Handle error (e.g., show error message to user)
-      console.error(result.error);
-    }
-  };
+  const { latitude, longitude, city, country } = myLocation;
 
   if (!latitude || !longitude) {
-    return <div className="text-center p-4">Loading your location...</div>;
+    return <div className="text-center p-4">Invalid Location...</div>;
   }
 
   return (
     <div className="flex flex-col items-center space-y-4 p-4">
-      <h1 className="text-2xl font-bold">Plant a Tree</h1>
-      <div className="w-full h-64 sm:h-96 rounded-lg overflow-hidden">
-        <Map
-          initialViewState={{
-            latitude,
-            longitude,
-            zoom: 14,
-          }}
-          style={{ width: "100%", height: "100%" }}
-          mapStyle={`https://api.maptiler.com/maps/streets/style.json?key=${env.NEXT_PUBLIC_MAPTILER_TOKEN}`}
-          //  mapStyle= 'https://demotiles.maplibre.org/style.json' dmeo
-          // mapStyle="mapbox://styles/mapbox/streets-v11" mapbox
-          // mapboxAccessToken={env.NEXT_PUBLIC_MAPBOX_TOKEN}
-        >
-          <Marker latitude={latitude} longitude={longitude} color="red" />
-        </Map>
-      </div>
-      <p className="text-center">
-        Is this the exact location where you planted the tree?
-      </p>
-      <Button
-        // onClick={handleConfirm}
-        disabled={isConfirming}
-        className="w-full sm:w-auto"
-      >
-        {isConfirming ? "Confirming..." : "Confirm Tree Location"}
-      </Button>
-      <div>
-        <Button asChild>
-          <Link href="/app">Back to Dashboard</Link>
+      <div className="w-full flex justify-between items-center mb-4">
+        <Button variant="ghost" asChild className="p-2">
+          <Link href="/app">
+            <ChevronLeft className="h-4 w-4 mr-2" />
+            Back to Dashboard
+          </Link>
         </Button>
+        <h1 className="text-2xl font-bold">Plant a Tree</h1>
       </div>
+      <div className="w-full h-64 sm:h-96 rounded-lg overflow-hidden">
+        <TreeMap latitude={latitude} longitude={longitude} />
+      </div>
+      <div className="text-center">
+        {city && country && (
+          <>
+            <p className="font-semibold">Your current location:</p>
+            <p>
+              {city}, {country}
+            </p>
+          </>
+        )}
+        <p className="mt-4">
+          Is this the exact location where you planted the tree?
+        </p>
+      </div>
+      <PlantTreeForm
+        latitude={parseFloat(latitude)}
+        longitude={parseFloat(longitude)}
+      />
     </div>
   );
 }
