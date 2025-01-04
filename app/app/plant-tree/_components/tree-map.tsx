@@ -1,13 +1,16 @@
 "use client";
 
 import Map, { Marker } from "react-map-gl/maplibre";
+
 import { env } from "@/env.mjs";
 
-type TreeMapProps = { latitude: string; longitude: string };
+type TreeMapProps = { latitude: string | number; longitude: string | number };
 
 const TreeMap = ({ latitude, longitude }: TreeMapProps) => {
-  const latitudeNumber = parseFloat(latitude);
-  const longitudeNumber = parseFloat(longitude);
+  const latitudeNumber =
+    typeof latitude === "string" ? parseFloat(latitude) : latitude;
+  const longitudeNumber =
+    typeof longitude === "string" ? parseFloat(longitude) : longitude;
 
   return (
     <Map
