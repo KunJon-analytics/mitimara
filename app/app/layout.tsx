@@ -8,7 +8,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col h-screen justify-between">
       <header className="bg-foreground/5 p-4">
-        <BrandName />
+        <BrandName homeLink="/app" />
       </header>
       <main className="container mx-auto p-4 grow">{children}</main>
       <footer className="bg-foreground/5 p-4 mt-8 flex">

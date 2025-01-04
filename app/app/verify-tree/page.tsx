@@ -20,13 +20,16 @@ import { findNearbyUnverifiedTree } from "@/actions/tree/find-nearby-unverified-
 import { submitVerification } from "@/actions/tree/submit-verification";
 import useCurrentSession from "@/components/providers/session-provider";
 import LoginModal from "@/components/auth/login-modal";
+import { NearbyTreeReturnType } from "@/lib/validations/tree";
+
+export const dynamic = "force-dynamic";
 
 export default function VerifyTree() {
   const [location, setLocation] = useState<{
     latitude: number;
     longitude: number;
   } | null>(null);
-  const [nearbyTree, setNearbyTree] = useState<any | null>(null);
+  const [nearbyTree, setNearbyTree] = useState<NearbyTreeReturnType>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [videoUrl, setVideoUrl] = useState("");
   const [isAuthentic, setIsAuthentic] = useState<boolean | null>(null);
@@ -79,13 +82,14 @@ export default function VerifyTree() {
 
     setIsLoading(true);
     // TODO: Replace 'current-user-id' with actual logged-in user ID
-    const result = await submitVerification(
-      nearbyTree.id,
-      "current-user-id",
+    const result = await submitVerification({
+      treeId: nearbyTree.id,
+      type: "VIDEO",
+      accessToken,
       isAuthentic,
-      videoUrl,
-      additionalInfo
-    );
+      url: videoUrl,
+      additionalInfo,
+    });
     setIsLoading(false);
 
     if (result.success) {

@@ -24,16 +24,7 @@ export default async function PlantTree() {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-4 p-4">
-      <div className="w-full flex justify-between items-center mb-4">
-        <Button variant="ghost" asChild className="p-2">
-          <Link href="/app">
-            <ChevronLeft className="h-4 w-4 mr-2" />
-            Back to Dashboard
-          </Link>
-        </Button>
-        <h1 className="text-2xl font-bold">Plant a Tree</h1>
-      </div>
+    <>
       <div className="w-full h-64 sm:h-96 rounded-lg overflow-hidden">
         <TreeMap latitude={latitude} longitude={longitude} />
       </div>
@@ -54,6 +45,6 @@ export default async function PlantTree() {
         latitude={parseFloat(latitude)}
         longitude={parseFloat(longitude)}
       />
-    </div>
+    </>
   );
 }

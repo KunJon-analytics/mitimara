@@ -1,5 +1,7 @@
-import { $Enums } from "@prisma/client";
 import * as z from "zod";
+
+import { findNearbyUnverifiedTree } from "@/actions/tree/find-nearby-unverified-tree";
+import { $Enums } from "@prisma/client";
 
 function validateYouTubeUrl(url: string) {
   if (url != undefined || url != "") {
@@ -52,3 +54,32 @@ export const treeEvidenceSchema = z
   );
 
 export type TreeEvidenceSchema = z.infer<typeof treeEvidenceSchema>;
+
+export const treeVerificationSchema = z
+  .object({
+    url: z.string().url(),
+    accessToken: z.string().min(1),
+    additionalInfo: z.string().optional(),
+    isAuthentic: z.boolean(),
+    treeId: z.string().min(1),
+    type: z.nativeEnum($Enums.MediaType),
+  })
+  .refine(
+    (data) => {
+      if (data.type === "VIDEO") {
+        return validateYouTubeUrl(data.url);
+      } else {
+        return true;
+      }
+    },
+    {
+      message: "Invalid YouTube URL",
+      path: ["url"], // path of error
+    }
+  );
+
+export type TreeVerificationSchema = z.infer<typeof treeVerificationSchema>;
+
+export type NearbyTreeReturnType = Awaited<
+  ReturnType<typeof findNearbyUnverifiedTree>
+>;

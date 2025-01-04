@@ -3,9 +3,9 @@
 import { treeLogicConfig } from "@/config/site";
 import { prisma } from "@/lib/prisma";
 import { calculateDistance } from "@/lib/utils";
-import { CreateTreeSchema, createTreeSchema } from "@/lib/validations/tree";
+import { createTreeSchema } from "@/lib/validations/tree";
 
-export async function findNearbyUnverifiedTree(params: CreateTreeSchema) {
+export async function findNearbyUnverifiedTree(params: unknown) {
   const validatedFields = createTreeSchema.safeParse(params);
 
   if (!validatedFields.success) {
@@ -22,6 +22,7 @@ export async function findNearbyUnverifiedTree(params: CreateTreeSchema) {
       },
       select: { id: true },
     });
+
     if (!user) {
       return null;
     }
@@ -32,8 +33,11 @@ export async function findNearbyUnverifiedTree(params: CreateTreeSchema) {
         planterId: { not: user.id },
         verifications: { none: { verifierId: user.id } },
       },
-      include: {
-        planter: true,
+      select: {
+        planter: { select: { username: true } },
+        latitude: true,
+        longitude: true,
+        id: true,
       },
     });
 
@@ -46,6 +50,6 @@ export async function findNearbyUnverifiedTree(params: CreateTreeSchema) {
     return nearbyTrees[0] || null;
   } catch (error) {
     console.error("Failed to find nearby tree:", error);
-    return { success: false, error: "Failed to find nearby tree" };
+    return null;
   }
 }

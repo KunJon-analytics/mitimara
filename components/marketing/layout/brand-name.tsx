@@ -13,11 +13,16 @@ import {
 } from "@/components/ui/context-menu";
 import { siteConfig } from "@/config/site";
 
-export function BrandName() {
+type BrandNameProps = { homeLink?: string };
+
+export function BrandName({ homeLink }: BrandNameProps) {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <Link href="/" className="flex items-center gap-2 font-cal">
+        <Link
+          href={homeLink ? homeLink : "/"}
+          className="flex items-center gap-2 font-cal"
+        >
           <Image
             src="/logo.png"
             alt={siteConfig.name}
