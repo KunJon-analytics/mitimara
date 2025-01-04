@@ -35,13 +35,8 @@ const mockTreeData = {
   mediaEvidence: [
     {
       id: "media_1",
-      type: "IMAGE" as const,
-      url: "https://example.com/tree_picture1.jpg",
-    },
-    {
-      id: "media_2",
       type: "VIDEO" as const,
-      url: "https://example.com/tree_video1.mp4",
+      url: "https://www.youtube.com/watch?v=LXb3EKWsInQ",
     },
   ],
   verifications: [

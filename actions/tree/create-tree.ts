@@ -3,9 +3,10 @@
 import { revalidatePath } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
-import { CreateTreeSchema, createTreeSchema } from "@/lib/validations/tree";
+import { createTreeSchema } from "@/lib/validations/tree";
+import { treeLogicConfig } from "@/config/site";
 
-export async function createTree(params: CreateTreeSchema) {
+export async function createTree(params: unknown) {
   const validatedFields = createTreeSchema.safeParse(params);
 
   if (!validatedFields.success) {
@@ -16,11 +17,11 @@ export async function createTree(params: CreateTreeSchema) {
 
   try {
     const user = await prisma.user.findFirst({
-      where: { accessToken },
+      where: { accessToken, points: { gte: treeLogicConfig.minPlanterPoints } },
       select: { id: true },
     });
     if (!user) {
-      return { error: "Unauthenticated!", success: false };
+      return { error: "Unauthorized!", success: false };
     }
 
     const tree = await prisma.tree.create({
@@ -30,6 +31,8 @@ export async function createTree(params: CreateTreeSchema) {
         planterId: user.id,
       },
     });
+
+    // send tree created event (send TG message, reduce planter points)
 
     revalidatePath("/app");
     return { success: true, treeId: tree.id };

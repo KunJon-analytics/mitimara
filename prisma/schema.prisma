@@ -23,7 +23,7 @@ model User {
 
   isActive      Boolean @default(true)
   /// points accrued for active ecosystem participation / bought
-  points        Float   @default(1)
+  points        Float   @default(10)
   /// username of user's referrer
   referrer      String?
   /// no of users referred

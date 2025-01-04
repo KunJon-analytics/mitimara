@@ -1,4 +1,26 @@
+import { $Enums } from "@prisma/client";
 import * as z from "zod";
+
+function validateYouTubeUrl(url: string) {
+  if (url != undefined || url != "") {
+    var regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match && match[2].length == 11) {
+      // Do anything for being valid
+      // if need to change the url to embed url then use below line
+      // $("#ytplayerSide").attr(
+      //   "src",
+      //   "https://www.youtube.com/embed/" + match[2] + "?autoplay=0"
+      // );
+      return true;
+    } else {
+      // Do anything for not being valid
+      return false;
+    }
+  }
+  return false;
+}
 
 export const createTreeSchema = z.object({
   accessToken: z.string().min(1),
@@ -7,3 +29,26 @@ export const createTreeSchema = z.object({
 });
 
 export type CreateTreeSchema = z.infer<typeof createTreeSchema>;
+
+export const treeEvidenceSchema = z
+  .object({
+    url: z.string().url(),
+    accessToken: z.string().min(1),
+    treeId: z.string().min(1),
+    type: z.nativeEnum($Enums.MediaType),
+  })
+  .refine(
+    (data) => {
+      if (data.type === "VIDEO") {
+        return validateYouTubeUrl(data.url);
+      } else {
+        return true;
+      }
+    },
+    {
+      message: "Invalid YouTube URL",
+      path: ["url"], // path of error
+    }
+  );
+
+export type TreeEvidenceSchema = z.infer<typeof treeEvidenceSchema>;

@@ -1,19 +1,16 @@
-"use client";
-
-import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+  Credenza,
+  CredenzaContent,
+  CredenzaDescription,
+  CredenzaHeader,
+  CredenzaTitle,
+  CredenzaTrigger,
+} from "@/components/ui/credenza";
 import { $Enums } from "@prisma/client";
+import { treeLogicConfig } from "@/config/site";
+import VideoPlayer from "@/components/common/video-player";
+import AddVideoEvidenceForm from "./add-video-evidence-form";
 
 type Evidence = {
   id: string;
@@ -32,27 +29,18 @@ export function EvidenceModal({
   evidences,
   isPlanter,
 }: EvidenceModalProps) {
-  const [newEvidenceUrl, setNewEvidenceUrl] = useState("");
-  const [newEvidenceType, setNewEvidenceType] =
-    useState<$Enums.MediaType>("IMAGE");
-
-  const handleAddEvidence = () => {
-    // onAddEvidence({ type: newEvidenceType, url: newEvidenceUrl });
-    setNewEvidenceUrl("");
-  };
-
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Credenza>
+      <CredenzaTrigger asChild>
         <Button variant="outline">View Evidence</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Tree Evidence</DialogTitle>
-          <DialogDescription>
+      </CredenzaTrigger>
+      <CredenzaContent className="sm:max-w-[425px]">
+        <CredenzaHeader>
+          <CredenzaTitle>Tree Evidence</CredenzaTitle>
+          <CredenzaDescription>
             View and manage evidence for this tree.
-          </DialogDescription>
-        </DialogHeader>
+          </CredenzaDescription>
+        </CredenzaHeader>
         <div className="grid gap-4 py-4">
           {evidences.map((evidence) => (
             <div key={evidence.id} className="flex items-center gap-4">
@@ -60,55 +48,28 @@ export function EvidenceModal({
                 <img
                   src={evidence.url}
                   alt="Tree evidence"
-                  className="w-20 h-20 object-cover rounded"
+                  className="w-40 h-40 object-cover rounded"
                 />
               ) : (
-                <video
-                  src={evidence.url}
-                  className="w-20 h-20 object-cover rounded"
-                  controls
-                />
+                // change to youtube component
+                <VideoPlayer url={evidence.url} height={160} width={160} />
               )}
               <a
                 href={evidence.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
+                className="text-primary hover:underline"
               >
                 {evidence.type === "IMAGE" ? "View Picture" : "View Video"}
               </a>
             </div>
           ))}
-          {isPlanter && (
-            <div className="grid gap-2">
-              <Label htmlFor="evidenceUrl">Add New Evidence</Label>
-              <Input
-                id="evidenceUrl"
-                value={newEvidenceUrl}
-                onChange={(e) => setNewEvidenceUrl(e.target.value)}
-                placeholder="Enter URL for picture or video"
-              />
-              <div className="flex gap-2">
-                <Button
-                  variant={newEvidenceType === "IMAGE" ? "default" : "outline"}
-                  onClick={() => setNewEvidenceType("IMAGE")}
-                >
-                  Picture
-                </Button>
-                <Button
-                  variant={newEvidenceType === "VIDEO" ? "default" : "outline"}
-                  onClick={() => setNewEvidenceType("VIDEO")}
-                >
-                  Video
-                </Button>
-              </div>
-              <Button onClick={handleAddEvidence} disabled={!newEvidenceUrl}>
-                Add Evidence
-              </Button>
-            </div>
-          )}
+          {isPlanter &&
+            evidences.length < treeLogicConfig.maxNoOfTreeEvidences && (
+              <AddVideoEvidenceForm treeId={treeId} />
+            )}
         </div>
-      </DialogContent>
-    </Dialog>
+      </CredenzaContent>
+    </Credenza>
   );
 }
