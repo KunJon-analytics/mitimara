@@ -1,5 +1,6 @@
 tree planting can only be done with user points greater than -10
     => tree loaction gotten from vercel
+    => only when tree evidence is posted will code be shown
     => subtract points from user (prevents spamming)
 
 3 verifications are to chosen (random or user chosses to) and 2 out of three has to authentic for tree to be marked authentic.
@@ -7,7 +8,10 @@ tree planting can only be done with user points greater than -10
 
 verifications can only be done when (also check in server while creating):
     => user must be within { 1km }sphere of tree location 
-        =>when /tree/treeId/create-verification page will be visible
+        =>then /tree/treeId/verify-tree page will be visible (use pi kyc way)
+            => user visits page, 
+            => compare location (allow if close, disallow if not)
+            => show upload verification video url page (yes/no button)
     => user with points greater than -10
     => total verifications are less then 3
     => isauthentic/unauthentic verifications are less than 2

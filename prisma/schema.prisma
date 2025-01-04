@@ -73,6 +73,8 @@ model TreeVerification {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([treeId, verifierId])
 }
 
 model Media {
