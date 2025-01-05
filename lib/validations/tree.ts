@@ -32,6 +32,14 @@ export const createTreeSchema = z.object({
 
 export type CreateTreeSchema = z.infer<typeof createTreeSchema>;
 
+export const editTreeInfoSchema = z.object({
+  accessToken: z.string().min(1),
+  treeId: z.string().min(1),
+  additionalInfo: z.string().max(200).optional(),
+});
+
+export type EditTreeInfoSchema = z.infer<typeof editTreeInfoSchema>;
+
 export const treeEvidenceSchema = z
   .object({
     url: z.string().url(),

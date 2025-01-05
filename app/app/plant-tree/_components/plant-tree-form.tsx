@@ -30,7 +30,7 @@ const PlantTreeForm = ({ latitude, longitude }: PlantTreeFormProps) => {
         const result = await createTree({ latitude, longitude, accessToken });
 
         if (result.success) {
-          toast.success("Tree added successfully, now you can add more ");
+          toast.success("Tree added successfully, now you can add more info");
           router.push(`/app/tree/${result.treeId}`);
         } else {
           // TODO: Handle error (e.g., show error message to user)

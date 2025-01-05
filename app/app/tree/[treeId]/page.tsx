@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EvidenceModal } from "./_component/evidence-modal";
 import { VerificationTable } from "./_component/verification-table";
 import TreeMap from "../../plant-tree/_components/tree-map";
+import { AdditionalInfo } from "./_component/additional-info";
 
 const mockTreeData = {
   id: "tree_123456",
@@ -137,15 +138,16 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
                 {tree.rewardClaimed ? "Claimed" : "Not Claimed"}
               </Badge>
             </div>
+            <AdditionalInfo
+              initialInfo={tree.additionalInfo || ""}
+              isPlanter={isPlanter}
+              treeId={treeId}
+            />
             <div className="mt-4">
               <EvidenceModal
                 treeId={tree.id}
                 evidences={tree.mediaEvidence}
                 isPlanter={isPlanter}
-                // onAddEvidence={(evidence) => {
-                //   // TODO: Implement server action to add evidence
-                //   console.log("Adding evidence:", evidence);
-                // }}
               />
             </div>
           </CardContent>

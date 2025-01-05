@@ -2,12 +2,9 @@
 
 import { treeLogicConfig } from "@/config/site";
 import { prisma } from "@/lib/prisma";
-import {
-  treeVerificationSchema,
-  TreeVerificationSchema,
-} from "@/lib/validations/tree";
+import { treeVerificationSchema } from "@/lib/validations/tree";
 
-export async function submitVerification(params: TreeVerificationSchema) {
+export async function submitVerification(params: unknown) {
   const validatedFields = treeVerificationSchema.safeParse(params);
 
   if (!validatedFields.success) {
