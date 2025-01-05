@@ -7,7 +7,7 @@ export function PiProvider() {
     <Script
       src="https://sdk.minepi.com/pi-sdk.js"
       strategy="afterInteractive"
-      onLoad={() => {
+      onReady={() => {
         window.Pi.init({
           version: "2.0",
           sandbox: process.env.NODE_ENV !== "production",

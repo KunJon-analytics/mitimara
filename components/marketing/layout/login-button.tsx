@@ -6,19 +6,10 @@ import type { ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import useCurrentSession from "@/components/providers/session-provider";
-import { LoadingAnimation } from "@/components/common/loading-animation";
 import LoginModal from "@/components/auth/login-modal";
 
 export function LoginButton({ className, ...props }: ButtonProps) {
-  const { session, isPending } = useCurrentSession();
-
-  if (isPending) {
-    return (
-      <Button disabled className={cn("rounded-full", className)} {...props}>
-        <LoadingAnimation />
-      </Button>
-    );
-  }
+  const { session } = useCurrentSession();
 
   if (session.isLoggedIn) {
     return (

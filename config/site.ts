@@ -6,7 +6,7 @@ const baseUrl = process.env.VERCEL_URL
   : env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig: SiteConfig = {
-  name: "GreenPi",
+  name: "MitiMara",
   description:
     "AI-powered investments with secure and seamless trading across multiple blockchain networks.",
   url: baseUrl,

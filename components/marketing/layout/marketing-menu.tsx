@@ -75,14 +75,13 @@ export function MarketingMenu() {
                             const { href, title, icon } = page;
 
                             return (
-                              <li key={href} className="w-full">
-                                <ListItem
-                                  title={title}
-                                  href={href}
-                                  icon={icon}
-                                  onClick={() => setOpen(false)}
-                                />
-                              </li>
+                              <ListItem
+                                key={href}
+                                title={title}
+                                href={href}
+                                icon={icon}
+                                onClick={() => setOpen(false)}
+                              />
                             );
                           })}
                         </ul>
