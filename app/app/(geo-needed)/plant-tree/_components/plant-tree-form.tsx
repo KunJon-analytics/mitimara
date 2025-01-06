@@ -5,24 +5,34 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 
 import { createTree } from "@/actions/tree/create-tree";
-import { Button } from "@/components/ui/button";
 import useCurrentSession from "@/components/providers/session-provider";
-import { LoadingAnimation } from "@/components/common/loading-animation";
 import LoginModal from "@/components/auth/login-modal";
+import useCurrentLocation from "@/components/providers/location-provider";
+import LocationErrorCard from "../../_components/location-error-card";
+import ConfirmTreeModal from "./confirm-tree-modal";
 
-type PlantTreeFormProps = { latitude: number; longitude: number };
-
-const PlantTreeForm = ({ latitude, longitude }: PlantTreeFormProps) => {
+const PlantTreeForm = () => {
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
 
   const { session, accessToken } = useCurrentSession();
+  const {
+    location: { latitude, longitude },
+    error,
+  } = useCurrentLocation();
+
+  const noTreeLocation = latitude === null || longitude === null;
 
   async function handleConfirm() {
     startTransition(async () => {
       if (!session.isLoggedIn) {
         toast.error("Unauthenticated!");
+        return;
+      }
+
+      if (noTreeLocation) {
+        toast.error("No tree location!");
         return;
       }
 
@@ -47,14 +57,12 @@ const PlantTreeForm = ({ latitude, longitude }: PlantTreeFormProps) => {
     return <LoginModal />;
   }
 
+  if (error) {
+    return <LocationErrorCard error={error} />;
+  }
+
   return (
-    <Button
-      onClick={handleConfirm}
-      disabled={isPending}
-      className="w-full sm:w-auto"
-    >
-      {isPending ? <LoadingAnimation /> : "Confirm Tree Location"}
-    </Button>
+    <ConfirmTreeModal handleConfirm={handleConfirm} isPending={isPending} />
   );
 };
 

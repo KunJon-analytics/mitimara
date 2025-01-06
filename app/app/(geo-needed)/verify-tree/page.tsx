@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -16,65 +16,37 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { findNearbyUnverifiedTree } from "@/actions/tree/find-nearby-unverified-tree";
 import { submitVerification } from "@/actions/tree/submit-verification";
 import useCurrentSession from "@/components/providers/session-provider";
 import LoginModal from "@/components/auth/login-modal";
-import { NearbyTreeReturnType } from "@/lib/validations/tree";
+import useCurrentLocation from "@/components/providers/location-provider";
+import useFindNearbyTree from "@/hooks/queries/use-find-nearby-tree";
+import { treeLogicConfig } from "@/config/site";
+import LocationErrorCard from "../_components/location-error-card";
 
 export const dynamic = "force-dynamic";
 
 export default function VerifyTree() {
-  const [location, setLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
-  const [nearbyTree, setNearbyTree] = useState<NearbyTreeReturnType>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [videoUrl, setVideoUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [isAuthentic, setIsAuthentic] = useState<boolean | null>(null);
   const [additionalInfo, setAdditionalInfo] = useState("");
+
+  const {
+    location: { latitude, longitude },
+    error,
+  } = useCurrentLocation();
+
   const router = useRouter();
 
   const { accessToken, session } = useCurrentSession();
+  const { data: nearbyTree, status } = useFindNearbyTree({
+    accessToken,
+    latitude,
+    longitude,
+  });
 
-  useEffect(() => {
-    if (session.isLoggedIn) {
-      setIsLoading(true);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          setIsLoading(false);
-        }
-      );
-    } else {
-      setIsLoading(false);
-    }
-  }, [session]);
-
-  useEffect(() => {
-    if (location && accessToken) {
-      findNearbyUnverifiedTree({
-        latitude: location.latitude,
-        longitude: location.longitude,
-        accessToken,
-      })
-        .then((tree) => {
-          setNearbyTree(tree);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error finding nearby tree:", error);
-          setIsLoading(false);
-        });
-    }
-  }, [location, accessToken]);
+  const userLocated = latitude !== null && longitude !== null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,7 +69,7 @@ export default function VerifyTree() {
         description: "Thank you for verifying this tree!",
       });
 
-      router.push("/dashboard");
+      router.refresh();
     } else {
       toast.error("Error", {
         description: result.error,
@@ -105,17 +77,14 @@ export default function VerifyTree() {
     }
   };
 
-  if (isLoading) {
-    return <div className="text-center p-4">Loading...</div>;
-  }
-
   if (!session.isLoggedIn) {
     return (
       <Card className="max-w-md mx-auto mt-8">
         <CardHeader>
           <CardTitle>Not Logged In</CardTitle>
           <CardDescription>
-            Please log in to verify trees within 2km of your location.
+            Please log in to verify trees within{" "}
+            {treeLogicConfig.maxVerifierDistance}km of your location.
           </CardDescription>
         </CardHeader>
         <CardFooter>
@@ -123,6 +92,18 @@ export default function VerifyTree() {
         </CardFooter>
       </Card>
     );
+  }
+
+  if (error) {
+    return <LocationErrorCard error={error} />;
+  }
+
+  if (!userLocated) {
+    return <div className="text-center p-4">Loading user Location...</div>;
+  }
+
+  if (isLoading || status === "pending") {
+    return <div className="text-center p-4">Loading...</div>;
   }
 
   if (!nearbyTree) {

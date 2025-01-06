@@ -10,3 +10,8 @@ export const defaultLocation: Geo = {
   longitude: "-74.0060",
   postalCode: "10001",
 };
+
+export const defaultUserLocation = {
+  latitude: parseFloat(defaultLocation.latitude as string),
+  longitude: parseFloat(defaultLocation.longitude as string),
+};

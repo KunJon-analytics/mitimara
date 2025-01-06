@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EvidenceModal } from "./_component/evidence-modal";
 import { VerificationTable } from "./_component/verification-table";
-import TreeMap from "../../plant-tree/_components/tree-map";
+import TreeMap from "../../(geo-needed)/plant-tree/_components/tree-map";
 import { AdditionalInfo } from "./_component/additional-info";
 
 const mockTreeData = {

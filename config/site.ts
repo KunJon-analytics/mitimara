@@ -23,6 +23,7 @@ export const donationConfig: DonationConfig = {
 
 export const treeLogicConfig: TreeLogicConfig = {
   maxNoOfTreeEvidences: 2,
+  maxVerifierDistance: 2,
   minPlanterPoints: 5,
   minVerifierPoints: 3,
 };
