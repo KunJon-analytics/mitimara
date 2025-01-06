@@ -21,11 +21,11 @@ export function MarketingFooter({ className }: Props) {
             <div>
               <BrandName />
               <p className="mt-2 max-w-md font-light text-muted-foreground text-sm">
-                AI-powered investments with secure and seamless trading across
-                multiple blockchain networks.
+                Tree planting platform rewarding users with Pi tokens for
+                planting and verifying trees.
                 <br />
                 <span className="underline decoration-dotted underline-offset-2">
-                  Invest Smart
+                  Go Green
                 </span>
               </p>
             </div>
@@ -33,17 +33,15 @@ export function MarketingFooter({ className }: Props) {
           <div className="order-2 flex flex-col gap-3 text-sm">
             <p className="font-semibold text-foreground">Resources</p>
             <FooterLink href="/#faq" label="FAQ" />
-            <FooterLink href="/#tranches" label="Tranches" />
+            <FooterLink href="/about" label="About" />
           </div>
           <div className="order-3 flex flex-col gap-3 text-sm">
             <p className="font-semibold text-foreground">Company</p>
-            <FooterLink href="/about" label="About" />
             <FooterLink href="/legal/terms" label="Terms" />
             <FooterLink href="/legal/privacy" label="Privacy" />
           </div>
           <div className="order-3 flex flex-col gap-3 text-sm">
             <p className="font-semibold text-foreground">Tools</p>
-            <FooterLink href="/#earnings-checker" label="Earnings Checker" />
             <FooterLink href="#how-it-works" label="How it Works" />
           </div>
         </div>

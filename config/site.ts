@@ -8,7 +8,7 @@ const baseUrl = process.env.VERCEL_URL
 export const siteConfig: SiteConfig = {
   name: "MitiMara",
   description:
-    "AI-powered investments with secure and seamless trading across multiple blockchain networks.",
+    "MitiMara is a decentralized platform that incentivizes tree planting and verification through Pi token rewards. Join our community to plant trees, earn rewards, and contribute to global reforestation efforts. Together, we can make the world a greener place, one tree at a time. 🌳🌍",
   url: baseUrl,
   ogImage: `${baseUrl}/og.jpg`,
   links: {
