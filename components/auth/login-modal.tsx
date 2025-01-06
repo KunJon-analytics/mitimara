@@ -1,5 +1,7 @@
 "use client";
 
+import { LogIn } from "lucide-react";
+
 import {
   Credenza,
   CredenzaBody,
@@ -28,6 +30,8 @@ const LoginModal = ({
 }: LoginModalProps) => {
   const { isPending, login } = useCurrentSession();
 
+  const size = props.size;
+
   const onClick = async () => {
     await login({ redirect, referral });
   };
@@ -36,7 +40,7 @@ const LoginModal = ({
     <Credenza>
       <CredenzaTrigger asChild>
         <Button className={cn("rounded-full", className)} {...props}>
-          Get Started
+          {size === "icon" ? <LogIn /> : "Get Started"}
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>

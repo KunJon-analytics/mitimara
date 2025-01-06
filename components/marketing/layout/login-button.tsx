@@ -19,5 +19,5 @@ export function LoginButton({ className, ...props }: ButtonProps) {
     );
   }
 
-  return <LoginModal redirect="/app" />;
+  return <LoginModal redirect="/app" {...props} />;
 }
