@@ -1,8 +1,6 @@
-import Link from "next/link";
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { treeLogicConfig } from "@/config/site";
 import ProfileStats from "./_components/profile-stats";
+import LogicLink from "./_components/logic-link";
 
 export default function Dashboard() {
   return (
@@ -12,32 +10,20 @@ export default function Dashboard() {
       <ProfileStats />
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Plant a Tree</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4">
-              Submit a new tree planting entry and earn rewards!
-            </p>
-            <Button asChild>
-              <Link href="/app/plant-tree">Plant Tree</Link>
-            </Button>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Verify Trees</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4">
-              Help verify other users' tree plantings and earn rewards!
-            </p>
-            <Button asChild>
-              <Link href="/app/verify-tree">Verify Trees</Link>
-            </Button>
-          </CardContent>
-        </Card>
+        <LogicLink
+          bodyText="Submit a new tree planting entry and earn rewards!"
+          buttonText="Plant Tree"
+          link="/app/plant-tree"
+          minPoints={treeLogicConfig.minPlanterPoints}
+          title="Plant a Tree"
+        />
+        <LogicLink
+          bodyText=" Help verify other users' tree plantings and earn rewards!"
+          buttonText="Verify Trees"
+          link="/app/verify-tree"
+          minPoints={treeLogicConfig.minVerifierPoints}
+          title="Verify Trees"
+        />
       </div>
     </div>
   );
