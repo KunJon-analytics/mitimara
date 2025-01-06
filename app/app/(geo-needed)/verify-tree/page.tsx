@@ -23,6 +23,7 @@ import useCurrentLocation from "@/components/providers/location-provider";
 import useFindNearbyTree from "@/hooks/queries/use-find-nearby-tree";
 import { treeLogicConfig } from "@/config/site";
 import LocationErrorCard from "../_components/location-error-card";
+import { LoadingSkeleton } from "./_components/loading";
 
 export const dynamic = "force-dynamic";
 
@@ -99,11 +100,11 @@ export default function VerifyTree() {
   }
 
   if (!userLocated) {
-    return <div className="text-center p-4">Loading user Location...</div>;
+    return <LoadingSkeleton loadingText="Loading user Location..." />;
   }
 
   if (isLoading || status === "pending") {
-    return <div className="text-center p-4">Loading...</div>;
+    return <LoadingSkeleton loadingText="Loading..." />;
   }
 
   if (!nearbyTree) {
