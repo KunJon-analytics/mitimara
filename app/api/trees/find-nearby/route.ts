@@ -3,8 +3,7 @@ import { NextRequest } from "next/server";
 import { createTreeSchema } from "@/lib/validations/tree";
 import prisma from "@/lib/prisma";
 import { treeLogicConfig } from "@/config/site";
-import { calculateDistance } from "@/lib/utils";
-import { treeVerified } from "@/lib/tree/utils";
+import { findNearbyTree } from "@/lib/tree/services";
 
 export async function GET(request: NextRequest) {
   const sp = request.nextUrl.searchParams;
@@ -36,31 +35,9 @@ export async function GET(request: NextRequest) {
       return Response.json(null);
     }
 
-    const trees = await prisma.tree.findMany({
-      where: {
-        dateVerified: null,
-        planterId: { not: user.id },
-        verifications: { none: { verifierId: user.id } },
-      },
-      select: {
-        planter: { select: { username: true } },
-        latitude: true,
-        longitude: true,
-        id: true,
-        mediaEvidence: { select: { type: true, url: true } },
-        verifications: { select: { treeIsAuthentic: true } },
-      },
-    });
+    const nearbyTrees = await findNearbyTree(user.id, latitude, longitude);
 
-    const unverifiedTrees = trees.filter((tree) => !treeVerified(tree));
-
-    const nearbyTrees = unverifiedTrees.filter(
-      (tree) =>
-        calculateDistance(latitude, longitude, tree.latitude, tree.longitude) <=
-        treeLogicConfig.maxVerifierDistance
-    );
-
-    return nearbyTrees[0] || null;
+    return Response.json(nearbyTrees);
   } catch (error) {
     console.error("Failed to find nearby tree:", error);
     return Response.json(null);
