@@ -9,12 +9,12 @@ import useCurrentSession from "@/components/providers/session-provider";
 import useCurrentLocation from "@/components/providers/location-provider";
 import useFindNearbyTree from "@/hooks/queries/use-find-nearby-tree";
 import { treeLogicConfig } from "@/config/site";
+import useProfile from "@/hooks/queries/use-profile";
 import { treeVerificationSchema } from "@/lib/validations/tree";
 import LocationErrorCard from "../_components/location-error-card";
 import { LoadingSkeleton } from "./_components/loading";
 import NoNearbyTree from "./_components/no-nearby-tree";
 import VerifyTreeForm from "./_components/verify-tree-form";
-import useProfile from "@/hooks/queries/use-profile";
 import InsufficientPoints from "../_components/insufficient-points";
 
 export const dynamic = "force-dynamic";
@@ -76,6 +76,7 @@ export default function VerifyTree() {
       }
       queryClient.invalidateQueries({ queryKey: ["nearby-tree"] });
       queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
+      queryClient.invalidateQueries({ queryKey: ["my-trees"] });
     });
   };
 

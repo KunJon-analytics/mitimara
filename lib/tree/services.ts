@@ -38,3 +38,46 @@ export const findNearbyTree = async (
     return null;
   }
 };
+
+export async function getTree(id: string) {
+  const tree = await prisma.tree.findUnique({
+    where: { id },
+    select: {
+      planter: { select: { id: true, username: true } },
+      createdAt: true,
+      id: true,
+      isAuthentic: true,
+      rewardClaimed: true,
+      additionalInfo: true,
+      mediaEvidence: { select: { id: true, type: true, url: true } },
+      latitude: true,
+      longitude: true,
+      verifications: {
+        select: {
+          id: true,
+          createdAt: true,
+          rewardClaimed: true,
+          verifier: { select: { username: true } },
+        },
+      },
+    },
+  });
+
+  return tree;
+}
+
+export async function getUnverifiedTrees(userId: string) {
+  return await prisma.tree.findMany({
+    where: {
+      planterId: userId,
+      isAuthentic: false,
+      verifications: {
+        none: {},
+      },
+    },
+    select: { id: true, latitude: true, longitude: true, createdAt: true },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}

@@ -9,7 +9,7 @@ export default function Dashboard() {
 
       <ProfileStats />
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <LogicLink
           bodyText="Submit a new tree planting entry and earn rewards!"
           buttonText="Plant Tree"
@@ -23,6 +23,13 @@ export default function Dashboard() {
           link="/app/verify-tree"
           minPoints={treeLogicConfig.minVerifierPoints}
           title="Verify Trees"
+        />
+        <LogicLink
+          bodyText="View and manage your unverified planted trees."
+          buttonText="View My Trees"
+          link="/app/my-trees"
+          minPoints={0}
+          title="My Unverified Trees"
         />
       </div>
     </div>

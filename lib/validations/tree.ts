@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 import { $Enums } from "@prisma/client";
-import { findNearbyTree } from "../tree/services";
+import { findNearbyTree, getUnverifiedTrees } from "../tree/services";
 
 function validateYouTubeUrl(url: string) {
   if (url != undefined || url != "") {
@@ -89,3 +89,5 @@ export const treeVerificationSchema = z
 export type TreeVerificationSchema = z.infer<typeof treeVerificationSchema>;
 
 export type NearbyTreeReturnType = Awaited<ReturnType<typeof findNearbyTree>>;
+
+export type UnverifiedTrees = Awaited<ReturnType<typeof getUnverifiedTrees>>;

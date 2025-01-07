@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Credenza,
@@ -10,6 +12,7 @@ import {
 import { $Enums } from "@prisma/client";
 import { treeLogicConfig } from "@/config/site";
 import VideoPlayer from "@/components/common/video-player";
+import useCurrentSession from "@/components/providers/session-provider";
 import AddVideoEvidenceForm from "./add-video-evidence-form";
 
 type Evidence = {
@@ -21,14 +24,17 @@ type Evidence = {
 type EvidenceModalProps = {
   treeId: string;
   evidences: Evidence[];
-  isPlanter: boolean;
+  planterId: string;
 };
 
 export function EvidenceModal({
   treeId,
   evidences,
-  isPlanter,
+  planterId,
 }: EvidenceModalProps) {
+  const { session } = useCurrentSession();
+  const isPlanter = session.id === planterId;
+
   return (
     <Credenza>
       <CredenzaTrigger asChild>

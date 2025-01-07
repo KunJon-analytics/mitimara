@@ -1,111 +1,26 @@
 import React from "react";
 import { notFound } from "next/navigation";
 
-import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getTree } from "@/lib/tree/services";
 import { EvidenceModal } from "./_component/evidence-modal";
 import { VerificationTable } from "./_component/verification-table";
 import TreeMap from "../../(geo-needed)/plant-tree/_components/tree-map";
 import { AdditionalInfo } from "./_component/additional-info";
 
-const mockTreeData = {
-  id: "tree_123456",
-  code: "abc123",
-  additionalInfo: "This is a beautiful oak tree.",
-  latitude: 40.7128,
-  longitude: -74.006,
-  isAuthentic: true,
-  rewardClaimed: false,
-  dateVerified: new Date("2023-06-15"),
-  planterId: "user_789012",
-  createdAt: new Date("2023-05-01"),
-  updatedAt: new Date("2023-06-15"),
-  planter: {
-    id: "user_789012",
-    username: "EcoWarrior",
-    accessToken: "mock_access_token",
-    uid: "mock_uid",
-    isActive: true,
-    points: 150,
-    referrer: null,
-    noOfReferrals: 3,
-    createdAt: new Date("2023-01-01"),
-    updatedAt: new Date("2023-06-15"),
-  },
-  mediaEvidence: [
-    {
-      id: "media_1",
-      type: "VIDEO" as const,
-      url: "https://www.youtube.com/watch?v=LXb3EKWsInQ",
-    },
-  ],
-  verifications: [
-    {
-      id: "verification_1",
-      verifier: {
-        id: "user_345678",
-        username: "GreenThumb",
-      },
-      createdAt: new Date("2023-05-15"),
-      dateUpdated: new Date("2023-05-15"),
-      rewardClaimed: true,
-    },
-    {
-      id: "verification_2",
-      verifier: {
-        id: "user_901234",
-        username: "NatureGuardian",
-      },
-      createdAt: new Date("2023-06-01"),
-      dateUpdated: new Date("2023-06-01"),
-      rewardClaimed: false,
-    },
-    {
-      id: "verification_3",
-      verifier: {
-        id: "user_567890",
-        username: "EarthProtector",
-      },
-      createdAt: new Date("2023-06-15"),
-      dateUpdated: new Date("2023-06-15"),
-      rewardClaimed: false,
-    },
-  ],
-};
-
 type TreeDetailPageParams = {
   params: Promise<{ treeId: string }>;
 };
 
-async function getTree(id: string) {
-  const tree = await prisma.tree.findUnique({
-    where: { id },
-    include: {
-      planter: true,
-      mediaEvidence: true,
-      verifications: {
-        include: {
-          verifier: true,
-        },
-      },
-    },
-  });
-
-  if (!tree) notFound();
-
-  return tree;
-}
-
 export default async function TreeDetail({ params }: TreeDetailPageParams) {
   const treeId = (await params).treeId;
-  // const tree = await getTree(treeId);
-  const tree = mockTreeData;
 
-  // TODO: Replace with actual logged-in user ID
-  // const currentUserId = "logged-in-user-id";
+  const tree = await getTree(treeId);
+  if (!tree) notFound();
+
   const currentUserId = "user_789012";
-  const isPlanter = currentUserId === tree.planterId;
+  const isPlanter = currentUserId === tree.planter.id;
 
   return (
     <div className="container mx-auto p-4 space-y-6">
@@ -140,14 +55,14 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
             </div>
             <AdditionalInfo
               initialInfo={tree.additionalInfo || ""}
-              isPlanter={isPlanter}
+              planterId={tree.planter.id}
               treeId={treeId}
             />
             <div className="mt-4">
               <EvidenceModal
                 treeId={tree.id}
                 evidences={tree.mediaEvidence}
-                isPlanter={isPlanter}
+                planterId={tree.planter.id}
               />
             </div>
           </CardContent>

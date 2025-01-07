@@ -19,21 +19,24 @@ import { Textarea } from "@/components/ui/textarea";
 import useCurrentSession from "@/components/providers/session-provider";
 import { editTreeInfo } from "@/actions/tree/edit-tree-info";
 import { editTreeInfoSchema, EditTreeInfoSchema } from "@/lib/validations/tree";
+import { LoadingAnimation } from "@/components/common/loading-animation";
 
 type EditableAdditionalInfoProps = {
   initialInfo: string;
   treeId: string;
-  isPlanter: boolean;
+  planterId: string;
 };
 
 export function AdditionalInfo({
   initialInfo,
-  isPlanter,
+  planterId,
   treeId,
 }: EditableAdditionalInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const { accessToken } = useCurrentSession();
+  const { accessToken, session } = useCurrentSession();
   const [isPending, startTransition] = useTransition();
+
+  const isPlanter = session.id === planterId;
 
   // 1. Define your form.
   const form = useForm<EditTreeInfoSchema>({
@@ -45,13 +48,13 @@ export function AdditionalInfo({
     },
   });
 
-  async function handleSave(values: EditTreeInfoSchema) {
+  function handleSave(values: EditTreeInfoSchema) {
     startTransition(async () => {
       try {
         const result = await editTreeInfo(values);
 
         if (result.success) {
-          toast.success("Tree added successfully, now you can add more info");
+          toast.success("Tree info updated successfully");
           setIsEditing(false);
         } else {
           // TODO: Handle error (e.g., show error message to user)
@@ -65,7 +68,7 @@ export function AdditionalInfo({
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 mt-4">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">Additional Information</h3>
         {isPlanter && !isEditing && (
@@ -88,9 +91,9 @@ export function AdditionalInfo({
               <FormItem>
                 <FormControl>
                   <Textarea
-                    {...field}
                     disabled={!isEditing || isPending}
                     className={isEditing ? "" : "opacity-70"}
+                    {...field}
                   />
                 </FormControl>
                 <FormDescription>
@@ -102,7 +105,12 @@ export function AdditionalInfo({
           />
           {isEditing && (
             <Button type="submit" disabled={isPending}>
-              <Check className="h-4 w-4 mr-2" /> Save
+              {isPending ? (
+                <LoadingAnimation />
+              ) : (
+                <Check className="h-4 w-4 mr-2" />
+              )}{" "}
+              Save
             </Button>
           )}
         </form>
