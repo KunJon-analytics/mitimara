@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -13,7 +14,7 @@ import ConfirmTreeModal from "./confirm-tree-modal";
 
 const PlantTreeForm = () => {
   const router = useRouter();
-
+  const queryClient = useQueryClient();
   const [isPending, startTransition] = useTransition();
 
   const { session, accessToken } = useCurrentSession();
@@ -41,6 +42,7 @@ const PlantTreeForm = () => {
 
         if (result.success) {
           toast.success("Tree added successfully, now you can add more info");
+          queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
           router.push(`/app/tree/${result.treeId}`);
         } else {
           // TODO: Handle error (e.g., show error message to user)

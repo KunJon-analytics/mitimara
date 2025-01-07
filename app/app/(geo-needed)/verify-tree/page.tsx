@@ -72,6 +72,7 @@ export default function VerifyTree() {
         });
       }
       queryClient.invalidateQueries({ queryKey: ["nearby-tree"] });
+      queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
     });
   };
 
