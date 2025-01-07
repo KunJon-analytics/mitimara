@@ -9,8 +9,11 @@ import { createTree } from "@/actions/tree/create-tree";
 import useCurrentSession from "@/components/providers/session-provider";
 import LoginModal from "@/components/auth/login-modal";
 import useCurrentLocation from "@/components/providers/location-provider";
+import useProfile from "@/hooks/queries/use-profile";
+import { treeLogicConfig } from "@/config/site";
 import LocationErrorCard from "../../_components/location-error-card";
 import ConfirmTreeModal from "./confirm-tree-modal";
+import InsufficientPoints from "../../_components/insufficient-points";
 
 const PlantTreeForm = () => {
   const router = useRouter();
@@ -18,6 +21,7 @@ const PlantTreeForm = () => {
   const [isPending, startTransition] = useTransition();
 
   const { session, accessToken } = useCurrentSession();
+  const { data: profile } = useProfile(session.id);
   const {
     location: { latitude, longitude },
     error,
@@ -61,6 +65,15 @@ const PlantTreeForm = () => {
 
   if (error) {
     return <LocationErrorCard error={error} />;
+  }
+
+  if (!profile || profile.points < treeLogicConfig.minPlanterPoints) {
+    <InsufficientPoints
+      bodyText="Plant Tree"
+      minPoints={treeLogicConfig.minPlanterPoints}
+      pointsBalance={profile?.points || 0}
+      title="Insufficient Points"
+    />;
   }
 
   return (

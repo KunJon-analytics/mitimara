@@ -14,6 +14,8 @@ import LocationErrorCard from "../_components/location-error-card";
 import { LoadingSkeleton } from "./_components/loading";
 import NoNearbyTree from "./_components/no-nearby-tree";
 import VerifyTreeForm from "./_components/verify-tree-form";
+import useProfile from "@/hooks/queries/use-profile";
+import InsufficientPoints from "../_components/insufficient-points";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +38,7 @@ export default function VerifyTree() {
     latitude,
     longitude,
   });
+  const { data: profile } = useProfile(session.id);
 
   const userLocated = latitude !== null && longitude !== null;
 
@@ -107,6 +110,15 @@ export default function VerifyTree() {
         showAuth={false}
       />
     );
+  }
+
+  if (!profile || profile.points < treeLogicConfig.minVerifierPoints) {
+    <InsufficientPoints
+      bodyText="Verify Trees"
+      minPoints={treeLogicConfig.minVerifierPoints}
+      pointsBalance={profile?.points || 0}
+      title="Insufficient Points"
+    />;
   }
 
   return (
