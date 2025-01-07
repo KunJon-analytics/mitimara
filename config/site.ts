@@ -24,7 +24,14 @@ export const donationConfig: DonationConfig = {
 
 export const treeLogicConfig: TreeLogicConfig = {
   maxNoOfTreeEvidences: 2,
+  maxNoOfTreeVerifications: 3,
   maxVerifierDistance: 2,
   minPlanterPoints: 5,
   minVerifierPoints: 3,
+  planterRewardFactor: 3,
+  verifierRewardFactor: 2,
 };
+
+export const CUTOFF_VERIFICATIONS = Math.ceil(
+  treeLogicConfig.maxNoOfTreeVerifications / 2
+);

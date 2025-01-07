@@ -1,9 +1,12 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
-import { EditTreeInfoSchema, editTreeInfoSchema } from "@/lib/validations/tree";
+import { revalidatePath } from "next/cache";
 
-export async function editTreeInfo(params: EditTreeInfoSchema) {
+import { prisma } from "@/lib/prisma";
+import { editTreeInfoSchema } from "@/lib/validations/tree";
+import { inngest } from "@/inngest/client";
+
+export async function editTreeInfo(params: unknown) {
   const validatedFields = editTreeInfoSchema.safeParse(params);
 
   if (!validatedFields.success) {
@@ -45,9 +48,16 @@ export async function editTreeInfo(params: EditTreeInfoSchema) {
       select: { id: true },
     });
 
-    // revalidate tree and users => planter (do it here)
-
     // send updatedinfo event to send tg message
+    await inngest.send({
+      name: "tree/info.updated",
+      data: {
+        treeId: updatedTree.id,
+      },
+    });
+
+    // revalidate tree and users => planter (do it here)
+    revalidatePath("/app");
 
     return { success: true, updatedTreeId: updatedTree.id };
   } catch (error) {

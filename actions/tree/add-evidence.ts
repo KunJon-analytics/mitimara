@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { treeEvidenceSchema } from "@/lib/validations/tree";
 import { treeLogicConfig } from "@/config/site";
+import { inngest } from "@/inngest/client";
 
 export async function addTreeEvidence(params: unknown) {
   const validatedFields = treeEvidenceSchema.safeParse(params);
@@ -46,6 +47,12 @@ export async function addTreeEvidence(params: unknown) {
     });
 
     // send tree evidence added event (send TG message)
+    await inngest.send({
+      name: "tree/evidence.added",
+      data: {
+        evidenceId: createdEvidence.id,
+      },
+    });
 
     revalidatePath("/app");
 

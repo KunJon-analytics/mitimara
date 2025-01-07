@@ -16,7 +16,10 @@ export type DonationConfig = {
 
 export type TreeLogicConfig = {
   maxNoOfTreeEvidences: number;
+  maxNoOfTreeVerifications: number;
   minPlanterPoints: number;
   minVerifierPoints: number;
   maxVerifierDistance: number;
+  planterRewardFactor: number;
+  verifierRewardFactor: number;
 };

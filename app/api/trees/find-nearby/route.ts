@@ -4,6 +4,7 @@ import { createTreeSchema } from "@/lib/validations/tree";
 import prisma from "@/lib/prisma";
 import { treeLogicConfig } from "@/config/site";
 import { calculateDistance } from "@/lib/utils";
+import { treeVerified } from "@/lib/tree/utils";
 
 export async function GET(request: NextRequest) {
   const sp = request.nextUrl.searchParams;
@@ -47,10 +48,13 @@ export async function GET(request: NextRequest) {
         longitude: true,
         id: true,
         mediaEvidence: { select: { type: true, url: true } },
+        verifications: { select: { treeIsAuthentic: true } },
       },
     });
 
-    const nearbyTrees = trees.filter(
+    const unverifiedTrees = trees.filter((tree) => !treeVerified(tree));
+
+    const nearbyTrees = unverifiedTrees.filter(
       (tree) =>
         calculateDistance(latitude, longitude, tree.latitude, tree.longitude) <=
         treeLogicConfig.maxVerifierDistance

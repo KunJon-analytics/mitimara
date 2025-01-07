@@ -32,4 +32,11 @@ sceneraios where user upload bad image, when verification images are not complet
     => points will fight this, since users will be deducted points.
 
 if a tree is not validated after a week, it is destroyed(uprooted add something catchy) and planter still looses points
-so invite friends around you please
+so invite friends around you please (future plan)
+
+signup and get 10 points.
+
+There is a reward factor each for verifier and planter with which points deducted during planting 
+or verifying is multiplied when tree is finally verified as authentic for the planter or verifier
+submitted tree authenticity as the final authenticity fo the tree
+Users can  

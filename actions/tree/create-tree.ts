@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { createTreeSchema } from "@/lib/validations/tree";
 import { treeLogicConfig } from "@/config/site";
+import { inngest } from "@/inngest/client";
 
 export async function createTree(params: unknown) {
   const validatedFields = createTreeSchema.safeParse(params);
@@ -30,9 +31,16 @@ export async function createTree(params: unknown) {
         longitude,
         planterId: user.id,
       },
+      select: { id: true },
     });
 
-    // send tree created event (send TG message, reduce planter points)
+    // send tree planted event (send TG message, reduce planter points)
+    await inngest.send({
+      name: "tree/tree.planted",
+      data: {
+        treeId: tree.id,
+      },
+    });
 
     revalidatePath("/app");
     return { success: true, treeId: tree.id };
