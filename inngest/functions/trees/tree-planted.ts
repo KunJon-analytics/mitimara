@@ -19,6 +19,8 @@ export const treePlantedEvent = inngest.createFunction(
         select: {
           planterId: true,
           createdAt: true,
+          latitude: true,
+          longitude: true,
         },
       });
     });
@@ -42,18 +44,14 @@ export const treePlantedEvent = inngest.createFunction(
     });
 
     // send TG Admin message for new tree
-    const message = `<b>New Tree Planted!</b
+    const message = `<b>🌳 New Tree Planted!</b
     
-    <p>🌳 A new tree has just been planted by <b>${
-      updatedPlanter.username
-    }</b>!</p>
+Planted by <b>${updatedPlanter.username}</b>!
+Coordinates:  <b>${newTree.latitude.toFixed(6)}, ${newTree.longitude.toFixed(
+      6
+    )}</b>!
 
-<p>Date Planted: <b>${format(
-      new Date(newTree.createdAt),
-      "MMMM dd, yyyy"
-    )}</b></p>
-
-<p>Thank you for contributing to a greener planet with ${siteConfig.name}!</p>
+Thank you for contributing to a greener planet with ${siteConfig.name}!
 `;
 
     await step.sendEvent("send-tree-planted-notification", {

@@ -53,6 +53,7 @@ const AddVideoEvidenceForm = ({ treeId }: AddVideoEvidenceFormProps) => {
         if (result.success) {
           toast.success("Evidence added successfully");
           queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
+          form.resetField("url");
         } else {
           // TODO: Handle error (e.g., show error message to user)
           toast.error(result.error);

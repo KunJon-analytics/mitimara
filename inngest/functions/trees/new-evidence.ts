@@ -33,12 +33,12 @@ export const newEvidenceEvent = inngest.createFunction(
     // send TG Admin message for new evidence
     const message = `<b>New Media Evidence Added!</b>
 
-<p>A new <b>${treeEvidence.type.toLowerCase()}</b> has been added to the tree by @${
-      treeEvidence.tree?.planter || "the planter"
-    }.</p>
-<p>Check out the evidence: <a href=${treeEvidence.url}>View Evidence</a></p>
+A new tree <b>${treeEvidence.type.toLowerCase()}</b> has been added by @${
+      treeEvidence.tree?.planter.username || "the planter"
+    }.
+<a href='${treeEvidence.url}'>View Evidence</a>
 
-<p>Thank you for contributing to a greener planet with ${siteConfig.name}!</p>
+Thank you for contributing to a greener planet with ${siteConfig.name}!
 `;
 
     await step.sendEvent("send-new-evidence-notification", {

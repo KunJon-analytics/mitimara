@@ -109,24 +109,19 @@ export const treeVerificationAddedEvent = inngest.createFunction(
     // send TG Channel for new verification and let it show if tree was verified
     // show authenticity of tree
 
-    const message = `<b>New Tree Verification Submitted!</b>
+    const message = `<b>🌳 New Tree Verification Submitted!</b>
 
-<p>🌳 A new tree verification has been submitted.</p>
-<p>Verification Date: <b>${format(
-      new Date(newVerification.createdAt),
-      "MMMM dd, yyyy"
-    )}</b></p>
-<p>Verifier Username: <b>${newVerification.verifier.username}</b></p>
-<p>Tree Authenticity Agreed: <b>${newVerification.treeIsAuthentic}</b></p>
-<p>Final Tree Authenticity: <b>${
+Verifier Username: <b>${newVerification.verifier.username}</b>
+Tree Authenticity Agreed: <b>${newVerification.treeIsAuthentic}</b>
+Final Tree Authenticity: <b>${
       treeVerifiable ? newVerification.treeIsAuthentic : "N/A"
-    }</b></p>
-<p>Additional Information: <b>${newVerification.additionalInfo || ""}</b></p>
-<p>Tree Planter Username: <b>${newVerification.tree.planter.username}</b></p>
+    }</b>
+    
+Additional Information: <b>${newVerification.additionalInfo || ""}</b>
 
-<p>Thank you for contributing to the verification process and helping us maintain accurate records with ${
+Thank you for contributing to the verification process and helping us maintain accurate records with ${
       siteConfig.name
-    }!</p>
+    }!
 
 `;
 

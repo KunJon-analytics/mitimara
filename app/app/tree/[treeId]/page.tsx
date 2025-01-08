@@ -19,9 +19,6 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
   const tree = await getTree(treeId);
   if (!tree) notFound();
 
-  const currentUserId = "user_789012";
-  const isPlanter = currentUserId === tree.planter.id;
-
   return (
     <div className="container mx-auto p-4 space-y-6">
       <h1 className="text-3xl font-bold">Tree Details</h1>

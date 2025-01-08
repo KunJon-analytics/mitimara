@@ -34,21 +34,13 @@ export const treeInfoUpdatedEvent = inngest.createFunction(
     // send TG Admin message for updated tree info
     const message = `<b>Tree Information Updated!</b>
     
-    <p>🌳 The additional information for a tree has been updated by <b>${
-      updatedTree.planter.username
-    }</b>.</p>
-<p>New Information: <b>${updatedTree.additionalInfo || ""}</b></p>
-<p>Date Updated: <b>${format(
-      new Date(updatedTree.updatedAt),
-      "MMMM dd, yyyy"
-    )}</b> (${formatDistanceToNow(new Date(updatedTree.updatedAt), {
-      includeSeconds: true,
-      addSuffix: true,
-    })})</p>
+🌳 Tree updated by <b>${updatedTree.planter.username}</b>.
 
-<p>Thank you for keeping our records accurate and contributing to a greener planet with ${
+New Information: <b>${updatedTree.additionalInfo || ""}</b>
+
+Thank you for keeping our records accurate and contributing to a greener planet with ${
       siteConfig.name
-    }!</p>
+    }!
 
 `;
 

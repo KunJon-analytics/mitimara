@@ -4,7 +4,7 @@ import { env } from "@/env.mjs";
 import PlantTreeForm from "./_components/plant-tree-form";
 import TreeLocationContainer from "./_components/tree-location-container";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export default async function PlantTree() {
   const data = await fetch(`${env.NEXT_PUBLIC_APP_URL}/api/my-location`);
