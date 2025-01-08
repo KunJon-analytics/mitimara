@@ -3,7 +3,7 @@ import * as z from "zod";
 import { $Enums } from "@prisma/client";
 import { findNearbyTree, getUnverifiedTrees } from "../tree/services";
 
-function validateYouTubeUrl(url: string) {
+export function validateYouTubeUrl(url: string) {
   if (url != undefined || url != "") {
     var regExp =
       /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
@@ -15,7 +15,7 @@ function validateYouTubeUrl(url: string) {
       //   "src",
       //   "https://www.youtube.com/embed/" + match[2] + "?autoplay=0"
       // );
-      return true;
+      return match[2];
     } else {
       // Do anything for not being valid
       return false;
