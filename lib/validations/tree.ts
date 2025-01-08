@@ -40,6 +40,13 @@ export const editTreeInfoSchema = z.object({
 
 export type EditTreeInfoSchema = z.infer<typeof editTreeInfoSchema>;
 
+export const deleteEvidenceSchema = z.object({
+  accessToken: z.string().min(1),
+  evidenceId: z.string().min(1),
+});
+
+export type DeleteEvidenceSchema = z.infer<typeof deleteEvidenceSchema>;
+
 export const treeEvidenceSchema = z
   .object({
     url: z.string().url(),

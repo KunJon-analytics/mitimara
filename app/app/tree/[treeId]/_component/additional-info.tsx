@@ -25,18 +25,21 @@ type EditableAdditionalInfoProps = {
   initialInfo: string;
   treeId: string;
   planterId: string;
+  verificationStarted: boolean;
 };
 
 export function AdditionalInfo({
   initialInfo,
   planterId,
   treeId,
+  verificationStarted,
 }: EditableAdditionalInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
   const { accessToken, session } = useCurrentSession();
   const [isPending, startTransition] = useTransition();
 
   const isPlanter = session.id === planterId;
+  const isAuthorized = isPlanter && !verificationStarted;
 
   // 1. Define your form.
   const form = useForm<EditTreeInfoSchema>({
@@ -71,12 +74,12 @@ export function AdditionalInfo({
     <div className="space-y-2 mt-4">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">Additional Information</h3>
-        {isPlanter && !isEditing && (
+        {isAuthorized && !isEditing && (
           <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)}>
             <Pen className="h-4 w-4" />
           </Button>
         )}
-        {isPlanter && isEditing && (
+        {isAuthorized && isEditing && (
           <Button variant="ghost" size="sm" onClick={() => setIsEditing(false)}>
             <X className="h-4 w-4" />
           </Button>

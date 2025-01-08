@@ -14,6 +14,7 @@ export const findNearbyTree = async (
         dateVerified: null,
         planterId: { not: userId },
         verifications: { none: { verifierId: userId } },
+        mediaEvidence: { some: {} },
       },
       select: {
         planter: { select: { username: true } },

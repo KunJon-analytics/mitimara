@@ -14,6 +14,7 @@ import { treeLogicConfig } from "@/config/site";
 import VideoPlayer from "@/components/common/video-player";
 import useCurrentSession from "@/components/providers/session-provider";
 import AddVideoEvidenceForm from "./add-video-evidence-form";
+import DeleteEvidenceForm from "./delete-evidence-form";
 
 type Evidence = {
   id: string;
@@ -25,15 +26,18 @@ type EvidenceModalProps = {
   treeId: string;
   evidences: Evidence[];
   planterId: string;
+  verificationStarted: boolean;
 };
 
 export function EvidenceModal({
   treeId,
   evidences,
   planterId,
+  verificationStarted,
 }: EvidenceModalProps) {
   const { session } = useCurrentSession();
   const isPlanter = session.id === planterId;
+  const isAuthorized = isPlanter && !verificationStarted;
 
   return (
     <Credenza>
@@ -68,9 +72,10 @@ export function EvidenceModal({
               >
                 {evidence.type === "IMAGE" ? "View Picture" : "View Video"}
               </a>
+              {isAuthorized && <DeleteEvidenceForm evidenceId={evidence.id} />}
             </div>
           ))}
-          {isPlanter &&
+          {isAuthorized &&
             evidences.length < treeLogicConfig.maxNoOfTreeEvidences && (
               <AddVideoEvidenceForm treeId={treeId} />
             )}

@@ -17,7 +17,10 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
   const treeId = (await params).treeId;
 
   const tree = await getTree(treeId);
+
   if (!tree) notFound();
+
+  const verificationStarted = tree.verifications.length > 0;
 
   return (
     <div className="container mx-auto p-4 space-y-6">
@@ -51,12 +54,14 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
               </Badge>
             </div>
             <AdditionalInfo
+              verificationStarted={verificationStarted}
               initialInfo={tree.additionalInfo || ""}
               planterId={tree.planter.id}
               treeId={treeId}
             />
             <div className="mt-4">
               <EvidenceModal
+                verificationStarted={verificationStarted}
                 treeId={tree.id}
                 evidences={tree.mediaEvidence}
                 planterId={tree.planter.id}

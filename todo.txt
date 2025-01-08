@@ -39,4 +39,8 @@ signup and get 10 points.
 There is a reward factor each for verifier and planter with which points deducted during planting 
 or verifying is multiplied when tree is finally verified as authentic for the planter or verifier
 submitted tree authenticity as the final authenticity fo the tree
-Users can  
+Users can  edit tree only when there are no verifications
+we will also transfer points to people who recognize and report foul play 
+(so use our tg announcement channel to view evidence so they can be reported for points)
+add city bounty contest (planter must have more points than normal) to roadmap 
+add roadmap page

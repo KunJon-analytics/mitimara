@@ -25,9 +25,17 @@ export async function addTreeEvidence(params: unknown) {
       return { error: "Unauthorized!", success: false };
     }
 
-    // ensure tree media evidence is not more than 3
+    // ensure tree is planted by user, has no verifications
+    // and media evidence is not more than 3
+
     const treeEvidences = await prisma.tree.findUnique({
-      where: { id: treeId, planterId: planter.id },
+      where: {
+        id: treeId,
+        planterId: planter.id,
+        verifications: {
+          none: {},
+        },
+      },
       select: { _count: { select: { mediaEvidence: true } } },
     });
 
