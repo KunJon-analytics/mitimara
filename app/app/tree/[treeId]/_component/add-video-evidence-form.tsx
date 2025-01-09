@@ -11,17 +11,22 @@ import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
 import { treeEvidenceSchema, TreeEvidenceSchema } from "@/lib/validations/tree";
 import useCurrentSession from "@/components/providers/session-provider";
 import { LoadingAnimation } from "@/components/common/loading-animation";
 import { addTreeEvidence } from "@/actions/tree/add-evidence";
+import {
+  CardContent,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 type AddVideoEvidenceFormProps = { treeId: string };
 
@@ -70,35 +75,42 @@ const AddVideoEvidenceForm = ({ treeId }: AddVideoEvidenceFormProps) => {
   }
 
   return (
-    <div className="grid gap-2">
-      <Separator className="my-1" />
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="url"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Add Video Proof</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="https://www.youtube.com/watch?v=LXb3EKWsInQ"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  The link to your uploaded YouTube video proof.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={isPending}>
-            {isPending ? <LoadingAnimation /> : " Add Evidence"}
-          </Button>
-        </form>
-      </Form>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Add Youtube Video Link</CardTitle>
+        <CardDescription>
+          Video should show the tree, tree code and any other landmark.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-2">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Video Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? <LoadingAnimation /> : "Add Video Evidence"}
+              </Button>
+            </form>
+          </Form>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

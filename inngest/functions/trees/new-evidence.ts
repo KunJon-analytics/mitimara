@@ -1,6 +1,8 @@
 import { siteConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/prisma";
+import { readPolicy } from "@/lib/services/filestack-policy";
+import { getImageUrlWithPolicy } from "@/lib/utils";
 
 export const newEvidenceEvent = inngest.createFunction(
   { id: "new-tree-evidence-added" },
@@ -31,12 +33,16 @@ export const newEvidenceEvent = inngest.createFunction(
     // use AI to check for NSFW or plagiarism
 
     // send TG Admin message for new evidence
+    const evidenceUrl =
+      treeEvidence.type === "VIDEO"
+        ? treeEvidence.url
+        : getImageUrlWithPolicy(treeEvidence.url, readPolicy);
     const message = `<b>New Media Evidence Added!</b>
 
-A new tree <b>${treeEvidence.type.toLowerCase()}</b> has been added by @${
+A new tree <b>${treeEvidence.type.toLowerCase()}</b> has been added by ${
       treeEvidence.tree?.planter.username || "the planter"
     }.
-<a href='${treeEvidence.url}'>View Evidence</a>
+<a href='${evidenceUrl}'>View Evidence</a>
 
 Thank you for contributing to a greener planet with ${siteConfig.name}!
 `;

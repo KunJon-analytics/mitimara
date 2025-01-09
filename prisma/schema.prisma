@@ -78,9 +78,10 @@ model TreeVerification {
 }
 
 model Media {
-  id   String    @id @default(cuid())
-  url  String    @unique
-  type MediaType
+  id     String    @id @default(cuid())
+  url    String    @unique
+  type   MediaType
+  handle String?
 
   treeVerification   TreeVerification? @relation(fields: [treeVerificationId], references: [id])
   treeVerificationId String?

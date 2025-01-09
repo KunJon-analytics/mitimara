@@ -14,7 +14,7 @@ export async function addTreeEvidence(params: unknown) {
     return { error: "Invalid params!", success: false };
   }
 
-  const { accessToken, url, treeId, type } = validatedFields.data;
+  const { accessToken, url, treeId, type, handle } = validatedFields.data;
 
   try {
     const planter = await prisma.user.findFirst({
@@ -50,7 +50,7 @@ export async function addTreeEvidence(params: unknown) {
     }
 
     const createdEvidence = await prisma.media.create({
-      data: { url, treeId, type },
+      data: { url, treeId, type, handle },
       select: { id: true },
     });
 

@@ -32,6 +32,8 @@ export const treeLogicConfig: TreeLogicConfig = {
   verifierRewardFactor: 2,
 };
 
+export const MAX_FILE_SIZE = 1 * 1024 * 1024;
+
 export const CUTOFF_VERIFICATIONS = Math.ceil(
   treeLogicConfig.maxNoOfTreeVerifications / 2
 );

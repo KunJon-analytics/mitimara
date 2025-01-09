@@ -8,6 +8,10 @@ export const profileSchema = z
       plantedTrees: z.number(),
       treeVerifications: z.number(),
     }),
+    security: z.object({
+      policy: z.string(),
+      signature: z.string(),
+    }),
   })
   .nullable();
 

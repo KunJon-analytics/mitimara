@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getTree } from "@/lib/tree/services";
+import { readPolicy } from "@/lib/services/filestack-policy";
 import { EvidenceModal } from "./_component/evidence-modal";
 import { VerificationTable } from "./_component/verification-table";
 import TreeMap from "../../(geo-needed)/plant-tree/_components/tree-map";
@@ -17,6 +18,7 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
   const treeId = (await params).treeId;
 
   const tree = await getTree(treeId);
+  const security = readPolicy;
 
   if (!tree) notFound();
 
@@ -65,6 +67,7 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
                 treeId={tree.id}
                 evidences={tree.mediaEvidence}
                 planterId={tree.planter.id}
+                security={security}
               />
             </div>
           </CardContent>

@@ -52,6 +52,7 @@ export const treeEvidenceSchema = z
     url: z.string().url(),
     accessToken: z.string().min(1),
     treeId: z.string().min(1),
+    handle: z.string().optional(),
     type: z.nativeEnum($Enums.MediaType),
   })
   .refine(

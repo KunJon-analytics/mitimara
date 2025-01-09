@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { type Security } from "filestack-js";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -28,3 +29,10 @@ export function calculateDistance(
   const d = R * c; // Distance in km
   return d;
 }
+
+export const getImageUrlWithPolicy = (
+  url: string,
+  { policy, signature }: Security
+) => {
+  return `${url}?policy=${policy}&signature=${signature}`;
+};

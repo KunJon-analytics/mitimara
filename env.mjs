@@ -17,12 +17,18 @@ export const env = createEnv({
     TELEGRAM_BOT_TOKEN: z.string().min(1),
     TELEGRAM_PUBLIC_CHANNEL: z.string().min(1),
     TELEGRAM_PRIVATE_CHANNEL: z.string().min(1),
+
+    // FILESTACK
+    FILESTACK_APP_SECRET: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
 
     // MAPTILER
     NEXT_PUBLIC_MAPTILER_TOKEN: z.string().min(1),
+
+    // FILESTACK
+    NEXT_PUBLIC_FILESTACK_API_KEY: z.string().min(1),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -38,5 +44,9 @@ export const env = createEnv({
     // PI NETWORK
     PI_PLATFORM_API_URL: process.env.PI_PLATFORM_API_URL,
     PI_API_KEY: process.env.PI_API_KEY,
+
+    // FILESTACK
+    NEXT_PUBLIC_FILESTACK_API_KEY: process.env.NEXT_PUBLIC_FILESTACK_API_KEY,
+    FILESTACK_APP_SECRET: process.env.FILESTACK_APP_SECRET,
   },
 });

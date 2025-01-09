@@ -13,8 +13,11 @@ import { $Enums } from "@prisma/client";
 import { treeLogicConfig } from "@/config/site";
 import VideoPlayer from "@/components/common/video-player";
 import useCurrentSession from "@/components/providers/session-provider";
-import AddVideoEvidenceForm from "./add-video-evidence-form";
 import DeleteEvidenceForm from "./delete-evidence-form";
+import AddEvidenceTabs from "./add-evidence-tabs";
+import { getImageUrlWithPolicy } from "@/lib/utils";
+
+type Security = { policy: string; signature: string };
 
 type Evidence = {
   id: string;
@@ -27,6 +30,7 @@ type EvidenceModalProps = {
   evidences: Evidence[];
   planterId: string;
   verificationStarted: boolean;
+  security: Security;
 };
 
 export function EvidenceModal({
@@ -34,6 +38,7 @@ export function EvidenceModal({
   evidences,
   planterId,
   verificationStarted,
+  security,
 }: EvidenceModalProps) {
   const { session } = useCurrentSession();
   const isPlanter = session.id === planterId;
@@ -53,10 +58,13 @@ export function EvidenceModal({
         </CredenzaHeader>
         <div className="grid gap-4 py-4">
           {evidences.map((evidence) => (
-            <div key={evidence.id} className="flex items-center gap-4">
+            <div
+              key={evidence.id}
+              className="flex items-center justify-center gap-4"
+            >
               {evidence.type === "IMAGE" ? (
                 <img
-                  src={evidence.url}
+                  src={getImageUrlWithPolicy(evidence.url, security)}
                   alt="Tree evidence"
                   className="w-40 h-40 object-cover rounded"
                 />
@@ -65,7 +73,11 @@ export function EvidenceModal({
                 <VideoPlayer url={evidence.url} height={160} width={160} />
               )}
               <a
-                href={evidence.url}
+                href={
+                  evidence.type === "VIDEO"
+                    ? evidence.url
+                    : getImageUrlWithPolicy(evidence.url, security)
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
@@ -77,7 +89,7 @@ export function EvidenceModal({
           ))}
           {isAuthorized &&
             evidences.length < treeLogicConfig.maxNoOfTreeEvidences && (
-              <AddVideoEvidenceForm treeId={treeId} />
+              <AddEvidenceTabs treeId={treeId} />
             )}
         </div>
       </CredenzaContent>

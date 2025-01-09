@@ -1,6 +1,7 @@
 import { Inngest, EventSchemas } from "inngest";
 
 import { TelegramEventType } from "@/lib/notifications/telegram";
+import { siteConfig } from "@/config/site";
 
 type UserCreated = {
   data: {
@@ -26,6 +27,12 @@ type TreeVerified = {
   };
 };
 
+type DeleteFilestackFile = {
+  data: {
+    fileHandle: string;
+  };
+};
+
 type TelegramEvent = {
   data: {
     message: string;
@@ -40,10 +47,11 @@ type Events = {
   "tree/tree.planted": TreePlanted;
   "tree/info.updated": TreePlanted;
   "tree/verification.added": TreeVerified;
+  "filestack/file.delete": DeleteFilestackFile;
 };
 
 // Create a client to send and receive events
 export const inngest = new Inngest({
-  id: "greenpi",
+  id: siteConfig.name,
   schemas: new EventSchemas().fromRecord<Events>(),
 });

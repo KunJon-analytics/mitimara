@@ -7,6 +7,7 @@ import { newEvidenceEvent } from "@/inngest/functions/trees/new-evidence";
 import { treePlantedEvent } from "@/inngest/functions/trees/tree-planted";
 import { treeInfoUpdatedEvent } from "@/inngest/functions/trees/info-updated";
 import { treeVerificationAddedEvent } from "@/inngest/functions/trees/new-verification";
+import { deleteFileStackFile } from "@/inngest/functions/filestack/delete-file";
 
 // Create an API that serves zero functions
 export const { GET, POST, PUT } = serve({
@@ -19,5 +20,6 @@ export const { GET, POST, PUT } = serve({
     treePlantedEvent,
     treeInfoUpdatedEvent,
     treeVerificationAddedEvent,
+    deleteFileStackFile,
   ],
 });

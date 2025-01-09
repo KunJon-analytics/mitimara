@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
 import { deleteEvidenceSchema } from "@/lib/validations/tree";
+import { inngest } from "@/inngest/client";
 
 export async function deleteTreeEvidence(params: unknown) {
   const validatedFields = deleteEvidenceSchema.safeParse(params);
@@ -30,8 +31,18 @@ export async function deleteTreeEvidence(params: unknown) {
         id: evidenceId,
         tree: { planterId: planter.id, verifications: { none: {} } },
       },
-      select: { id: true },
+      select: { id: true, handle: true },
     });
+
+    // send delete filestack file if handle present
+    if (deletedEvidence.handle) {
+      await inngest.send({
+        name: "filestack/file.delete",
+        data: {
+          fileHandle: deletedEvidence.handle,
+        },
+      });
+    }
 
     revalidatePath("/app");
 
