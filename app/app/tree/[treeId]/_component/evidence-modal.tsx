@@ -2,6 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { Image } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -53,6 +55,17 @@ export function EvidenceModal({
 
   const isVerificationPage = pathname.includes("verify");
 
+  const alertPlanter = evidences.length < 1 && isAuthorized;
+
+  useEffect(() => {
+    if (alertPlanter) {
+      toast.info("Add media evidence to list tree for verification", {
+        icon: <Image />,
+        position: "top-right",
+      });
+    }
+  }, [alertPlanter, toast]);
+
   return (
     <Credenza>
       <CredenzaTrigger asChild>
@@ -61,7 +74,11 @@ export function EvidenceModal({
           size={isVerificationPage ? "icon" : undefined}
         >
           <Image className="h-4 w-4 animate-pulse text-primary" />{" "}
-          {!isVerificationPage && "View Evidence"}
+          {isVerificationPage
+            ? null
+            : alertPlanter
+            ? "Add Evidence"
+            : "View Evidence"}
         </Button>
       </CredenzaTrigger>
       <CredenzaContent className="sm:max-w-[425px]">
