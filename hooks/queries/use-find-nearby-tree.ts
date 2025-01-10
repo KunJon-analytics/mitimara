@@ -13,7 +13,7 @@ function useFindNearbyTree({ accessToken, latitude, longitude }: Params) {
 
   const { status, data, isLoading } = useQuery({
     queryKey: ["nearby-tree"],
-    refetchInterval: 1000 * 60 * 10,
+    refetchInterval: 1000 * 15 * 10,
     queryFn:
       accessToken && userFound
         ? async () => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { Security } from "filestack-js";
 import { SetStateAction } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -18,8 +19,6 @@ import TreeModalContainer from "./tree-modal-container";
 
 type VerifyTreeFormProps = {
   nearbyTree: NearbyTreeReturnType;
-  latitude: number;
-  longitude: number;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   setVideoUrl: (value: SetStateAction<string>) => void;
   videoUrl: string;
@@ -27,19 +26,19 @@ type VerifyTreeFormProps = {
   setIsAuthentic: (value: SetStateAction<boolean | null>) => void;
   setAdditionalInfo: (value: SetStateAction<string>) => void;
   additionalInfo: string;
+  security: Security;
 };
 
 const VerifyTreeForm = ({
   nearbyTree,
   additionalInfo,
   setAdditionalInfo,
-  latitude,
-  longitude,
   handleSubmit,
   setVideoUrl,
   videoUrl,
   isAuthentic,
   setIsAuthentic,
+  security,
 }: VerifyTreeFormProps) => {
   if (!nearbyTree) {
     return null;
@@ -50,40 +49,28 @@ const VerifyTreeForm = ({
       <CardHeader>
         <CardTitle>Verify Tree</CardTitle>
         <CardDescription>
-          Please verify the tree planted by {nearbyTree.planter.username}
+          Verify the tree accurately to avoid losing points. Refer to the help
+          icons below for more verification info. 🌳
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <TreeModalContainer
-          latitude={latitude}
-          longitude={longitude}
-          nearbyTree={nearbyTree}
-        />
+        <TreeModalContainer nearbyTree={nearbyTree} security={security} />
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="videoUrl">Video URL</Label>
-            <Input
-              id="videoUrl"
-              type="url"
-              placeholder="https://youtube.com/..."
-              value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
             <Label>Is the tree authentic?</Label>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 sm:justify-center">
               <Button
                 type="button"
-                variant={isAuthentic === true ? "default" : "outline"}
+                className="w-full sm:w-2/5"
+                variant={isAuthentic === true ? "success" : "outline"}
                 onClick={() => setIsAuthentic(true)}
               >
                 Real
               </Button>
               <Button
                 type="button"
-                variant={isAuthentic === false ? "default" : "outline"}
+                className="w-full sm:w-2/5"
+                variant={isAuthentic === false ? "destructive" : "outline"}
                 onClick={() => setIsAuthentic(false)}
               >
                 Fake
@@ -91,9 +78,17 @@ const VerifyTreeForm = ({
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="additionalInfo">
-              Additional Information (Optional)
-            </Label>
+            <Label htmlFor="videoUrl">Video URL (optional)</Label>
+            <Input
+              id="videoUrl"
+              type="url"
+              placeholder="https://youtube.com/..."
+              value={videoUrl}
+              onChange={(e) => setVideoUrl(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="additionalInfo">Extra Information (Optional)</Label>
             <Textarea
               id="additionalInfo"
               placeholder="Provide any additional details about your verification..."
@@ -101,7 +96,11 @@ const VerifyTreeForm = ({
               onChange={(e) => setAdditionalInfo(e.target.value)}
             />
           </div>
-          <Button type="submit" disabled={isAuthentic === null}>
+          <Button
+            className="w-full"
+            type="submit"
+            disabled={isAuthentic === null}
+          >
             Submit Verification
           </Button>
         </form>

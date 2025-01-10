@@ -73,16 +73,16 @@ export type TreeEvidenceSchema = z.infer<typeof treeEvidenceSchema>;
 
 export const treeVerificationSchema = z
   .object({
-    url: z.string().url(),
+    url: z.string().url().optional(),
     accessToken: z.string().min(1),
     additionalInfo: z.string().optional(),
     isAuthentic: z.boolean(),
     treeId: z.string().min(1),
-    type: z.nativeEnum($Enums.MediaType),
+    type: z.nativeEnum($Enums.MediaType).optional(),
   })
   .refine(
     (data) => {
-      if (data.type === "VIDEO") {
+      if (data.type === "VIDEO" && data.url) {
         return validateYouTubeUrl(data.url);
       } else {
         return true;

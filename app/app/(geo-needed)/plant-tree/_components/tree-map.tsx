@@ -21,7 +21,6 @@ const TreeMap = ({ latitude, longitude, userLocation }: TreeMapProps) => {
       style={{ width: "100%", height: "100%" }}
       mapStyle={`https://api.maptiler.com/maps/streets/style.json?key=${env.NEXT_PUBLIC_MAPTILER_TOKEN}`}
     >
-      <Marker latitude={latitude} longitude={longitude} color="green" />
       {userLocation && (
         <Marker
           latitude={userLocation.latitude}
@@ -29,6 +28,7 @@ const TreeMap = ({ latitude, longitude, userLocation }: TreeMapProps) => {
           color="purple"
         />
       )}
+      <Marker latitude={latitude} longitude={longitude} color="green" />
     </Map>
   );
 };

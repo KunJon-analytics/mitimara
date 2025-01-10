@@ -56,11 +56,13 @@ export async function submitVerification(params: unknown) {
       };
     }
 
+    const mediaEvidence = type && url ? { create: { type, url } } : undefined;
+
     const verification = await prisma.treeVerification.create({
       data: {
         treeId,
         verifierId: user.id,
-        mediaEvidence: { create: { type, url } },
+        mediaEvidence,
         treeIsAuthentic: isAuthentic,
         additionalInfo,
       },

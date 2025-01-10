@@ -22,7 +22,7 @@ export const findNearbyTree = async (
         longitude: true,
         additionalInfo: true,
         id: true,
-        mediaEvidence: { select: { type: true, url: true } },
+        mediaEvidence: { select: { type: true, url: true, id: true } },
         verifications: { select: { treeIsAuthentic: true } },
       },
     });

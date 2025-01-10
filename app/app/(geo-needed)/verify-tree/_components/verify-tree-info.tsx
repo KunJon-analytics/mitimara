@@ -1,5 +1,5 @@
 import React from "react";
-import { Info } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 
 import ContentContainer from "@/components/content/content-container";
 import { Button } from "@/components/ui/button";
@@ -12,19 +12,19 @@ import {
   CredenzaTrigger,
 } from "@/components/ui/credenza";
 import { siteConfig } from "@/config/site";
-import Summary from "@/app/(content)/blog/how-to-plant-a-tree/_component/planting-summary.mdx";
+import Summary from "@/app/(content)/blog/how-to-verify-a-tree/_component/verification-summary.mdx";
 
-const PlantTreeInfo = () => {
+const VerifyTreeInfo = () => {
   return (
     <Credenza>
       <CredenzaTrigger asChild>
         <Button size={"icon"} variant={"ghost"}>
-          <Info className="animate-pulse text-primary" />
+          <CircleHelp className="animate-pulse text-warning" />
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>
         <CredenzaHeader>
-          <CredenzaTitle>{siteConfig.name} Tree Planting Guide</CredenzaTitle>
+          <CredenzaTitle>{siteConfig.name} Tree Verifying Guide</CredenzaTitle>
         </CredenzaHeader>
         <CredenzaBody>
           <ContentContainer>
@@ -36,4 +36,4 @@ const PlantTreeInfo = () => {
   );
 };
 
-export default PlantTreeInfo;
+export default VerifyTreeInfo;

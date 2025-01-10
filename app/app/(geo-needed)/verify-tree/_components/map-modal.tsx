@@ -4,15 +4,16 @@ import { MapPin } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Credenza,
+  CredenzaContent,
+  CredenzaDescription,
+  CredenzaHeader,
+  CredenzaTitle,
+  CredenzaTrigger,
+} from "@/components/ui/credenza";
 import { NearbyTreeReturnType } from "@/lib/validations/tree";
 import TreeMap from "../../plant-tree/_components/tree-map";
+import { calculateDistance } from "@/lib/utils";
 
 type MapModalProps = {
   nearbyTree: NearbyTreeReturnType;
@@ -27,19 +28,19 @@ export function MapModal({ nearbyTree, userLocation }: MapModalProps) {
   const { latitude, longitude } = nearbyTree;
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <MapPin className="h-4 w-4" />
+    <Credenza>
+      <CredenzaTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <MapPin className="h-4 w-4 animate-pulse text-primary" />
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Tree Location</DialogTitle>
-          <DialogDescription>
+      </CredenzaTrigger>
+      <CredenzaContent className="p-4">
+        <CredenzaHeader>
+          <CredenzaTitle>Tree Location</CredenzaTitle>
+          <CredenzaDescription>
             This is the location where the tree was planted.
-          </DialogDescription>
-        </DialogHeader>
+          </CredenzaDescription>
+        </CredenzaHeader>
         <div className="h-[300px] w-full rounded-md overflow-hidden">
           <TreeMap
             latitude={latitude}
@@ -47,11 +48,22 @@ export function MapModal({ nearbyTree, userLocation }: MapModalProps) {
             userLocation={userLocation}
           />
         </div>
-        <p className="text-center mt-2">
-          <strong>Coordinates:</strong> {latitude.toFixed(6)},{" "}
-          {longitude.toFixed(6)}
+        <p className="text-center text-sm mt-2">
+          Your location is in{" "}
+          <span className="text-purple-700 dark:text-purple-500">purple</span>,
+          tree location is in <span className="text-primary">green</span>.
         </p>
-      </DialogContent>
-    </Dialog>
+        <p className="text-center mt-2">
+          You are{" "}
+          {calculateDistance(
+            latitude,
+            longitude,
+            userLocation.latitude,
+            userLocation.longitude
+          )}{" "}
+          km away from the tree
+        </p>
+      </CredenzaContent>
+    </Credenza>
   );
 }

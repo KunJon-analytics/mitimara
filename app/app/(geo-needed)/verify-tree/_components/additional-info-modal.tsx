@@ -25,8 +25,8 @@ export function AdditionalInfoModal({ nearbyTree }: AdditionalInfoModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Info className="h-4 w-4" />
+        <Button variant="ghost" size="icon">
+          <Info className="h-4 w-4 animate-pulse text-primary" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

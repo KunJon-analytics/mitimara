@@ -1,5 +1,8 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import { Image } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Credenza,
@@ -16,6 +19,7 @@ import useCurrentSession from "@/components/providers/session-provider";
 import { getImageUrlWithPolicy } from "@/lib/utils";
 import DeleteEvidenceForm from "./delete-evidence-form";
 import AddEvidenceTabs from "./add-evidence-tabs";
+import MediaModal from "./media-modal";
 
 type Security = { policy: string; signature: string };
 
@@ -40,14 +44,25 @@ export function EvidenceModal({
   verificationStarted,
   security,
 }: EvidenceModalProps) {
+  const pathname = usePathname();
+
   const { session } = useCurrentSession();
+
   const isPlanter = session.id === planterId;
   const isAuthorized = isPlanter && !verificationStarted;
+
+  const isVerificationPage = pathname.includes("verify");
 
   return (
     <Credenza>
       <CredenzaTrigger asChild>
-        <Button variant="outline">View Evidence</Button>
+        <Button
+          variant={isVerificationPage ? "ghost" : "outline"}
+          size={isVerificationPage ? "icon" : undefined}
+        >
+          <Image className="h-4 w-4 animate-pulse text-primary" />{" "}
+          {!isVerificationPage && "View Evidence"}
+        </Button>
       </CredenzaTrigger>
       <CredenzaContent className="sm:max-w-[425px]">
         <CredenzaHeader>
@@ -69,23 +84,18 @@ export function EvidenceModal({
                   className="w-40 h-40 object-cover rounded"
                 />
               ) : (
-                // change to youtube component
-
                 <VideoPlayer url={evidence.url} height={160} width={160} />
               )}
               <div className="flex gap-4 items-center justify-center mb-20">
-                <a
-                  href={
-                    evidence.type === "VIDEO"
-                      ? evidence.url
-                      : getImageUrlWithPolicy(evidence.url, security)
+                <MediaModal
+                  type={evidence.type}
+                  url={
+                    evidence.type === "IMAGE"
+                      ? getImageUrlWithPolicy(evidence.url, security)
+                      : evidence.url
                   }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  {evidence.type === "IMAGE" ? "View Picture" : "View Video"}
-                </a>
+                />
+
                 {isAuthorized && (
                   <DeleteEvidenceForm evidenceId={evidence.id} />
                 )}

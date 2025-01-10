@@ -42,7 +42,12 @@ export function MarketingFooter({ className }: Props) {
           </div>
           <div className="order-3 flex flex-col gap-3 text-sm">
             <p className="font-semibold text-foreground">Tools</p>
-            <FooterLink href="#how-it-works" label="How it Works" />
+            <FooterLink href="/#how-it-works" label="How it Works" />
+            <FooterLink href="/blog/how-to-plant-a-tree" label="Plant a Tree" />
+            <FooterLink
+              href="/blog/how-to-verify-a-tree"
+              label="Verify a Tree"
+            />
           </div>
         </div>
         <div className="flex items-center justify-between gap-3">

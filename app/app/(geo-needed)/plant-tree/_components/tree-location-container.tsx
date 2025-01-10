@@ -14,8 +14,6 @@ const TreeLocationContainer = () => {
     location: { latitude, longitude },
   } = useCurrentLocation();
 
-  console.log({ latitude, longitude });
-
   if (loading) {
     return (
       <Skeleton className="w-full h-64 sm:h-96 rounded-lg overflow-hidden" />
