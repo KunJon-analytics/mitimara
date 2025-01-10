@@ -13,9 +13,9 @@ import { $Enums } from "@prisma/client";
 import { treeLogicConfig } from "@/config/site";
 import VideoPlayer from "@/components/common/video-player";
 import useCurrentSession from "@/components/providers/session-provider";
+import { getImageUrlWithPolicy } from "@/lib/utils";
 import DeleteEvidenceForm from "./delete-evidence-form";
 import AddEvidenceTabs from "./add-evidence-tabs";
-import { getImageUrlWithPolicy } from "@/lib/utils";
 
 type Security = { policy: string; signature: string };
 
@@ -70,21 +70,26 @@ export function EvidenceModal({
                 />
               ) : (
                 // change to youtube component
+
                 <VideoPlayer url={evidence.url} height={160} width={160} />
               )}
-              <a
-                href={
-                  evidence.type === "VIDEO"
-                    ? evidence.url
-                    : getImageUrlWithPolicy(evidence.url, security)
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                {evidence.type === "IMAGE" ? "View Picture" : "View Video"}
-              </a>
-              {isAuthorized && <DeleteEvidenceForm evidenceId={evidence.id} />}
+              <div className="flex gap-4 items-center justify-center mb-20">
+                <a
+                  href={
+                    evidence.type === "VIDEO"
+                      ? evidence.url
+                      : getImageUrlWithPolicy(evidence.url, security)
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  {evidence.type === "IMAGE" ? "View Picture" : "View Video"}
+                </a>
+                {isAuthorized && (
+                  <DeleteEvidenceForm evidenceId={evidence.id} />
+                )}
+              </div>
             </div>
           ))}
           {isAuthorized &&

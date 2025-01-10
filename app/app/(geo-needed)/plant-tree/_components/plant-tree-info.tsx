@@ -19,7 +19,7 @@ const PlantTreeInfo = () => {
     <Credenza>
       <CredenzaTrigger asChild>
         <Button size={"icon"} variant={"ghost"}>
-          <Info className="animate-ping text-primary" />
+          <Info className="animate-pulse text-primary" />
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>

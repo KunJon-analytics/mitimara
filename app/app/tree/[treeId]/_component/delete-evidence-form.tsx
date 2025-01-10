@@ -16,6 +16,15 @@ import {
 import useCurrentSession from "@/components/providers/session-provider";
 import { LoadingAnimation } from "@/components/common/loading-animation";
 import { deleteTreeEvidence } from "@/actions/tree/delete-evidence";
+import {
+  Credenza,
+  CredenzaBody,
+  CredenzaContent,
+  CredenzaDescription,
+  CredenzaHeader,
+  CredenzaTitle,
+  CredenzaTrigger,
+} from "@/components/ui/credenza";
 
 type DeleteEvidenceFormProps = { evidenceId: string };
 
@@ -61,18 +70,35 @@ const DeleteEvidenceForm = ({ evidenceId }: DeleteEvidenceFormProps) => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <Button
-          type="submit"
-          disabled={isPending}
-          variant={"destructive"}
-          size={"icon"}
-        >
-          {isPending ? <LoadingAnimation /> : <Trash />}
+    <Credenza>
+      <CredenzaTrigger asChild>
+        <Button variant={"destructive"} size={"icon"}>
+          <Trash />
         </Button>
-      </form>
-    </Form>
+      </CredenzaTrigger>
+      <CredenzaContent>
+        <CredenzaHeader>
+          <CredenzaTitle>Delete Evidence?</CredenzaTitle>
+          <CredenzaDescription>
+            This action is not reversible, continue?
+          </CredenzaDescription>
+        </CredenzaHeader>
+        <CredenzaBody>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <Button
+                type="submit"
+                disabled={isPending}
+                variant={"destructive"}
+                className="w-full"
+              >
+                {isPending ? <LoadingAnimation /> : "Delete"}
+              </Button>
+            </form>
+          </Form>
+        </CredenzaBody>
+      </CredenzaContent>
+    </Credenza>
   );
 };
 
