@@ -7,6 +7,7 @@ import { ModeToggle } from "@/components/common/mode-toggle";
 import { BrandName } from "@/components/marketing/layout/brand-name";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import UserNavLoading from "@/components/app/user-nav-loading";
 import { UserNav } from "@/components/app/user-nav";
 
@@ -38,7 +39,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </header>
-      <main className="container mx-auto p-4 grow">{children}</main>
+      <ScrollArea className="container mx-auto p-4 grow">{children}</ScrollArea>
       <footer className="bg-foreground/5 p-4 mt-8 flex">
         <p>&copy; 2025 {siteConfig.name}. All rights reserved.</p>
         <ModeToggle className="bg-foreground/5 ml-auto" />
