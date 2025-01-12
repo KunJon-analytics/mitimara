@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import UserNavLoading from "@/components/app/user-nav-loading";
 import { UserNav } from "@/components/app/user-nav";
+import Donate from "@/components/payments/donate";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -42,7 +43,10 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
       <ScrollArea className="container mx-auto p-4 grow">{children}</ScrollArea>
       <footer className="bg-foreground/5 p-4 mt-8 flex">
         <p>&copy; 2025 {siteConfig.name}. All rights reserved.</p>
-        <ModeToggle className="bg-foreground/5 ml-auto" />
+        <div className="flex gap-3 text-right ml-auto">
+          <Donate className="bg-foreground/5" />
+          <ModeToggle className="bg-foreground/5" />
+        </div>
       </footer>
     </div>
   );

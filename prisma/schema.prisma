@@ -89,6 +89,19 @@ model Media {
   treeId             String?
 }
 
+model Pot {
+  id              String  @id @default(cuid())
+  name            String  @unique
+  balance         Float   @default(0)
+  revenueFraction Float   @default(0)
+  walletAddress   String?
+  isPublic        Boolean @default(true)
+  isOpen          Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Payment {
   amount     Float
   txId       String?

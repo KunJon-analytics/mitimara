@@ -27,6 +27,18 @@ type TreeVerified = {
   };
 };
 
+type PaymentReceived = {
+  data: {
+    amount: number;
+  };
+};
+
+type CompletedPayment = {
+  data: {
+    paymentId: string;
+  };
+};
+
 type DeleteFilestackFile = {
   data: {
     fileHandle: string;
@@ -48,6 +60,8 @@ type Events = {
   "tree/info.updated": TreePlanted;
   "tree/verification.added": TreeVerified;
   "filestack/file.delete": DeleteFilestackFile;
+  "payments/payment-completed": CompletedPayment;
+  "pots/balance-updated": PaymentReceived;
 };
 
 // Create a client to send and receive events

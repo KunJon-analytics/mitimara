@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
 
 import prisma from "@/lib/prisma";
 import platformAPIClient from "@/lib/pi/platform-api-client";
-import { donationConfig } from "@/config/site";
 import { PaymentDTO, PaymentDTOMemo } from "@/types/pi";
+import { inngest } from "@/inngest/client";
+import { verifyPaymentCompletion } from "../complete/utils";
 
 export async function POST(req: Request) {
   try {
@@ -18,28 +18,23 @@ export async function POST(req: Request) {
       PaymentDTO<PaymentDTOMemo>
     >(`/payments/${paymentId}`);
 
-    const dbTransaction = await prisma.payment.findUnique({
+    const dbPayment = await prisma.payment.findUnique({
       where: { paymentId },
     });
 
     // payment doesn't exist
-    if (!dbTransaction) {
+    if (!dbPayment) {
       console.log("[INCOMPLETE_PAYMENT]", "Payment not found");
       return new NextResponse("Payment not found", { status: 400 });
     }
 
-    // check the transaction on the Pi blockchain
-    const horizonResponse = await axios.create({ timeout: 20000 }).get(txURL);
-    const paymentIdOnBlock = horizonResponse.data.memo;
-    console.log(horizonResponse.data);
+    const isVerified = await verifyPaymentCompletion({
+      dbPayment,
+      txURL,
+    });
 
-    // and check other data as well e.g. amount
-    if (paymentIdOnBlock !== dbTransaction.paymentId) {
-      console.log(
-        "[INCOMPLETE_PAYMENT]",
-        "Payment id not same with blockchain"
-      );
-      return new NextResponse("Payment id doesn't match.", { status: 400 });
+    if (!isVerified) {
+      return new NextResponse("Unverified Payment", { status: 400 });
     }
 
     // let Pi Servers know that the payment is completed
@@ -56,26 +51,16 @@ export async function POST(req: Request) {
     });
 
     if (
-      dbTransaction.status === "INITIALIZED" &&
-      dbTransaction.amount <= piPlatformPayment.data.amount
+      dbPayment.status === "INITIALIZED" &&
+      dbPayment.amount <= piPlatformPayment.data.amount
     ) {
-      switch (dbTransaction.type) {
-        case "DONATE":
-          // move to its own module
-          await prisma.user.update({
-            where: { id: dbTransaction.purposeId },
-            data: {
-              points: {
-                increment:
-                  donationConfig.userPointsPerPi * dbTransaction.amount,
-              },
-            },
-          });
-          break;
-
-        default:
-          break;
-      }
+      // just send complete payment event
+      await inngest.send({
+        name: "payments/payment-completed",
+        data: {
+          paymentId,
+        },
+      });
     }
 
     return new NextResponse(`Handled the incomplete payment ${paymentId}`, {

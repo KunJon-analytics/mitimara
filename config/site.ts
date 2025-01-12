@@ -19,7 +19,7 @@ export const siteConfig: SiteConfig = {
 };
 
 export const donationConfig: DonationConfig = {
-  userPointsPerPi: 5,
+  userPointsPerPi: 100,
 };
 
 export const treeLogicConfig: TreeLogicConfig = {

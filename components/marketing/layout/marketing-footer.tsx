@@ -5,6 +5,7 @@ import { socialsConfig } from "@/config/socials";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/common/mode-toggle";
 import { Shell } from "@/components/common/shell";
+import Donate from "@/components/payments/donate";
 import { BrandName } from "./brand-name";
 import { SocialIconButton } from "./social-icon-button";
 
@@ -56,7 +57,8 @@ export function MarketingFooter({ className }: Props) {
               <SocialIconButton key={title} {...{ href, icon, title }} />
             ))}
           </div>
-          <div className="text-right md:text-left">
+          <div className="flex gap-3 text-right md:text-left">
+            <Donate />
             <ModeToggle />
           </div>
         </div>

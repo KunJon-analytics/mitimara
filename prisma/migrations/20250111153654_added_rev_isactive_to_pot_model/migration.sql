@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Pot" ADD COLUMN     "isOpen" BOOLEAN NOT NULL DEFAULT true,
+ADD COLUMN     "revenueFraction" DOUBLE PRECISION NOT NULL DEFAULT 0;
