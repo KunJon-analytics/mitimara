@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import useCurrentSession from "@/components/providers/session-provider";
 import useProfile from "@/hooks/queries/use-profile";
 import { LoadingAnimation } from "@/components/common/loading-animation";
+import Subscribe from "@/components/payments/subscribe";
 
 type LogicLinkProps = {
   minPoints: number;
@@ -45,7 +46,13 @@ const LogicLink = ({
       <CardContent>
         <p className="mb-4">{bodyText}</p>
         {stats.points < minPoints ? (
-          `Oops! You need more points to ${bodyText}. 🌳 You have ${stats.points} points, but you need ${minPoints} points.`
+          <>
+            <p className="mb-2">
+              Oops! You need more points to {bodyText}. 🌳 You have{" "}
+              {stats.points} points, but you need {minPoints} points.
+            </p>
+            <Subscribe />
+          </>
         ) : (
           <Button onClick={() => router.push(link)}>{buttonText}</Button>
         )}

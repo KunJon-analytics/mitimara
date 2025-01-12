@@ -1,3 +1,4 @@
+import { subscriptionConfig } from "@/config/site";
 import { $Enums } from "@prisma/client";
 
 export const verifyPaymentApproval = (
@@ -8,12 +9,13 @@ export const verifyPaymentApproval = (
     case "DONATE":
       return true;
 
+    case "SUBSCRIBE":
+      if (amount < subscriptionConfig.fee) {
+        return false;
+      }
+      return true;
+
     default:
       return true;
   }
-  // sample error
-  //  if (currentPayment.data.amount !== siteConfig.businessLogic.tipsAmount) {
-  //    console.log("[TIPS_APPROVE]", "wrong payment amount");
-  //    return new NextResponse("Unauthorized", { status: 401 });
-  //  }
 };

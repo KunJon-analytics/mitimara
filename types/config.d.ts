@@ -10,8 +10,9 @@ export type SiteConfig = {
   };
 };
 
-export type DonationConfig = {
+export type SubscriptionConfig = {
   userPointsPerPi: number;
+  fee: number;
 };
 
 export type TreeLogicConfig = {

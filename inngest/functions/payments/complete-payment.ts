@@ -45,8 +45,17 @@ export const completePayment = inngest.createFunction(
       });
     }
 
-    // for subscription payment update user points and update pots
-    // just send userId (payment purposeId) and amount
+    if (completedPayment.type === "SUBSCRIBE") {
+      // for subscription payment update user points and update pots
+      // just send userId (payment purposeId) and amount
+      await step.sendEvent("finsih-subscription-payment", {
+        name: "payments/subscription-finished",
+        data: {
+          amount: completedPayment.amount,
+          userId: completedPayment.purposeId,
+        },
+      });
+    }
 
     // send completed payment message to Team TG
     const txLink = `${env.PI_EXPLORER_LINK}/tx/${completedPayment.txId}`;

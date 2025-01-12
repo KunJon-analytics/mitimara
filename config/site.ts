@@ -1,5 +1,9 @@
 import { env } from "@/env.mjs";
-import { DonationConfig, SiteConfig, TreeLogicConfig } from "@/types/config";
+import {
+  SiteConfig,
+  SubscriptionConfig,
+  TreeLogicConfig,
+} from "@/types/config";
 
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -18,8 +22,9 @@ export const siteConfig: SiteConfig = {
   },
 };
 
-export const donationConfig: DonationConfig = {
+export const subscriptionConfig: SubscriptionConfig = {
   userPointsPerPi: 100,
+  fee: 1,
 };
 
 export const treeLogicConfig: TreeLogicConfig = {

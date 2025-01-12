@@ -33,6 +33,13 @@ type PaymentReceived = {
   };
 };
 
+type SubscriptionFinished = {
+  data: {
+    amount: number;
+    userId: string;
+  };
+};
+
 type CompletedPayment = {
   data: {
     paymentId: string;
@@ -62,6 +69,7 @@ type Events = {
   "filestack/file.delete": DeleteFilestackFile;
   "payments/payment-completed": CompletedPayment;
   "pots/balance-updated": PaymentReceived;
+  "payments/subscription-finished": SubscriptionFinished;
 };
 
 // Create a client to send and receive events

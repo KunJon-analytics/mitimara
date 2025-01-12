@@ -122,6 +122,7 @@ enum MediaType {
 
 enum PiTransactionType {
   DONATE
+  SUBSCRIBE
 }
 
 enum PiTransactionStatus {

@@ -11,10 +11,22 @@ export async function verifyPaymentCompletion({
 }: VerifyPaymentParams) {
   // check the transaction on the Pi blockchain
   const horizonResponse = await axios.create({ timeout: 20000 }).get(txURL);
+  const operationsResponse = await axios
+    .create({ timeout: 20000 })
+    .get(`${txURL}/operations`);
+  const horizonAmount = operationsResponse.data._embedded.records[0]
+    .amount as string;
   const paymentIdOnBlock = horizonResponse.data.memo;
-  console.log(horizonResponse.data);
 
   // and check other data as well e.g. amount
+  if (dbPayment.amount < parseFloat(horizonAmount)) {
+    console.log(
+      "[VERIFY_PAYMENT_COMPLETION]",
+      "Payment amount not the same with blockchain payment"
+    );
+    return false;
+  }
+
   if (paymentIdOnBlock !== dbPayment.paymentId) {
     console.log(
       "[VERIFY_PAYMENT_COMPLETION]",

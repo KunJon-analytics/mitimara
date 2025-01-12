@@ -10,6 +10,7 @@ import { treeVerificationAddedEvent } from "@/inngest/functions/trees/new-verifi
 import { deleteFileStackFile } from "@/inngest/functions/filestack/delete-file";
 import { completePayment } from "@/inngest/functions/payments/complete-payment";
 import { updatePots } from "@/inngest/functions/pots/update-pots";
+import { finishSubscription } from "@/inngest/functions/payments/finish-subscription";
 
 // Create an API that serves zero functions
 export const { GET, POST, PUT } = serve({
@@ -25,5 +26,6 @@ export const { GET, POST, PUT } = serve({
     deleteFileStackFile,
     completePayment,
     updatePots,
+    finishSubscription,
   ],
 });
