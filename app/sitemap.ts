@@ -15,8 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     "/about",
     "/roadmap",
-    "/invite",
-    "/app/login",
+    "/app/invite",
     "/legal/privacy",
     "/legal/terms",
   ].map((route) => ({

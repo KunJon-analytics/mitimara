@@ -48,6 +48,9 @@ export function UserNav() {
             <Link href={`/app/settings/appearance`}>Appearance</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
+            <Link href={`/app/referrals`}>Referrals</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <Subscribe variant={"ghost"} />
           </DropdownMenuItem>
         </DropdownMenuGroup>

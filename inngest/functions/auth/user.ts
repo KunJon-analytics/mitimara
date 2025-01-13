@@ -51,12 +51,17 @@ export const userCreatedEvent = inngest.createFunction(
       } else {
         // increase user referrer count
         await step.run("upsert-referral-for-referrer-and-user", async () => {
+          const data =
+            userReferrer.id === createdUser.id
+              ? { referrer: null }
+              : { noOfReferrals: { increment: 1 } };
+
           return prisma.user.update({
             where: {
               id: userReferrer.id,
             },
 
-            data: { noOfReferrals: { increment: 1 } },
+            data,
           });
         });
       }
@@ -66,7 +71,7 @@ export const userCreatedEvent = inngest.createFunction(
     const message = `<b>New User Registration</b>
 
 <b>Username:</b> ${createdUser.username}
-<b>Referrer:</b> ${createdUser.referrer}
+<b>Referrer:</b> ${createdUser.referrer ?? "N/A"}
 
 A new user has registered on the platform. Please review their details and ensure they have a smooth onboarding experience.
 
@@ -76,7 +81,7 @@ Thank you for your attention!
 
     await step.sendEvent("send-new-user-notification", {
       name: "notifications/telegram.send",
-      data: { message, type: "DEV_MODE" },
+      data: { message, type: "BROADCAST" },
     });
     // send welcome email to user
 
