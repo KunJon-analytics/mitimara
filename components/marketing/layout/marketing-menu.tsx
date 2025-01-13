@@ -53,14 +53,14 @@ export function MarketingMenu() {
             {marketingPagesConfig.map(({ href, title, icon, children }) => {
               if (!children) {
                 return (
-                  <li key={href} className="w-full">
-                    <ListItemSingle
-                      title={title}
-                      href={href}
-                      icon={icon}
-                      onClick={() => setOpen(false)}
-                    />
-                  </li>
+                  <ListItemSingle
+                    title={title}
+                    className="w-full"
+                    key={href}
+                    href={href}
+                    icon={icon}
+                    onClick={() => setOpen(false)}
+                  />
                 );
               }
 

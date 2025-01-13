@@ -1,7 +1,16 @@
-import { siteConfig } from "@/config/site";
+import {
+  siteConfig,
+  treeLogicConfig,
+  CUTOFF_VERIFICATIONS,
+} from "@/config/site";
 import Summary from "./_component/verification-summary.mdx";
 
 export const siteName = siteConfig.name;
+export const {
+  maxVerifierDistance,
+  minVerifierPoints,
+  maxNoOfTreeVerifications,
+} = treeLogicConfig;
 
 # How to Verify a Tree with {siteName} 🌱
 
@@ -17,12 +26,12 @@ Verifying a tree on {siteName} is essential to maintain the integrity of our ref
 ### Step 2: Provide Location Access
 
 1. You will be prompted to grant access to your current location.
-2. An unverified tree within 2km of your location will be searched for.
+2. An unverified tree within {maxVerifierDistance}km of your location will be searched for.
 
 ### Step 3: Search for Unverified Trees
 
-1. If no unverified trees are found within 2km of your location, you will be prompted to plant a tree.
-2. Ensure you have at least 3 {siteName} points before verifying a tree. These points will be subtracted from your total points and returned only after the tree is completely verified and your submission aligns with the majority decision from other verifiers (2 out of 3).
+1. If no unverified trees are found within {maxVerifierDistance}km of your location, you will be prompted to plant a tree.
+2. Ensure you have at least {minVerifierPoints} {siteName} points before verifying a tree. These points will be subtracted from your total points and returned only after the tree is completely verified and your submission aligns with the majority decision from other verifiers ({CUTOFF_VERIFICATIONS} out of {maxNoOfTreeVerifications}).
 
 ### Step 4: Verify Tree Details
 
@@ -36,7 +45,7 @@ Verifying a tree on {siteName} is essential to maintain the integrity of our ref
 
 ### Step 6: Wait for Verification Completion
 
-Submit your verification and wait for the tree verification completion. You need 2 positive verifiers out of 3 for the tree to be marked as authentic.
+Submit your verification and wait for the tree verification completion. Your submission needs to align with the majority decision from other verifiers ({CUTOFF_VERIFICATIONS} out of {maxNoOfTreeVerifications}) to be eligible for rewards.
 
 ---
 

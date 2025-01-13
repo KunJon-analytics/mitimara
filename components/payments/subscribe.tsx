@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { Pi } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,10 +20,13 @@ import {
 import { PaymentDTOMemo } from "@/types/pi";
 import { piPaymentCallbacks } from "@/lib/pi/callbacks";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button, ButtonProps } from "../ui/button";
 import useCurrentSession from "../providers/session-provider";
 
-const Subscribe = ({ className }: { className?: string }) => {
+type SubscribeProps = ButtonProps;
+
+const Subscribe = ({ className, ...props }: SubscribeProps) => {
+  const [open, setOpen] = useState(false);
   const { session, logout, status } = useCurrentSession();
   const [isPending, startTransition] = useTransition();
   const queryClient = useQueryClient();
@@ -58,6 +61,7 @@ const Subscribe = ({ className }: { className?: string }) => {
           }
         }
       } finally {
+        setOpen(false);
         queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
       }
     });
@@ -68,9 +72,13 @@ const Subscribe = ({ className }: { className?: string }) => {
   }
 
   return (
-    <Credenza>
-      <CredenzaTrigger asChild className={cn(className)}>
-        <Button>
+    <Credenza open={open} onOpenChange={setOpen}>
+      <CredenzaTrigger asChild>
+        <Button
+          className={cn(className)}
+          {...props}
+          onClick={() => setOpen(true)}
+        >
           <Pi className="h-4 w-4" /> Subscribe
         </Button>
       </CredenzaTrigger>

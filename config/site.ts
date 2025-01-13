@@ -16,9 +16,9 @@ export const siteConfig: SiteConfig = {
   url: baseUrl,
   ogImage: `${baseUrl}/og.jpg`,
   links: {
-    twitter: "https://twitter.com/shadcn",
+    twitter: "https://x.com/MitimaraPi",
     github: "https://github.com/shadcn/taxonomy",
-    telegram: "https://github.com/shadcn/taxonomy",
+    telegram: "https://t.me/mitimara_pi",
   },
 };
 

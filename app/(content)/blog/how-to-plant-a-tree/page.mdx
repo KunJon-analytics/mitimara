@@ -1,7 +1,16 @@
-import { siteConfig } from "@/config/site";
+import {
+  siteConfig,
+  treeLogicConfig,
+  CUTOFF_VERIFICATIONS,
+} from "@/config/site";
 import Summary from "./_component/planting-summary.mdx";
 
 export const siteName = siteConfig.name;
+export const {
+  maxVerifierDistance,
+  minPlanterPoints,
+  maxNoOfTreeVerifications,
+} = treeLogicConfig;
 
 # How to Plant a Tree with {siteName} 🌳
 
@@ -21,11 +30,11 @@ Choose a suitable location and plant your tree. Ensure the tree is securely plan
 ### Step 3: Provide Location Access
 
 1. You will be prompted to grant access to your current location.
-2. This location is assumed to be where the tree was planted. Verification will be done by users within a 2km radius of this location.
+2. This location is assumed to be where the tree was planted. Verification will be done by users within a {maxVerifierDistance}km radius of this location.
 
 ### Step 4: Ensure {siteName} Points
 
-1. Make sure you have at least 5 {siteName} points before planting a tree.
+1. Make sure you have at least {minPlanterPoints} {siteName} points before planting a tree.
 2. These points will be deducted from your total points and will be returned only after the tree is verified as authentic.
 
 ### Step 5: Submit Tree Details
@@ -40,8 +49,8 @@ Choose a suitable location and plant your tree. Ensure the tree is securely plan
 
 ### Step 7: Wait for Verification
 
-1. Your submission will be reviewed by verifiers within 2km of the planting location.
-2. You need 2 positive verifiers out of 3 for your tree to be marked as authentic.
+1. Your submission will be reviewed by verifiers within {maxVerifierDistance}km of the planting location.
+2. You need {CUTOFF_VERIFICATIONS} positive verifiers out of {maxNoOfTreeVerifications} for your tree to be marked as authentic.
 
 ---
 

@@ -1,13 +1,14 @@
-import { siteConfig } from "@/config/site";
+import { siteConfig, treeLogicConfig } from "@/config/site";
 
 export const siteName = siteConfig.name;
+export const { minPlanterPoints } = treeLogicConfig;
 
 ## Summary
 
 - **Plant a tree** in a suitable location.
 - **Log in** to {siteName} with your Pi Wallet.
 - **Provide location access** to record the planting spot.
-- Ensure you have **5 {siteName} points**.
+- Ensure you have **{minPlanterPoints} {siteName} points**.
 - **Submit tree details** with video or picture evidence.
 - **Wait for verification** from local verifiers.
 

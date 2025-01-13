@@ -14,36 +14,29 @@ export type Page = {
 
 export const marketingCompanyPagesConfig = [
   {
-    href: "/legal/terms",
-    title: "Terms",
-    description: "Check our terms and conditions.",
-    segment: "Terms",
-    icon: "terms",
+    href: "/about",
+    title: "About",
+    description: "Empowering global tree-planting with Pi tokens. 🌍💚",
+    segment: "about",
+    icon: "book",
   },
   {
-    href: "/legal/privacy",
-    title: "Privacy",
-    description: "View our privacy policy",
-    segment: "Privacy",
-    icon: "privacy",
+    href: "/roadmap",
+    title: "Roadmap",
+    description: `Track ${siteConfig.name}'s features and future plans. 🚀🌱`,
+    segment: "roadmap",
+    icon: "route",
   },
 ] as const satisfies Page[];
 
 export const marketingPagesConfig = [
   {
-    href: "/legal/terms",
+    href: "/about",
     description: `Find out about ${siteConfig.name}`,
     title: "Company",
     segment: "",
     icon: "library",
     children: marketingCompanyPagesConfig,
-  },
-  {
-    href: "/about",
-    title: "About",
-    description: "About us",
-    segment: "about",
-    icon: "book",
   },
   {
     href: "/#how-it-works",

@@ -1,8 +1,13 @@
+import { siteConfig, treeLogicConfig } from "@/config/site";
+
+export const siteName = siteConfig.name;
+export const { minVerifierPoints } = treeLogicConfig;
+
 ## Summary
 
-- **Log in** to Mitimura with your Pi Wallet.
+- **Log in** to {siteName} with your Pi Wallet.
 - **Provide location access** to search for unverified trees.
-- Ensure you have **3 Mitimura points**.
+- Ensure you have **{minVerifierPoints} {siteName} points**.
 - **Verify tree details** by visiting the location.
 - **Submit verification** with a real or fake assessment and optional evidence.
 - **Wait for verification completion** from local verifiers.

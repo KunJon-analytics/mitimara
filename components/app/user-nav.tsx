@@ -16,6 +16,7 @@ import UserAvatar from "./user-avatar";
 import UserNavLoading from "./user-nav-loading";
 import UserNavLogout from "./user-nav-logout";
 import { LoginButton } from "../marketing/layout/login-button";
+import Subscribe from "../payments/subscribe";
 
 export function UserNav() {
   const { session, status, isPending } = useCurrentSession();
@@ -45,6 +46,9 @@ export function UserNav() {
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link href={`/app/settings/appearance`}>Appearance</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Subscribe variant={"ghost"} />
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
