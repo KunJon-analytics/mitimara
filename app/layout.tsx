@@ -4,10 +4,14 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { siteConfig } from "@/config/site";
 import ReactQueryProvider from "@/components/providers/react-query";
 import { SessionProvider } from "@/components/providers/session-provider";
 import { PiProvider } from "@/components/providers/pi-provider";
+import {
+  defaultMetadata,
+  ogMetadata,
+  twitterMetadata,
+} from "@/app/shared-metadata";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
@@ -23,8 +27,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: siteConfig.name,
-  description: siteConfig.description,
+  ...defaultMetadata,
+  twitter: {
+    ...twitterMetadata,
+  },
+  openGraph: {
+    ...ogMetadata,
+  },
 };
 
 export const viewport: Viewport = {

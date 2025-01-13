@@ -36,3 +36,8 @@ export const getImageUrlWithPolicy = (
 ) => {
   return `${url}?policy=${policy}&signature=${signature}`;
 };
+
+export function numberFormatter(value: number) {
+  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(value);
+}
