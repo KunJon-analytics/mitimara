@@ -59,7 +59,7 @@ export default function UserReferrals() {
           <CardContent className="flex items-center space-x-2">
             <input
               type="text"
-              value={referralLink}
+              value={referralLink ?? ""}
               readOnly
               className="flex-grow p-2 border rounded"
             />
