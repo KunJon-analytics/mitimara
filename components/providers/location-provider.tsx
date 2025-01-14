@@ -42,30 +42,34 @@ export function LocationProvider({
   const [watcher, setWatcher] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const clearWatch = () => {
+  const clearWatch = useCallback(() => {
     if (watcher !== null) {
       navigator.geolocation.clearWatch(watcher);
     }
     clearTimeout(timer);
     setWatcher(null);
     setTimer(undefined);
-  };
+  }, [watcher]);
 
-  const handleLocationSuccess: PositionCallback = ({
-    coords: { latitude, longitude },
-  }) => {
-    clearWatch();
-    setLocation({ latitude, longitude });
-    setLoading(false);
-    setError(null);
-  };
+  const handleLocationSuccess: PositionCallback = useCallback(
+    ({ coords: { latitude, longitude } }) => {
+      clearWatch();
+      setLocation({ latitude, longitude });
+      setLoading(false);
+      setError(null);
+    },
+    [clearWatch]
+  );
 
-  const handleLocationError: PositionErrorCallback = (error) => {
-    clearWatch();
-    setLocation({ latitude: null, longitude: null });
-    setLoading(false);
-    setError(error.message);
-  };
+  const handleLocationError: PositionErrorCallback = useCallback(
+    (error) => {
+      clearWatch();
+      setLocation({ latitude: null, longitude: null });
+      setLoading(false);
+      setError(error.message);
+    },
+    [clearWatch]
+  );
 
   const getLocation = useCallback(() => {
     const timeout = setTimeout(() => {
