@@ -3,6 +3,7 @@
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -41,7 +42,7 @@ export function LocationProvider({
   const [watcher, setWatcher] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const getLocation = () => {
+  const getLocation = useCallback(() => {
     const timeout = setTimeout(() => {
       clearWatch();
       setLoading(false);
@@ -60,7 +61,7 @@ export function LocationProvider({
       clearWatch();
       setError("Geolocation is not currently supported by your browser.");
     }
-  };
+  }, [locationTimeout, defaultTimeout, navigator]);
 
   useEffect(() => {
     getLocation();

@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const userId = sp.get("userid");
 
   if (!userId) {
-    return [];
+    return Response.json([]);
   }
 
   try {
