@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import type { ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
@@ -12,9 +12,6 @@ import LoginModal from "@/components/auth/login-modal";
 export function LoginButton({ className, ...props }: ButtonProps) {
   const { session } = useCurrentSession();
   const pathname = usePathname();
-
-  const searchParams = useSearchParams();
-  const referral = searchParams.get("ref");
 
   if (session.isLoggedIn) {
     return (
@@ -27,7 +24,6 @@ export function LoginButton({ className, ...props }: ButtonProps) {
   return (
     <LoginModal
       redirect={pathname.startsWith("/app") ? undefined : "/app"}
-      referral={referral ? referral : undefined}
       {...props}
     />
   );

@@ -86,13 +86,7 @@ export function LocationProvider({
       clearWatch();
       setError("Geolocation is not currently supported by your browser.");
     }
-  }, [
-    locationTimeout,
-    navigator,
-    clearWatch,
-    handleLocationError,
-    handleLocationSuccess,
-  ]);
+  }, [locationTimeout, clearWatch, handleLocationError, handleLocationSuccess]);
 
   useEffect(() => {
     getLocation();
