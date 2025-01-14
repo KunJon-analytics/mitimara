@@ -42,31 +42,6 @@ export function LocationProvider({
   const [watcher, setWatcher] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const getLocation = useCallback(() => {
-    const timeout = setTimeout(() => {
-      clearWatch();
-      setLoading(false);
-    }, locationTimeout || defaultTimeout);
-    setTimer(timeout);
-    if (navigator.geolocation) {
-      const locationWatchId = navigator.geolocation.watchPosition(
-        handleLocationSuccess,
-        handleLocationError,
-        { enableHighAccuracy: true }
-      );
-      setLoading(true);
-      setError(null);
-      setWatcher(locationWatchId);
-    } else {
-      clearWatch();
-      setError("Geolocation is not currently supported by your browser.");
-    }
-  }, [locationTimeout, defaultTimeout, navigator]);
-
-  useEffect(() => {
-    getLocation();
-  }, [getLocation]);
-
   const clearWatch = () => {
     if (watcher !== null) {
       navigator.geolocation.clearWatch(watcher);
@@ -91,6 +66,37 @@ export function LocationProvider({
     setLoading(false);
     setError(error.message);
   };
+
+  const getLocation = useCallback(() => {
+    const timeout = setTimeout(() => {
+      clearWatch();
+      setLoading(false);
+    }, locationTimeout || defaultTimeout);
+    setTimer(timeout);
+    if (navigator.geolocation) {
+      const locationWatchId = navigator.geolocation.watchPosition(
+        handleLocationSuccess,
+        handleLocationError,
+        { enableHighAccuracy: true }
+      );
+      setLoading(true);
+      setError(null);
+      setWatcher(locationWatchId);
+    } else {
+      clearWatch();
+      setError("Geolocation is not currently supported by your browser.");
+    }
+  }, [
+    locationTimeout,
+    navigator,
+    clearWatch,
+    handleLocationError,
+    handleLocationSuccess,
+  ]);
+
+  useEffect(() => {
+    getLocation();
+  }, [getLocation]);
 
   return (
     <LocationContext.Provider value={{ loading, location, getLocation, error }}>
