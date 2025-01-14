@@ -60,15 +60,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       mutate(
         { ...authResult, referral: params?.referral },
         {
-          onSuccess: (data, variables, context) => {
+          onSuccess: (data, variables) => {
             setAccessToken(variables.accessToken);
             toast.success("You are successfully logged in");
           },
-          onError: (error, variables, context) => {
+          onError: (error) => {
             setAccessToken("");
             toast.error(error.message);
           },
-          onSettled: (data, error, variables, context) => {
+          onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ["session"] });
             if (params?.redirect) {
               router.push(params.redirect);

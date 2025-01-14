@@ -65,6 +65,7 @@ export function AdditionalInfo({
           console.error(result.error);
         }
       } catch (error) {
+        console.error(error);
         toast.error("Network error");
       }
     });

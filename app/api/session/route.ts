@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // Verify the user's access token with the /me endpoint:
-    const me = await platformAPIClient.get(`/me`, {
+    await platformAPIClient.get(`/me`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   } catch (err) {
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // Verify the user's access token with the /me endpoint:
-    const me = await platformAPIClient.get(`/me`, {
+    await platformAPIClient.get(`/me`, {
       headers: { Authorization: `Bearer ${auth.accessToken}` },
     });
   } catch (err) {

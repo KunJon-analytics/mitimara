@@ -21,7 +21,7 @@ const MyUnverifiedTrees = () => {
   const { data: trees } = useMyTrees(session.id);
 
   if (!trees || trees.length === 0) {
-    return <p>You haven't planted any trees that need verification yet.</p>;
+    return <p>You haven{"'"}t planted any trees that need verification yet.</p>;
   }
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Image } from "lucide-react";
+import { Image as ImageIcon } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
@@ -60,11 +60,11 @@ export function EvidenceModal({
   useEffect(() => {
     if (alertPlanter) {
       toast.info("Add media evidence to list tree for verification", {
-        icon: <Image />,
+        icon: <ImageIcon />,
         position: "top-right",
       });
     }
-  }, [alertPlanter, toast]);
+  }, [alertPlanter]);
 
   return (
     <Credenza>
@@ -73,7 +73,7 @@ export function EvidenceModal({
           variant={isVerificationPage ? "ghost" : "outline"}
           size={isVerificationPage ? "icon" : undefined}
         >
-          <Image className="h-4 w-4 animate-pulse text-primary" />{" "}
+          <ImageIcon className="h-4 w-4 animate-pulse text-primary" />{" "}
           {isVerificationPage
             ? null
             : alertPlanter

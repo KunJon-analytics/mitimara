@@ -68,6 +68,7 @@ const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
             console.error(result.error);
           }
         } catch (error) {
+          console.error(error);
           toast.error("Network error");
         }
       }

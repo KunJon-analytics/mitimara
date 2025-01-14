@@ -54,6 +54,7 @@ const PlantTreeForm = () => {
           console.error(result.error);
         }
       } catch (error) {
+        console.error(error);
         toast.error("Network error");
       }
     });

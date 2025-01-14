@@ -5,9 +5,9 @@ import { findNearbyTree, getUnverifiedTrees } from "../tree/services";
 
 export function validateYouTubeUrl(url: string) {
   if (url != undefined || url != "") {
-    var regExp =
+    const regExp =
       /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-    var match = url.match(regExp);
+    const match = url.match(regExp);
     if (match && match[2].length == 11) {
       // Do anything for being valid
       // if need to change the url to embed url then use below line

@@ -9,6 +9,7 @@ export const getSiteStats = async () => {
     ]);
     return { users, trees, treeVerifications };
   } catch (error) {
+    console.log("GET_SITE_STATS", error);
     return { users: 0, trees: 0, treeVerifications: 0 };
   }
 };

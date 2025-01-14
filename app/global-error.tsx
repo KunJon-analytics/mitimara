@@ -19,7 +19,7 @@ export default function GlobalError({
       <body>
         {/* This is the default Next.js error component but it doesn't allow omitting the statusCode property yet. */}
         {/* biome-ignore lint/suspicious/noExplicitAny: <explanation> */}
-        <NextError statusCode={undefined as any} />
+        <NextError statusCode={500} />
       </body>
     </html>
   );

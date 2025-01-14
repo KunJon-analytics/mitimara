@@ -94,7 +94,7 @@ const Donate = ({ className }: { className?: string }) => {
       </CredenzaTrigger>
       <CredenzaContent>
         <CredenzaHeader>
-          <CredenzaTitle>{siteConfig.name}'s Tree Fund! 🌳</CredenzaTitle>
+          <CredenzaTitle>{`${siteConfig.name}'s Tree Fund! 🌳`}</CredenzaTitle>
           <CredenzaDescription>
             Thanks for fueling our green mission! Your donation makes the world
             leafier and earns you good karma. 🌍💚

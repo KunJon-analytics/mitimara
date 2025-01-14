@@ -36,6 +36,7 @@ export const findNearbyTree = async (
 
     return nearbyTrees[0] || null;
   } catch (error) {
+    console.log("FIND_NEARBY_TREE", error);
     return null;
   }
 };
