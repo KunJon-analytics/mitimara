@@ -49,7 +49,7 @@ export function LocationProvider({
     clearTimeout(timer);
     setWatcher(null);
     setTimer(undefined);
-  }, [watcher]);
+  }, [watcher, timer]);
 
   const handleLocationSuccess: PositionCallback = useCallback(
     ({ coords: { latitude, longitude } }) => {
