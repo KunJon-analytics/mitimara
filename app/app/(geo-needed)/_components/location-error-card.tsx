@@ -1,6 +1,7 @@
 "use client";
 
 import { BellRing, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import {
   Card,
@@ -23,14 +24,19 @@ const LocationErrorCard = ({
   error,
   ...props
 }: LocationErrorCardProps) => {
-  const { loading, getLocation } = useCurrentLocation();
+  const {
+    state: { loading },
+  } = useCurrentLocation();
+  const router = useRouter();
 
   return (
     <Card className={cn("w-[380px]", className)} {...props}>
       <CardHeader>
         <CardTitle>Location Error</CardTitle>
         <CardDescription>
-          There was an error while fetching your location.
+          {loading
+            ? "loading... (you may need to enable permissions)"
+            : "There was an error while fetching your location."}
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -38,14 +44,20 @@ const LocationErrorCard = ({
           <BellRing />
           <div className="flex-1 space-y-1">
             <p className="text-sm font-medium leading-none">{error}</p>
-            <p className="text-sm text-muted-foreground">
-              Try to fetch location again.
-            </p>
+            {!loading && (
+              <p className="text-sm text-muted-foreground">
+                Try to fetch location again.
+              </p>
+            )}
           </div>
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" disabled={loading} onClick={getLocation}>
+        <Button
+          className="w-full"
+          disabled={loading}
+          onClick={() => router.refresh()}
+        >
           <MapPin /> Get Location
         </Button>
       </CardFooter>

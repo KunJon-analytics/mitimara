@@ -27,8 +27,7 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
   const [isLoading, startTransition] = useTransition();
 
   const {
-    location: { latitude, longitude },
-    error,
+    state: { latitude, longitude, error },
   } = useCurrentLocation();
 
   const queryClient = useQueryClient();
@@ -95,7 +94,7 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
   }
 
   if (error) {
-    return <LocationErrorCard error={error} />;
+    return <LocationErrorCard error={error.message} />;
   }
 
   if (!userLocated) {

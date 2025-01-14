@@ -35,6 +35,7 @@
     "@tanstack/react-table": "^8.20.6",
     "@types/filestack-react": "^4.0.5",
     "@types/mdx": "^2.0.13",
+    "@uidotdev/usehooks": "^2.4.1",
     "@vercel/functions": "^1.5.2",
     "axios": "^1.7.9",
     "boring-avatars": "^1.11.2",

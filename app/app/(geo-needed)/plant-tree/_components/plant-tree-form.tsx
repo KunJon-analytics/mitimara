@@ -23,8 +23,7 @@ const PlantTreeForm = () => {
   const { session, accessToken } = useCurrentSession();
   const { data: profile } = useProfile(session.id);
   const {
-    location: { latitude, longitude },
-    error,
+    state: { latitude, longitude, error, loading },
   } = useCurrentLocation();
 
   const noTreeLocation = latitude === null || longitude === null;
@@ -64,8 +63,12 @@ const PlantTreeForm = () => {
     return <LoginModal />;
   }
 
+  if (loading) {
+    return <LocationErrorCard error="" />;
+  }
+
   if (error) {
-    return <LocationErrorCard error={error} />;
+    return <LocationErrorCard error={error.message} />;
   }
 
   if (!profile || profile.points < treeLogicConfig.minPlanterPoints) {

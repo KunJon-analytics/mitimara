@@ -19,7 +19,7 @@ const TreeModalContainer = ({
   security,
 }: TreeModalContainerProps) => {
   const {
-    location: { latitude, longitude },
+    state: { latitude, longitude },
   } = useCurrentLocation();
 
   const userFound = latitude !== null && longitude !== null;

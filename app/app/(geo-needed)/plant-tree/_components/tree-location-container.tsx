@@ -9,9 +9,7 @@ import TreeMap from "./tree-map";
 
 const TreeLocationContainer = () => {
   const {
-    error,
-    loading,
-    location: { latitude, longitude },
+    state: { latitude, longitude, error, loading },
   } = useCurrentLocation();
 
   if (loading) {
@@ -23,7 +21,7 @@ const TreeLocationContainer = () => {
   if (error) {
     return (
       <LocationErrorCard
-        error={error}
+        error={error.message}
         className="w-full h-64 sm:h-96 rounded-lg overflow-hidden"
       />
     );

@@ -1,23 +1,13 @@
 "use client";
 
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext } from "react";
+import { type GeolocationState, useGeolocation } from "@uidotdev/usehooks";
 
 // A "provider" is used to encapsulate only the
 // components that needs the state in this context
-type LocationType = { latitude: number | null; longitude: number | null };
 
 type LocationContextType = {
-  location: LocationType;
-  loading: boolean;
-  getLocation: () => void;
-  error: string | null;
+  state: GeolocationState;
 };
 
 type LocationProviderProps = {
@@ -33,71 +23,9 @@ export function LocationProvider({
   children,
   locationTimeout,
 }: LocationProviderProps) {
-  const [loading, setLoading] = useState(true);
-  const [location, setLocation] = useState<LocationType>({
-    latitude: null,
-    longitude: null,
-  });
-  const [timer, setTimer] = useState<NodeJS.Timeout | undefined>();
-  const [watcher, setWatcher] = useState<number | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const clearWatch = useCallback(() => {
-    if (watcher !== null) {
-      navigator.geolocation.clearWatch(watcher);
-    }
-    clearTimeout(timer);
-    setWatcher(null);
-    setTimer(undefined);
-  }, [watcher, timer]);
-
-  const handleLocationSuccess: PositionCallback = useCallback(
-    ({ coords: { latitude, longitude } }) => {
-      clearWatch();
-      setLocation({ latitude, longitude });
-      setLoading(false);
-      setError(null);
-    },
-    [clearWatch]
-  );
-
-  const handleLocationError: PositionErrorCallback = useCallback(
-    (error) => {
-      clearWatch();
-      setLocation({ latitude: null, longitude: null });
-      setLoading(false);
-      setError(error.message);
-    },
-    [clearWatch]
-  );
-
-  const getLocation = useCallback(() => {
-    const timeout = setTimeout(() => {
-      clearWatch();
-      setLoading(false);
-    }, locationTimeout || defaultTimeout);
-    setTimer(timeout);
-    if (navigator.geolocation) {
-      const locationWatchId = navigator.geolocation.watchPosition(
-        handleLocationSuccess,
-        handleLocationError,
-        { enableHighAccuracy: true }
-      );
-      setLoading(true);
-      setError(null);
-      setWatcher(locationWatchId);
-    } else {
-      clearWatch();
-      setError("Geolocation is not currently supported by your browser.");
-    }
-  }, [locationTimeout, clearWatch, handleLocationError, handleLocationSuccess]);
-
-  useEffect(() => {
-    getLocation();
-  }, [getLocation]);
-
+  const state = useGeolocation({ timeout: locationTimeout || defaultTimeout });
   return (
-    <LocationContext.Provider value={{ loading, location, getLocation, error }}>
+    <LocationContext.Provider value={{ state }}>
       {children}
     </LocationContext.Provider>
   );
