@@ -14,7 +14,7 @@ export function Hero() {
             "bg-gradient-to-tl from-0% from-[hsl(var(--muted))] to-40% to-[hsl(var(--foreground))] bg-clip-text text-transparent"
           )}
         >
-          Plant trees, earn rewards, and help the planet!
+          Plant Trees, Earn Rewards, and Help the Planet!
         </h1>
         <p className="mx-auto max-w-md text-lg text-muted-foreground md:max-w-xl md:text-xl">
           Plant trees, earn rewards, and help the planet!
