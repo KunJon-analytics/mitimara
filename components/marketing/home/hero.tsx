@@ -25,11 +25,7 @@ export function Hero() {
           <LoginButton />
         </div>
         <div className="text-center sm:block sm:text-left">
-          <Button
-            variant="outline"
-            className="w-48 rounded-full sm:w-auto"
-            asChild
-          >
+          <Button variant="outline" className="rounded-full" asChild>
             <Link href={"/about"}>Learn More</Link>
           </Button>
         </div>
