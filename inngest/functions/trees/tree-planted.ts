@@ -54,7 +54,7 @@ Thank you for contributing to a greener planet with ${siteConfig.name}!
 `;
 
     await step.sendEvent("send-tree-planted-notification", {
-      name: "notifications/telegram.send",
+      name: "notifications/telegram.post",
       data: { message, type: "BROADCAST" },
     });
 

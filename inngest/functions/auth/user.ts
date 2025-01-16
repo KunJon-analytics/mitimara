@@ -80,7 +80,7 @@ Thank you for your attention!
 `;
 
     await step.sendEvent("send-new-user-notification", {
-      name: "notifications/telegram.send",
+      name: "notifications/telegram.post",
       data: { message, type: "BROADCAST" },
     });
     // send welcome email to user

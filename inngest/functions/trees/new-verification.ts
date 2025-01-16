@@ -124,7 +124,7 @@ Thank you for contributing to the verification process and helping us maintain a
 `;
 
     await step.sendEvent("send-new-tree-verification-notification", {
-      name: "notifications/telegram.send",
+      name: "notifications/telegram.post",
       data: { message, type: "BROADCAST" },
     });
 

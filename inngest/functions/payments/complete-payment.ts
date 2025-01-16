@@ -70,7 +70,7 @@ Thank you for your ${type}!
 `;
 
     await step.sendEvent("send-updated-tree-info-notification", {
-      name: "notifications/telegram.send",
+      name: "notifications/telegram.post",
       data: { message, type: "BROADCAST" },
     });
 

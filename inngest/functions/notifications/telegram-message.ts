@@ -8,7 +8,7 @@ import {
 // Some function we'll call
 export const telegramMessage = inngest.createFunction(
   { id: `send-mitimara-telegram-notification` },
-  { event: "notifications/telegram.send" },
+  { event: "notifications/telegram.post" },
   async ({ event, step }) => {
     const { message, type } = event.data;
     const token = env.TELEGRAM_BOT_TOKEN;

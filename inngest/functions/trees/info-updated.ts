@@ -43,7 +43,7 @@ Thank you for keeping our records accurate and contributing to a greener planet 
 `;
 
     await step.sendEvent("send-updated-tree-info-notification", {
-      name: "notifications/telegram.send",
+      name: "notifications/telegram.post",
       data: { message, type: "BROADCAST" },
     });
 

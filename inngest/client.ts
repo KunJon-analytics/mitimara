@@ -60,7 +60,7 @@ type TelegramEvent = {
 };
 
 type Events = {
-  "notifications/telegram.send": TelegramEvent;
+  "notifications/telegram.post": TelegramEvent;
   "auth/user.created": UserCreated;
   "tree/evidence.added": EvidenceAdded;
   "tree/tree.planted": TreePlanted;
