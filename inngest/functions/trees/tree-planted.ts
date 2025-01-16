@@ -41,13 +41,14 @@ export const treePlantedEvent = inngest.createFunction(
       });
     });
 
+    const latitude = newTree.latitude.toFixed(6);
+    const longitude = newTree.longitude.toFixed(6);
+
     // send TG Admin message for new tree
-    const message = `<b>🌳 New Tree Planted!</b
+    const message = `<b>🌳 New Tree Planted!</b>
     
 Planted by <b>${updatedPlanter.username}</b>!
-Coordinates:  <b>${newTree.latitude.toFixed(6)}, ${newTree.longitude.toFixed(
-      6
-    )}</b>!
+Coordinates:  <b>${latitude}, ${longitude}</b>!
 
 Thank you for contributing to a greener planet with ${siteConfig.name}!
 `;

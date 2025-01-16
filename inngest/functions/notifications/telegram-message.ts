@@ -7,7 +7,7 @@ import {
 
 // Some function we'll call
 export const telegramMessage = inngest.createFunction(
-  { id: "send-telegram-notification" },
+  { id: `send-mitimara-telegram-notification` },
   { event: "notifications/telegram.send" },
   async ({ event, step }) => {
     const { message, type } = event.data;
@@ -22,9 +22,12 @@ export const telegramMessage = inngest.createFunction(
       parse_mode: "HTML",
     };
 
-    const messageSent = await step.run("send-telegram-message", async () => {
-      return await telegramClient.post(`/bot${token}/sendMessage`, data);
-    });
+    const messageSent = await step.run(
+      "send-mitimara-telegram-message",
+      async () => {
+        return await telegramClient.post(`/bot${token}/sendMessage`, data);
+      }
+    );
 
     // send notification
 
