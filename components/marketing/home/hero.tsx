@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -10,19 +11,28 @@ export function Hero() {
       <div className="flex flex-col gap-6">
         <h1
           className={cn(
-            "font-cal text-4xl text-foreground md:text-6xl",
+            "text-4xl text-foreground md:text-6xl",
             "bg-gradient-to-tl from-0% from-[hsl(var(--muted))] to-40% to-[hsl(var(--foreground))] bg-clip-text text-transparent"
           )}
         >
           Plant Trees, Earn Rewards, and Help the Planet!
         </h1>
         <p className="mx-auto max-w-md text-lg text-muted-foreground md:max-w-xl md:text-xl">
-          Plant trees, earn rewards, and help the planet!
+          Join MitiMara, the decentralized platform that rewards tree planting
+          and verification with Pi tokens.
         </p>
       </div>
       <div className="my-4 grid gap-2 sm:grid-cols-2">
         <div className="text-center sm:block sm:text-right">
-          <LoginButton />
+          <Suspense
+            fallback={
+              <Button asChild className="rounded-full">
+                <Link href="/app">Get Started</Link>
+              </Button>
+            }
+          >
+            <LoginButton />
+          </Suspense>
         </div>
         <div className="text-center sm:block sm:text-left">
           <Button variant="outline" className="rounded-full" asChild>

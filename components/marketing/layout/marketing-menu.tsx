@@ -100,7 +100,15 @@ export function MarketingMenu() {
                 </li>
               ))}
             </ul>
-            <LoginButton variant="outline" />
+            <React.Suspense
+              fallback={
+                <Button asChild className="rounded-full">
+                  <Link href="/app">Get Started</Link>
+                </Button>
+              }
+            >
+              <LoginButton variant="outline" />
+            </React.Suspense>
           </div>
         </div>
       </SheetContent>

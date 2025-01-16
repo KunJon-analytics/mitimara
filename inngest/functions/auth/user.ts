@@ -1,3 +1,4 @@
+import { siteConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/prisma";
 
@@ -68,15 +69,13 @@ export const userCreatedEvent = inngest.createFunction(
     }
 
     // send TG Admin message for new user
-    const message = `<b>New User Registration</b>
+    const message = `<b>Welcome to ${siteConfig.name}, ${createdUser.username}! 🌳</b>
 
-<b>Username:</b> ${createdUser.username}
-<b>Referrer:</b> ${createdUser.referrer ?? "N/A"}
+We're thrilled to have you join our green community. Together, we can make the world a greener place, one tree at a time. 🌍💚
 
-A new user has registered on the platform. Please review their details and ensure they have a smooth onboarding experience.
+Happy tree planting and Pi earning! 🚀
 
-Thank you for your attention!
-
+<b>Your MitiMara Team</b>
 `;
 
     await step.sendEvent("send-new-user-notification", {

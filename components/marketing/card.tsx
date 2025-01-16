@@ -37,9 +37,9 @@ export function CardIcon({ icon }: { icon: ValidIcon }) {
 
 export function CardTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="bg-gradient-to-tl from-0% from-[hsl(var(--muted))] to-40% to-[hsl(var(--foreground))] bg-clip-text text-center font-cal text-3xl text-transparent">
+    <h1 className="bg-gradient-to-tl from-0% from-[hsl(var(--muted))] to-40% to-[hsl(var(--foreground))] bg-clip-text text-center text-3xl text-transparent">
       {children}
-    </h3>
+    </h1>
   );
 }
 

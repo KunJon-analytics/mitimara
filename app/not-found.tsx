@@ -20,7 +20,7 @@ export default function NotFound() {
                 <p className="font-medium text-muted-foreground sm:text-lg">
                   404 Page not found
                 </p>
-                <h2 className="font-cal text-2xl sm:text-3xl">
+                <h2 className="text-2xl sm:text-3xl">
                   Oops, something went wrong.
                 </h2>
                 <p className="text-muted-foreground text-sm sm:text-base">

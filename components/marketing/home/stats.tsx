@@ -9,19 +9,15 @@ export async function Stats() {
     <Shell>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-16">
         <div className="text-center">
-          <h3 className="font-cal text-3xl">
-            {numberFormatter(siteStats.users)}
-          </h3>
+          <h3 className="text-3xl">{numberFormatter(siteStats.users)}</h3>
           <p className="font-light text-muted-foreground">Active Users</p>
         </div>
         <div className="text-center">
-          <h3 className="font-cal text-3xl">
-            {numberFormatter(siteStats.trees)}
-          </h3>
+          <h3 className="text-3xl">{numberFormatter(siteStats.trees)}</h3>
           <p className="font-light text-muted-foreground">Trees Planted</p>
         </div>
         <div className="text-center">
-          <h3 className="font-cal text-3xl">
+          <h3 className="text-3xl">
             {numberFormatter(siteStats.treeVerifications)}
           </h3>
           <p className="font-light text-muted-foreground">Tree Verifications</p>

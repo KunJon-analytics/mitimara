@@ -21,7 +21,7 @@ export function BrandName({ homeLink }: BrandNameProps) {
       <ContextMenuTrigger>
         <Link
           href={homeLink ? homeLink : "/"}
-          className="flex items-center gap-2 font-cal text-primary"
+          className="flex items-center gap-2 text-primary"
         >
           <Icons.logo className="rounded-full w-8 h-8 border border-border bg-transparent" />
           {siteConfig.name}

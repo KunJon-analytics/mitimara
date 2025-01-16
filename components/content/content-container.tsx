@@ -10,7 +10,7 @@ const ContentContainer = ({ children }: { children: ReactNode }) => {
           className={cn(
             "prose prose-slate max-w-none dark:prose-invert dark:text-slate-400",
             // headings
-            "prose-headings:scroll-mt-28 prose-headings:font-cal prose-headings:font-semibold lg:prose-headings:scroll-mt-[8.5rem]",
+            "prose-headings:scroll-mt-28 prose-headings:font-semibold lg:prose-headings:scroll-mt-[8.5rem]",
             // lead
             "prose-lead:text-slate-500 dark:prose-lead:text-slate-400",
             // links
