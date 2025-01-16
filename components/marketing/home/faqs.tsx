@@ -6,13 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  CardContainer,
-  CardDescription,
-  CardHeader,
-  CardIcon,
-  CardTitle,
-} from "../card";
+import { CardContainer, CardHeader, CardIcon, CardTitle } from "../card";
 
 type FAQItem = {
   question: string;
@@ -54,10 +48,10 @@ export function FAQs() {
       <CardHeader>
         <CardIcon icon="message-circle" />
         <CardTitle>FAQs</CardTitle>
-        <CardDescription>
+        <h2 className="text-center text-muted-foreground">
           Can&apos;t find the answer you&apos;re looking for? Reach out to our
           telegram community.
-        </CardDescription>
+        </h2>
       </CardHeader>
       <div id="faq">
         <Accordion type="single" collapsible className="w-full">

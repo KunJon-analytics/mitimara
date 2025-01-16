@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { LoginButton } from "../layout/login-button";
+import { siteConfig } from "@/config/site";
 
 export function Hero() {
   return (
@@ -36,7 +37,7 @@ export function Hero() {
         </div>
         <div className="text-center sm:block sm:text-left">
           <Button variant="outline" className="rounded-full" asChild>
-            <Link href={"/about"}>Learn More</Link>
+            <Link href={"/about"}>About {siteConfig.name}</Link>
           </Button>
         </div>
       </div>
