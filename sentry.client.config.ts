@@ -5,9 +5,9 @@ import { env } from "@/env.mjs";
 Sentry.init({
   dsn: env.NEXT_PUBLIC_SENTRY_DSN,
   // Replay may only be enabled for the client-side
-  integrations: [
-    Sentry.replayIntegration({ maskAllText: true, blockAllMedia: true }),
-  ],
+  // integrations: [
+  //   Sentry.replayIntegration({ maskAllText: true, blockAllMedia: true }),
+  // ],
 
   debug: false,
 
