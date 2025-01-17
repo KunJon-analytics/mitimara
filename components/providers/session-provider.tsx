@@ -78,7 +78,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       );
     } catch (_e) {
       toast.error("Network Error");
-      console.log(_e);
+      console.error("LOG_IN_ACTION", _e);
     }
   };
 

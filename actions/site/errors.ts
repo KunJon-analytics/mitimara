@@ -30,6 +30,6 @@ Thank you for helping us improve MitiMara!
   try {
     await telegramClient.post(`/bot${token}/sendMessage`, data);
   } catch (error) {
-    console.log("SEND_ERROR_MESSAGE", error);
+    console.error("SEND_ERROR_MESSAGE", error);
   }
 }

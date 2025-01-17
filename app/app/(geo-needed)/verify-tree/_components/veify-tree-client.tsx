@@ -54,8 +54,6 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
     startTransition(async () => {
       if (!nearbyTree || isAuthentic === null) return;
 
-      console.log({ videoUrl });
-
       const validatedFields = treeVerificationSchema.safeParse({
         treeId: nearbyTree.id,
         type: "VIDEO",

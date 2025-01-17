@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       status: 200,
     });
   } catch (error) {
-    console.log("[CANCEL_PI_PAYMENT]", error);
+    console.error("[CANCEL_PI_PAYMENT]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

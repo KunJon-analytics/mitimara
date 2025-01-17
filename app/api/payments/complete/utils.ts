@@ -20,7 +20,7 @@ export async function verifyPaymentCompletion({
 
   // and check other data as well e.g. amount
   if (dbPayment.amount < parseFloat(horizonAmount)) {
-    console.log(
+    console.error(
       "[VERIFY_PAYMENT_COMPLETION]",
       "Payment amount not the same with blockchain payment"
     );
@@ -28,7 +28,7 @@ export async function verifyPaymentCompletion({
   }
 
   if (paymentIdOnBlock !== dbPayment.paymentId) {
-    console.log(
+    console.error(
       "[VERIFY_PAYMENT_COMPLETION]",
       "Payment id not same with blockchain"
     );

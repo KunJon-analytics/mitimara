@@ -15,7 +15,7 @@ export async function GET(
     const user = await getUserprofile(id);
     return Response.json(user);
   } catch (error) {
-    console.log("GET_USER_PROFILE", error);
+    console.error("GET_USER_PROFILE", error);
     return Response.json(defaultProfile);
   }
 }

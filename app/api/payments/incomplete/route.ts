@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     // payment doesn't exist
     if (!dbPayment) {
-      console.log("[INCOMPLETE_PAYMENT]", "Payment not found");
+      console.error("[INCOMPLETE_PAYMENT]", "Payment not found");
       return new NextResponse("Payment not found", { status: 400 });
     }
 
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
       status: 200,
     });
   } catch (error) {
-    console.log("[INCOMPLETE_PAYMENT]", error);
+    console.error("[INCOMPLETE_PAYMENT]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

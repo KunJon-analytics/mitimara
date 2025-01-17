@@ -55,7 +55,7 @@ export async function POST(req: Request) {
       status: 200,
     });
   } catch (error) {
-    console.log("[PAYMENT_APPROVE]", error);
+    console.error("[PAYMENT_APPROVE]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

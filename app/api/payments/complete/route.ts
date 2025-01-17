@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     });
 
     if (payment?.status !== "INITIALIZED") {
-      console.log("[COMPLETE_PAYMENT]", "Wrong payment status");
+      console.error("[COMPLETE_PAYMENT]", "Wrong payment status");
       return new NextResponse("Wrong payment status", { status: 400 });
     }
 
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
       status: 200,
     });
   } catch (error) {
-    console.log("[COMPLETE_PAYMENT]", error);
+    console.error("[COMPLETE_PAYMENT]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

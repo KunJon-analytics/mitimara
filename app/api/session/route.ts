@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   // accessToken is "hello" for /api/search?token=hello
 
   if (!accessToken) {
-    console.log("[GET_SESSION]", "Invalid authentication params");
+    console.error("[GET_SESSION]", "Invalid authentication params");
     return Response.json(defaultSession);
   }
 
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   } catch (err) {
-    console.log("[GET_SESSION]", err);
+    console.error("[GET_SESSION]", err);
     return Response.json(defaultSession);
   }
 
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       id: user.id,
     });
   } catch (error) {
-    console.log("GET_SESSION", error);
+    console.error("GET_SESSION", error);
     return Response.json(defaultSession);
   }
 }
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
   const parsedParam = authResultSchema.safeParse(authResult);
 
   if (!parsedParam.success) {
-    console.log("[LOGIN_API]", "Invalid authentication params");
+    console.error("[LOGIN_API]", "Invalid authentication params");
     return new NextResponse("Invalid authentication params", { status: 400 });
   }
 
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       headers: { Authorization: `Bearer ${auth.accessToken}` },
     });
   } catch (err) {
-    console.log("[LOGIN_API]", err);
+    console.error("[LOGIN_API]", err);
     return new NextResponse("Invalid access token", { status: 400 });
   }
 
@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
       id: newUser.id,
     });
   } catch (error) {
-    console.log("[LOGIN_API]", error);
+    console.error("[LOGIN_API]", error);
     return new NextResponse("Server Error", { status: 400 });
   }
 }

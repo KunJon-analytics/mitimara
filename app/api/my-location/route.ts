@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
     return Response.json(details);
   } catch (error) {
-    console.log("GET_MY_LOACTION", error);
+    console.error("GET_MY_LOACTION", error);
     return Response.json(defaultLocation);
   }
 }
