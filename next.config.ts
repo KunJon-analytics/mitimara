@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
-import { withSentryConfig } from "@sentry/nextjs";
+// import { withSentryConfig } from "@sentry/nextjs";
 
-import { env } from "./env.mjs";
+// import { env } from "./env.mjs";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -18,25 +18,27 @@ const withMDX = createMDX({
 // Merge MDX config with Next.js config
 const mdxNextConfig = withMDX(nextConfig);
 
+export default mdxNextConfig;
+
 // Make sure adding Sentry options is the last code to run before exporting
-export default withSentryConfig(mdxNextConfig, {
-  org: "mitimara",
-  project: "mitimara",
+// export default withSentryConfig(mdxNextConfig, {
+//   org: "mitimara",
+//   project: "mitimara",
 
-  // An auth token is required for uploading source maps.
-  authToken: env.SENTRY_AUTH_TOKEN,
+//   // An auth token is required for uploading source maps.
+//   authToken: env.SENTRY_AUTH_TOKEN,
 
-  silent: true, // Can be used to suppress logs
-  sourcemaps: {
-    disable: true,
-  },
+//   silent: true, // Can be used to suppress logs
+//   sourcemaps: {
+//     disable: true,
+//   },
 
-  // Upload a larger set of source maps for prettier stack traces (increases build time)
-  widenClientFileUpload: false,
+//   // Upload a larger set of source maps for prettier stack traces (increases build time)
+//   widenClientFileUpload: false,
 
-  // Hides source maps from generated client bundles
-  hideSourceMaps: true,
+//   // Hides source maps from generated client bundles
+//   hideSourceMaps: true,
 
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
-});
+//   // Automatically tree-shake Sentry logger statements to reduce bundle size
+//   disableLogger: true,
+// });
