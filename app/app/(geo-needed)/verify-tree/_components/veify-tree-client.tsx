@@ -11,7 +11,10 @@ import useCurrentLocation from "@/components/providers/location-provider";
 import useFindNearbyTree from "@/hooks/queries/use-find-nearby-tree";
 import { treeLogicConfig } from "@/config/site";
 import useProfile from "@/hooks/queries/use-profile";
-import { treeVerificationSchema } from "@/lib/validations/tree";
+import {
+  treeVerificationSchema,
+  VerifyTreeFormState,
+} from "@/lib/validations/tree";
 import LocationErrorCard from "../../_components/location-error-card";
 import { LoadingSkeleton } from "./loading";
 import NoNearbyTree from "./no-nearby-tree";
@@ -21,9 +24,12 @@ import InsufficientPoints from "../../_components/insufficient-points";
 type VerifyTreeProps = { security: Security };
 
 export default function VerifyTreeClient({ security }: VerifyTreeProps) {
-  const [videoUrl, setVideoUrl] = useState("");
-  const [isAuthentic, setIsAuthentic] = useState<boolean | null>(null);
-  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [formState, setFormState] = useState<VerifyTreeFormState>({
+    additionalInfo: "",
+    isAuthentic: null,
+    videoUrl: "",
+    code: "",
+  });
   const [isLoading, startTransition] = useTransition();
 
   const {
@@ -43,6 +49,7 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
   const userLocated = latitude !== null && longitude !== null;
 
   const handleSubmit = async (e: React.FormEvent) => {
+    const { additionalInfo, isAuthentic, videoUrl, code } = formState;
     e.preventDefault();
     startTransition(async () => {
       if (!nearbyTree || isAuthentic === null) return;
@@ -54,6 +61,7 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
         type: "VIDEO",
         accessToken,
         isAuthentic,
+        code,
         url: videoUrl ? videoUrl : undefined,
         additionalInfo: additionalInfo ? additionalInfo : undefined,
       });
@@ -126,14 +134,10 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
 
   return (
     <VerifyTreeForm
-      additionalInfo={additionalInfo}
       handleSubmit={handleSubmit}
-      isAuthentic={isAuthentic}
       nearbyTree={nearbyTree}
-      setAdditionalInfo={setAdditionalInfo}
-      setIsAuthentic={setIsAuthentic}
-      setVideoUrl={setVideoUrl}
-      videoUrl={videoUrl}
+      formState={formState}
+      setFormState={setFormState}
       security={security}
     />
   );

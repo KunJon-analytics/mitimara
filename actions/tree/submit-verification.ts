@@ -15,7 +15,7 @@ export async function submitVerification(params: unknown) {
     return { success: false, error: "Invalid Params" };
   }
 
-  const { accessToken, isAuthentic, treeId, type, url, additionalInfo } =
+  const { accessToken, isAuthentic, treeId, type, url, additionalInfo, code } =
     validatedFields.data;
   try {
     const user = await prisma.user.findFirst({
@@ -34,6 +34,7 @@ export async function submitVerification(params: unknown) {
       where: {
         id: treeId,
         dateVerified: null,
+        code,
         planterId: { not: user.id },
         verifications: { none: { verifierId: user.id } },
       },

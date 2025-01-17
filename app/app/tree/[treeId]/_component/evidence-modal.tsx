@@ -22,6 +22,7 @@ import { getImageUrlWithPolicy } from "@/lib/utils";
 import DeleteEvidenceForm from "./delete-evidence-form";
 import AddEvidenceTabs from "./add-evidence-tabs";
 import MediaModal from "./media-modal";
+import TreeCode from "./tree-code";
 
 type Security = { policy: string; signature: string };
 
@@ -55,7 +56,7 @@ export function EvidenceModal({
 
   const isVerificationPage = pathname.includes("verify");
 
-  const alertPlanter = evidences.length < 1 && isAuthorized;
+  const alertPlanter = evidences?.length < 1 && isAuthorized;
 
   useEffect(() => {
     if (alertPlanter) {
@@ -121,7 +122,10 @@ export function EvidenceModal({
           ))}
           {isAuthorized &&
             evidences.length < treeLogicConfig.maxNoOfTreeEvidences && (
-              <AddEvidenceTabs treeId={treeId} />
+              <>
+                <TreeCode treeId={treeId} />
+                <AddEvidenceTabs treeId={treeId} />
+              </>
             )}
         </div>
       </CredenzaContent>

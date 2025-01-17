@@ -1,7 +1,7 @@
 "use client";
 
-import { Security } from "filestack-js";
-import { SetStateAction } from "react";
+import type { Security } from "filestack-js";
+import type { Dispatch, SetStateAction } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,35 +14,32 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { NearbyTreeReturnType } from "@/lib/validations/tree";
+import {
+  NearbyTreeReturnType,
+  VerifyTreeFormState,
+} from "@/lib/validations/tree";
 import TreeModalContainer from "./tree-modal-container";
 
 type VerifyTreeFormProps = {
   nearbyTree: NearbyTreeReturnType;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
-  setVideoUrl: (value: SetStateAction<string>) => void;
-  videoUrl: string;
-  isAuthentic: boolean | null;
-  setIsAuthentic: (value: SetStateAction<boolean | null>) => void;
-  setAdditionalInfo: (value: SetStateAction<string>) => void;
-  additionalInfo: string;
+  formState: VerifyTreeFormState;
+  setFormState: Dispatch<SetStateAction<VerifyTreeFormState>>;
   security: Security;
 };
 
 const VerifyTreeForm = ({
   nearbyTree,
-  additionalInfo,
-  setAdditionalInfo,
+  formState,
+  setFormState,
   handleSubmit,
-  setVideoUrl,
-  videoUrl,
-  isAuthentic,
-  setIsAuthentic,
   security,
 }: VerifyTreeFormProps) => {
   if (!nearbyTree) {
     return null;
   }
+
+  const { additionalInfo, isAuthentic, videoUrl, code } = formState;
 
   return (
     <Card className="max-w-2xl mx-auto mt-8">
@@ -57,13 +54,32 @@ const VerifyTreeForm = ({
         <TreeModalContainer nearbyTree={nearbyTree} security={security} />
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
+            <Label htmlFor="code">Tree Code</Label>
+            <Input
+              id="code"
+              placeholder="Input unique tree code shown on tree evidence media"
+              value={code}
+              onChange={(e) =>
+                setFormState((prevValue) => ({
+                  ...prevValue,
+                  code: e.target.value,
+                }))
+              }
+            />
+          </div>
+          <div className="space-y-2">
             <Label>Is the tree authentic?</Label>
             <div className="flex space-x-4 sm:justify-center">
               <Button
                 type="button"
                 className="w-full sm:w-2/5"
                 variant={isAuthentic === true ? "success" : "outline"}
-                onClick={() => setIsAuthentic(true)}
+                onClick={() =>
+                  setFormState((prevValue) => ({
+                    ...prevValue,
+                    isAuthentic: true,
+                  }))
+                }
               >
                 Real
               </Button>
@@ -71,7 +87,12 @@ const VerifyTreeForm = ({
                 type="button"
                 className="w-full sm:w-2/5"
                 variant={isAuthentic === false ? "destructive" : "outline"}
-                onClick={() => setIsAuthentic(false)}
+                onClick={() =>
+                  setFormState((prevValue) => ({
+                    ...prevValue,
+                    isAuthentic: false,
+                  }))
+                }
               >
                 Fake
               </Button>
@@ -84,7 +105,12 @@ const VerifyTreeForm = ({
               type="url"
               placeholder="https://youtube.com/..."
               value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
+              onChange={(e) =>
+                setFormState((prevValue) => ({
+                  ...prevValue,
+                  videoUrl: e.target.value,
+                }))
+              }
             />
           </div>
           <div className="space-y-2">
@@ -93,13 +119,18 @@ const VerifyTreeForm = ({
               id="additionalInfo"
               placeholder="Provide any additional details about your verification..."
               value={additionalInfo}
-              onChange={(e) => setAdditionalInfo(e.target.value)}
+              onChange={(e) =>
+                setFormState((prevValue) => ({
+                  ...prevValue,
+                  additionalInfo: e.target.value,
+                }))
+              }
             />
           </div>
           <Button
             className="w-full"
             type="submit"
-            disabled={isAuthentic === null}
+            disabled={isAuthentic === null || !code}
           >
             Submit Verification
           </Button>

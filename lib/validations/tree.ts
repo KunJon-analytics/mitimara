@@ -32,6 +32,13 @@ export const createTreeSchema = z.object({
 
 export type CreateTreeSchema = z.infer<typeof createTreeSchema>;
 
+export const getTreeCodeSchema = z.object({
+  accessToken: z.string().min(1),
+  treeId: z.string().min(1),
+});
+
+export type GetTreeCodeSchema = z.infer<typeof getTreeCodeSchema>;
+
 export const editTreeInfoSchema = z.object({
   accessToken: z.string().min(1),
   treeId: z.string().min(1),
@@ -79,6 +86,7 @@ export const treeVerificationSchema = z
     isAuthentic: z.boolean(),
     treeId: z.string().min(1),
     type: z.nativeEnum($Enums.MediaType).optional(),
+    code: z.string().min(1),
   })
   .refine(
     (data) => {
@@ -99,3 +107,10 @@ export type TreeVerificationSchema = z.infer<typeof treeVerificationSchema>;
 export type NearbyTreeReturnType = Awaited<ReturnType<typeof findNearbyTree>>;
 
 export type UnverifiedTrees = Awaited<ReturnType<typeof getUnverifiedTrees>>;
+
+export type VerifyTreeFormState = {
+  videoUrl: string;
+  isAuthentic: boolean | null;
+  additionalInfo: string;
+  code: string;
+};
