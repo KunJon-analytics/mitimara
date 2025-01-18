@@ -1,6 +1,7 @@
 import {
   Card,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -40,15 +41,16 @@ export function LinkCards({ referral }: { referral?: string }) {
             <Card className="flex w-full flex-col">
               <CardHeader className="flex-1">
                 <CardTitle>{link.title}</CardTitle>
-                <div className="flex flex-1 justify-between gap-2">
-                  <CardDescription>{link.description}</CardDescription>
-                  <LinkCardButton
-                    isExternal={isExternal}
-                    redirect={href}
-                    referral={referral}
-                  />
-                </div>
+
+                <CardDescription>{link.description}</CardDescription>
               </CardHeader>
+              <CardFooter>
+                <LinkCardButton
+                  isExternal={isExternal}
+                  redirect={href}
+                  referral={referral}
+                />
+              </CardFooter>
             </Card>
           </div>
         );

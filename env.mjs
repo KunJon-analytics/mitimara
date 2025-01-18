@@ -28,6 +28,9 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
 
+    //PINET
+    NEXT_PUBLIC_PINET_URL: z.string().url(),
+
     // MAPTILER
     NEXT_PUBLIC_MAPTILER_TOKEN: z.string().min(1),
 
@@ -52,6 +55,7 @@ export const env = createEnv({
     PI_PLATFORM_API_URL: process.env.PI_PLATFORM_API_URL,
     PI_API_KEY: process.env.PI_API_KEY,
     PI_EXPLORER_LINK: process.env.PI_EXPLORER_LINK,
+    NEXT_PUBLIC_PINET_URL: process.env.NEXT_PUBLIC_PINET_URL,
 
     // FILESTACK
     NEXT_PUBLIC_FILESTACK_API_KEY: process.env.NEXT_PUBLIC_FILESTACK_API_KEY,

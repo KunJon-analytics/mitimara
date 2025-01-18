@@ -24,31 +24,25 @@ const LinkCardButton = ({
   const router = useRouter();
 
   if (isPending) {
-    return <LoadingAnimation />;
+    return (
+      <Button disabled>
+        <LoadingAnimation />
+      </Button>
+    );
   }
 
   if (!session.isLoggedIn || status === "error") {
-    return (
-      <LoginModal
-        size={"icon"}
-        variant={"ghost"}
-        redirect={redirect}
-        referral={referral}
-        className="h-4 w-4 shrink-0 self-end text-muted-foreground border-solid group-hover:text-foreground animate-pulse"
-      />
-    );
+    return <LoginModal redirect={redirect} referral={referral} />;
   }
+
   return (
-    <Button
-      size={"icon"}
-      variant={"ghost"}
-      onClick={() => router.push(redirect)}
-    >
+    <Button onClick={() => router.push(redirect)}>
       {isExternal ? (
-        <ArrowUpRight className="h-4 w-4 shrink-0 self-end text-muted-foreground group-hover:text-foreground animate-pulse" />
+        <ArrowUpRight className="h-4 w-4 animate-pulse" />
       ) : (
-        <ArrowRight className="h-4 w-4 shrink-0 self-end text-muted-foreground group-hover:text-foreground animate-pulse" />
-      )}
+        <ArrowRight className="h-4 w-4 animate-pulse" />
+      )}{" "}
+      Get Started
     </Button>
   );
 };
