@@ -8,7 +8,7 @@ type Params = {
 function useTreeCode({ accessToken, treeId }: Params) {
   const { status, data, isLoading } = useQuery({
     queryKey: ["nearby-tree"],
-    refetchInterval: 1000 * 15 * 10,
+    refetchInterval: 1000 * 60 * 10,
     queryFn: accessToken
       ? async () => {
           const response = await fetch(

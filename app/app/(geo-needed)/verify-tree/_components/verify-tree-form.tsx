@@ -42,7 +42,7 @@ const VerifyTreeForm = ({
   const { additionalInfo, isAuthentic, videoUrl, code } = formState;
 
   return (
-    <Card className="max-w-2xl mx-auto mt-8">
+    <Card className="max-w-2xl mx-auto mb-16">
       <CardHeader>
         <CardTitle>Verify Tree</CardTitle>
         <CardDescription>

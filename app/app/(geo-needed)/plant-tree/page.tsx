@@ -4,8 +4,9 @@ import PlantTreeInfo from "./_components/plant-tree-info";
 
 export default async function PlantTree() {
   return (
-    <>
-      <div className="flex items-start">
+    <div className="flex flex-col items-center space-y-4 p-4 -mt-2">
+      <div className="flex justify-between items-center">
+        <p className="font-bold">Plant Tree</p>
         <PlantTreeInfo />
       </div>
 
@@ -16,6 +17,6 @@ export default async function PlantTree() {
         </p>
       </div>
       <PlantTreeForm />
-    </>
+    </div>
   );
 }

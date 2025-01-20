@@ -33,7 +33,7 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
   const [isLoading, startTransition] = useTransition();
 
   const {
-    state: { latitude, longitude, error },
+    state: { latitude, longitude, error, loading },
   } = useCurrentLocation();
 
   const queryClient = useQueryClient();
@@ -92,15 +92,29 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
     return (
       <NoNearbyTree
         title="Not Logged In"
-        description={` Please log in to verify trees within{" "}
+        description={` Please log in to verify trees within
             ${treeLogicConfig.maxVerifierDistance}km of your location.`}
         showAuth={true}
       />
     );
   }
 
+  if (loading) {
+    return (
+      <LocationErrorCard
+        error="Loading... (you may need to enable permissions)"
+        className="max-w-md w-full mx-auto"
+      />
+    );
+  }
+
   if (error) {
-    return <LocationErrorCard error={error.message} />;
+    return (
+      <LocationErrorCard
+        error={error.message}
+        className="max-w-md w-full mx-auto"
+      />
+    );
   }
 
   if (!userLocated) {
@@ -122,12 +136,14 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
   }
 
   if (!profile || profile.points < treeLogicConfig.minVerifierPoints) {
-    <InsufficientPoints
-      bodyText="Verify Trees"
-      minPoints={treeLogicConfig.minVerifierPoints}
-      pointsBalance={profile?.points || 0}
-      title="Insufficient Points"
-    />;
+    return (
+      <InsufficientPoints
+        bodyText="Verify Trees"
+        minPoints={treeLogicConfig.minVerifierPoints}
+        pointsBalance={profile?.points || 0}
+        title="Insufficient Points"
+      />
+    );
   }
 
   return (

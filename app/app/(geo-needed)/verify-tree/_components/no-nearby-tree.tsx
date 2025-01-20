@@ -22,7 +22,7 @@ const NoNearbyTree = ({ title, description, showAuth }: NoNearbyTreeProps) => {
   const router = useRouter();
 
   return (
-    <Card className="max-w-md mx-auto mt-8">
+    <Card className="max-w-md mx-auto">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

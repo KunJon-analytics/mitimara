@@ -1,5 +1,5 @@
 "use client";
-import { TreesIcon as Tree, CheckCircle, Users } from "lucide-react";
+import { TreesIcon as Tree, CheckSquare, Users } from "lucide-react";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import useCurrentSession from "@/components/providers/session-provider";
@@ -11,7 +11,7 @@ const ProfileStats = () => {
   const { data: stats } = useProfile(session.id);
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Trees Planted</CardTitle>
@@ -26,7 +26,7 @@ const ProfileStats = () => {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Trees Verified</CardTitle>
-          <CheckCircle className="h-4 w-4 text-muted-foreground" />
+          <CheckSquare className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">

@@ -65,7 +65,7 @@ export default function UserReferrals() {
                 <Share2 className="h-4 w-4" />
               </Button>
             ) : (
-              <LoginModal />
+              <LoginModal size={"icon"} variant={"outline"} />
             )}
           </CardContent>
         </Card>

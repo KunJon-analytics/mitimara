@@ -17,7 +17,7 @@ export default async function ReferralLeaderboard() {
   });
 
   return (
-    <Card className="mt-8">
+    <Card className="mt-8 mb-16">
       <CardHeader>
         <CardTitle>Referral Leaderboard</CardTitle>
       </CardHeader>

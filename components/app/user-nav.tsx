@@ -17,6 +17,7 @@ import UserNavLoading from "./user-nav-loading";
 import UserNavLogout from "./user-nav-logout";
 import { LoginButton } from "../marketing/layout/login-button";
 import Subscribe from "../payments/subscribe";
+import Donate from "../payments/donate";
 
 export function UserNav() {
   const { session, status, isPending } = useCurrentSession();
@@ -50,8 +51,14 @@ export function UserNav() {
           <DropdownMenuItem asChild>
             <Link href={`/app/referrals`}>Referrals</Link>
           </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Subscribe variant={"ghost"} />
+            <Subscribe variant={"ghost"} className="w-full justify-start" />
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Donate variant={"ghost"} className="w-full justify-start" />
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

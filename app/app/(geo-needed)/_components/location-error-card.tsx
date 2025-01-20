@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -32,12 +31,7 @@ const LocationErrorCard = ({
   return (
     <Card className={cn("w-[380px]", className)} {...props}>
       <CardHeader>
-        <CardTitle>Location Error</CardTitle>
-        <CardDescription>
-          {loading
-            ? "loading... (you may need to enable permissions)"
-            : "There was an error while fetching your location."}
-        </CardDescription>
+        <CardTitle>Location {loading ? "Loading" : "Error"}</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className=" flex items-center space-x-4 rounded-md border p-4">

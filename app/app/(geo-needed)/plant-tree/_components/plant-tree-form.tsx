@@ -11,9 +11,8 @@ import LoginModal from "@/components/auth/login-modal";
 import useCurrentLocation from "@/components/providers/location-provider";
 import useProfile from "@/hooks/queries/use-profile";
 import { treeLogicConfig } from "@/config/site";
-import LocationErrorCard from "../../_components/location-error-card";
 import ConfirmTreeModal from "./confirm-tree-modal";
-import InsufficientPoints from "../../_components/insufficient-points";
+import Subscribe from "@/components/payments/subscribe";
 
 const PlantTreeForm = () => {
   const router = useRouter();
@@ -60,24 +59,27 @@ const PlantTreeForm = () => {
   }
 
   if (!session.isLoggedIn) {
-    return <LoginModal />;
+    return <LoginModal className="w-full sm:w-auto" />;
   }
 
   if (loading) {
-    return <LocationErrorCard error="" />;
+    return null;
   }
 
   if (error) {
-    return <LocationErrorCard error={error.message} />;
+    return null;
   }
 
   if (!profile || profile.points < treeLogicConfig.minPlanterPoints) {
-    <InsufficientPoints
-      bodyText="Plant Tree"
-      minPoints={treeLogicConfig.minPlanterPoints}
-      pointsBalance={profile?.points || 0}
-      title="Insufficient Points"
-    />;
+    return (
+      <Subscribe
+        className="w-full sm:w-auto"
+        buttonText="Get Points"
+        modalDescription={`Oops! You need more points to plant a tree. 🌳 You have ${
+          profile?.points || 0
+        } points, but you need ${treeLogicConfig.minPlanterPoints} points.`}
+      />
+    );
   }
 
   return (

@@ -23,13 +23,25 @@ import { cn } from "@/lib/utils";
 import { Button, ButtonProps } from "../ui/button";
 import useCurrentSession from "../providers/session-provider";
 
-type SubscribeProps = ButtonProps;
+type SubscribeProps = ButtonProps & {
+  buttonText?: string;
+  modalDescription?: string;
+};
 
-const Subscribe = ({ className, ...props }: SubscribeProps) => {
+const Subscribe = ({
+  className,
+  buttonText,
+  modalDescription,
+  ...props
+}: SubscribeProps) => {
   const [open, setOpen] = useState(false);
   const { session, logout, status } = useCurrentSession();
   const [isPending, startTransition] = useTransition();
   const queryClient = useQueryClient();
+
+  const defaultDescription = `Unlock ${subscriptionConfig.userPointsPerPi} ${siteConfig.name} points
+            with a Pi subscription. Help grow our green community and get
+            rewarded. Your support means the world (literally). 🌍💚`;
 
   function subscribe() {
     startTransition(async () => {
@@ -79,16 +91,14 @@ const Subscribe = ({ className, ...props }: SubscribeProps) => {
           {...props}
           onClick={() => setOpen(true)}
         >
-          <Pi className="h-4 w-4" /> Subscribe
+          <Pi className="h-4 w-4" /> {buttonText ? buttonText : "Subscribe"}
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>
         <CredenzaHeader>
           <CredenzaTitle>Join the {siteConfig.name} Tribe! 🌟</CredenzaTitle>
           <CredenzaDescription>
-            Unlock {subscriptionConfig.userPointsPerPi} {siteConfig.name} points
-            with a Pi subscription. Help grow our green community and get
-            rewarded. Your support means the world (literally). 🌍💚
+            {modalDescription ? modalDescription : defaultDescription}
           </CredenzaDescription>
         </CredenzaHeader>
 

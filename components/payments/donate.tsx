@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { HandCoins } from "lucide-react";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,10 +33,11 @@ import { PaymentDTOMemo } from "@/types/pi";
 import { donationSchema, DonationSchema } from "@/lib/validations/payments";
 import { piPaymentCallbacks } from "@/lib/pi/callbacks";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button, ButtonProps } from "../ui/button";
 import useCurrentSession from "../providers/session-provider";
 
-const Donate = ({ className }: { className?: string }) => {
+const Donate = ({ className, ...props }: ButtonProps) => {
+  const [open, setOpen] = useState(false);
   const { session, logout, status } = useCurrentSession();
   const [isPending, startTransition] = useTransition();
 
@@ -77,6 +78,8 @@ const Donate = ({ className }: { className?: string }) => {
             toast.error("Session expired, please sign in again.");
           }
         }
+      } finally {
+        setOpen(false);
       }
     });
   }
@@ -86,10 +89,14 @@ const Donate = ({ className }: { className?: string }) => {
   }
 
   return (
-    <Credenza>
-      <CredenzaTrigger asChild className={cn(className)}>
-        <Button variant="outline" size="icon">
-          <HandCoins className="h-4 w-4" />
+    <Credenza open={open} onOpenChange={setOpen}>
+      <CredenzaTrigger asChild>
+        <Button
+          className={cn(className)}
+          {...props}
+          onClick={() => setOpen(true)}
+        >
+          <HandCoins className="h-4 w-4" /> {props.size !== "icon" && "Donate"}
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>

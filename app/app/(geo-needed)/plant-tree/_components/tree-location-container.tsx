@@ -14,7 +14,10 @@ const TreeLocationContainer = () => {
 
   if (loading) {
     return (
-      <Skeleton className="w-full h-64 sm:h-96 rounded-lg overflow-hidden" />
+      <LocationErrorCard
+        error="Loading... (you may need to enable permissions)"
+        className="w-full h-64 md:w-96 rounded-lg overflow-hidden"
+      />
     );
   }
 
@@ -22,19 +25,19 @@ const TreeLocationContainer = () => {
     return (
       <LocationErrorCard
         error={error.message}
-        className="w-full h-64 sm:h-96 rounded-lg overflow-hidden"
+        className="w-full h-64 md:w-96 rounded-lg overflow-hidden"
       />
     );
   }
 
   if (latitude === null || longitude === null) {
     return (
-      <Skeleton className="w-full h-64 sm:h-96 rounded-lg overflow-hidden" />
+      <Skeleton className="w-full h-64 md:w-96 rounded-lg overflow-hidden" />
     );
   }
 
   return (
-    <div className="w-full h-64 sm:h-96 rounded-lg overflow-hidden">
+    <div className="w-full h-64 md:w-96 rounded-lg overflow-hidden">
       <TreeMap latitude={latitude} longitude={longitude} />
     </div>
   );

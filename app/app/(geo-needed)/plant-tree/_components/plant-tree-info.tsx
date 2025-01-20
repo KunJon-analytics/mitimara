@@ -1,5 +1,5 @@
 import React from "react";
-import { Info } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 
 import ContentContainer from "@/components/content/content-container";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ const PlantTreeInfo = () => {
     <Credenza>
       <CredenzaTrigger asChild>
         <Button size={"icon"} variant={"ghost"}>
-          <Info className="animate-pulse text-primary" />
+          <CircleHelp className="animate-pulse text-warning" />
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>
