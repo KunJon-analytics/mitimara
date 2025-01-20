@@ -12,7 +12,7 @@ import {
   CredenzaTrigger,
 } from "@/components/ui/credenza";
 import { siteConfig } from "@/config/site";
-import Summary from "@/app/(content)/blog/how-to-verify-a-tree/_component/verification-summary.mdx";
+import Summary from "@/content/blog/snippets/verification-summary.mdx";
 
 const VerifyTreeInfo = () => {
   return (

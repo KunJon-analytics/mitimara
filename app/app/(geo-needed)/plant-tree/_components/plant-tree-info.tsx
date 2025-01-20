@@ -12,7 +12,7 @@ import {
   CredenzaTrigger,
 } from "@/components/ui/credenza";
 import { siteConfig } from "@/config/site";
-import Summary from "@/app/(content)/blog/how-to-plant-a-tree/_component/planting-summary.mdx";
+import Summary from "@/content/blog/snippets/planting-summary.mdx";
 
 const PlantTreeInfo = () => {
   return (
