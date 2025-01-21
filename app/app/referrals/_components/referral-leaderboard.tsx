@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -22,26 +23,28 @@ export default async function ReferralLeaderboard() {
         <CardTitle>Referral Leaderboard</CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">Position</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead className="text-right">Referrals</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {leaderboardData.map((user, index) => (
-              <TableRow key={user.username}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell>{user.username}</TableCell>
-                <TableCell className="text-right">
-                  {user.noOfReferrals}
-                </TableCell>
+        <ScrollArea>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Position</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead className="text-right">Referrals</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {leaderboardData.map((user, index) => (
+                <TableRow key={user.username}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell className="text-right">
+                    {user.noOfReferrals}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ScrollArea>
       </CardContent>
     </Card>
   );

@@ -28,13 +28,17 @@ const LoginModal = ({
   referral,
   ...props
 }: LoginModalProps) => {
-  const { isPending, login } = useCurrentSession();
+  const { isPending, login, session } = useCurrentSession();
 
   const size = props.size;
 
   const onClick = async () => {
     await login({ redirect, referral });
   };
+
+  if (session.isLoggedIn) {
+    return null;
+  }
 
   return (
     <Credenza>

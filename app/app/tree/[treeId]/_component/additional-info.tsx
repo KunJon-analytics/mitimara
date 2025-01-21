@@ -74,7 +74,7 @@ export function AdditionalInfo({
   return (
     <div className="space-y-2 mt-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Additional Information</h3>
+        <h3 className="text-sm">Additional Information</h3>
         {isAuthorized && !isEditing && (
           <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)}>
             <Pen className="h-4 w-4" />
@@ -96,7 +96,7 @@ export function AdditionalInfo({
                 <FormControl>
                   <Textarea
                     disabled={!isEditing || isPending}
-                    className={isEditing ? "" : "opacity-70"}
+                    className={isEditing ? "" : "opacity-70 text-sm"}
                     {...field}
                   />
                 </FormControl>
@@ -108,7 +108,7 @@ export function AdditionalInfo({
             )}
           />
           {isEditing && (
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" className="w-full" disabled={isPending}>
               {isPending ? (
                 <LoadingAnimation />
               ) : (

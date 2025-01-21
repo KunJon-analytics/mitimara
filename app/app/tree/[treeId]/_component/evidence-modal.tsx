@@ -2,10 +2,10 @@
 
 import { usePathname } from "next/navigation";
 import { Image as ImageIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Credenza,
   CredenzaContent,
@@ -18,7 +18,7 @@ import { $Enums } from "@prisma/client";
 import { treeLogicConfig } from "@/config/site";
 import VideoPlayer from "@/components/common/video-player";
 import useCurrentSession from "@/components/providers/session-provider";
-import { getImageUrlWithPolicy } from "@/lib/utils";
+import { cn, getImageUrlWithPolicy } from "@/lib/utils";
 import DeleteEvidenceForm from "./delete-evidence-form";
 import AddEvidenceTabs from "./add-evidence-tabs";
 import MediaModal from "./media-modal";
@@ -32,12 +32,12 @@ type Evidence = {
   url: string;
 };
 
-type EvidenceModalProps = {
+type EvidenceModalProps = ButtonProps & {
   treeId: string;
   evidences: Evidence[];
   planterId: string;
   verificationStarted: boolean;
-  security: Security;
+  fileSecurity: Security;
 };
 
 export function EvidenceModal({
@@ -45,9 +45,12 @@ export function EvidenceModal({
   evidences,
   planterId,
   verificationStarted,
-  security,
+  fileSecurity,
+  className,
+  ...props
 }: EvidenceModalProps) {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { session } = useCurrentSession();
 
@@ -64,15 +67,19 @@ export function EvidenceModal({
         icon: <ImageIcon />,
         position: "top-right",
       });
+      setIsOpen(true);
     }
   }, [alertPlanter]);
 
   return (
-    <Credenza>
+    <Credenza open={isOpen} onOpenChange={setIsOpen}>
       <CredenzaTrigger asChild>
         <Button
+          onClick={() => setIsOpen(true)}
           variant={isVerificationPage ? "ghost" : "outline"}
           size={isVerificationPage ? "icon" : undefined}
+          className={cn(className)}
+          {...props}
         >
           <ImageIcon className="h-4 w-4 animate-pulse text-primary" />{" "}
           {isVerificationPage
@@ -97,7 +104,7 @@ export function EvidenceModal({
             >
               {evidence.type === "IMAGE" ? (
                 <img
-                  src={getImageUrlWithPolicy(evidence.url, security)}
+                  src={getImageUrlWithPolicy(evidence.url, fileSecurity)}
                   alt="Tree evidence"
                   className="w-40 h-40 object-cover rounded"
                 />
@@ -109,7 +116,7 @@ export function EvidenceModal({
                   type={evidence.type}
                   url={
                     evidence.type === "IMAGE"
-                      ? getImageUrlWithPolicy(evidence.url, security)
+                      ? getImageUrlWithPolicy(evidence.url, fileSecurity)
                       : evidence.url
                   }
                 />

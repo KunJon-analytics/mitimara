@@ -51,6 +51,7 @@ export async function getTree(id: string) {
       isAuthentic: true,
       rewardClaimed: true,
       additionalInfo: true,
+      dateVerified: true,
       mediaEvidence: { select: { id: true, type: true, url: true } },
       latitude: true,
       longitude: true,

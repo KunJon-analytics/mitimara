@@ -82,7 +82,7 @@ export const treeVerificationSchema = z
   .object({
     url: z.string().url().optional(),
     accessToken: z.string().min(1),
-    additionalInfo: z.string().optional(),
+    additionalInfo: z.string().max(200).optional(),
     isAuthentic: z.boolean(),
     treeId: z.string().min(1),
     type: z.nativeEnum($Enums.MediaType).optional(),

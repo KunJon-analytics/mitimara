@@ -1,14 +1,19 @@
 import React from "react";
 import { notFound } from "next/navigation";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { getTree } from "@/lib/tree/services";
 import { readPolicy } from "@/lib/services/filestack-policy";
-import { EvidenceModal } from "./_component/evidence-modal";
+import { getTreeStage } from "@/lib/tree/utils";
 import { VerificationTable } from "./_component/verification-table";
 import TreeMap from "../../(geo-needed)/plant-tree/_components/tree-map";
-import { AdditionalInfo } from "./_component/additional-info";
+import TreeInfoCard from "./_component/tree-info-card";
 
 type TreeDetailPageParams = {
   params: Promise<{ treeId: string }>;
@@ -22,56 +27,27 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
 
   if (!tree) notFound();
 
-  const verificationStarted = tree.verifications.length > 0;
+  const treeStage = getTreeStage({
+    dateVerified: tree.dateVerified,
+    noOfMediaEvidence: tree.mediaEvidence.length,
+    noOfVerifications: tree.verifications.length,
+    rewardClaimed: tree.rewardClaimed,
+  });
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
+    <div className="container mx-auto p-4 space-y-6 mb-16">
       <h1 className="text-3xl font-bold">Tree Details</h1>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Tree Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>
-              <strong>Tree ID:</strong> {tree.id}
-            </p>
-            <p>
-              <strong>Planted by:</strong> {tree.planter.username}
-            </p>
-            <p>
-              <strong>Planted on:</strong> {tree.createdAt.toLocaleDateString()}
-            </p>
-            <div>
-              <strong>Status:</strong>{" "}
-              <Badge variant={tree.isAuthentic ? "success" : "secondary"}>
-                {tree.isAuthentic ? "Verified" : "Pending Verification"}
-              </Badge>
-            </div>
-            <div>
-              <strong>Reward:</strong>{" "}
-              <Badge variant={tree.rewardClaimed ? "success" : "secondary"}>
-                {tree.rewardClaimed ? "Claimed" : "Not Claimed"}
-              </Badge>
-            </div>
-            <AdditionalInfo
-              verificationStarted={verificationStarted}
-              initialInfo={tree.additionalInfo || ""}
-              planterId={tree.planter.id}
-              treeId={treeId}
-            />
-            <div className="mt-4">
-              <EvidenceModal
-                verificationStarted={verificationStarted}
-                treeId={tree.id}
-                evidences={tree.mediaEvidence}
-                planterId={tree.planter.id}
-                security={security}
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <TreeInfoCard
+          additionalInfo={tree.additionalInfo ?? ""}
+          datePlanted={tree.createdAt}
+          evidences={tree.mediaEvidence}
+          planter={tree.planter}
+          security={security}
+          treeId={tree.id}
+          treeStage={treeStage}
+        />
 
         <Card>
           <CardHeader>
@@ -81,11 +57,13 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
             <div className="h-[300px] rounded-md overflow-hidden">
               <TreeMap latitude={tree.latitude} longitude={tree.longitude} />
             </div>
+          </CardContent>
+          <CardFooter className="text-sm">
             <p className="mt-2 text-center">
               <strong>Coordinates:</strong> {tree.latitude.toFixed(6)},{" "}
               {tree.longitude.toFixed(6)}
             </p>
-          </CardContent>
+          </CardFooter>
         </Card>
       </div>
 

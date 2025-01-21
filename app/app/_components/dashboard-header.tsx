@@ -1,0 +1,41 @@
+import React, { Suspense } from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
+import { BrandName } from "@/components/marketing/layout/brand-name";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { UserNav } from "@/components/app/user-nav";
+import UserNavLoading from "@/components/app/user-nav-loading";
+
+const DashboardHeader = () => {
+  return (
+    <header className="bg-foreground/5 px-3 py-3 backdrop-blur-lg md:px-6 md:py-3">
+      <div className="flex w-full items-center justify-between">
+        <BrandName homeLink="/" />
+        <div className="flex items-center gap-1">
+          <ul className="gap-1">
+            <li className="w-full">
+              <Button variant="link" asChild>
+                <Link href="/telegram" target="_blank">
+                  Telegram
+                  <ArrowUpRight className="ml-1 h-4 w-4 flex-shrink-0" />
+                </Link>
+              </Button>
+            </li>
+          </ul>
+          <div className="relative">
+            <Skeleton className="h-8 w-8 rounded-full" />
+            <div className="absolute inset-0">
+              <Suspense fallback={<UserNavLoading />}>
+                <UserNav />
+              </Suspense>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default DashboardHeader;

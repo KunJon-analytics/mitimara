@@ -44,3 +44,5 @@ we will also transfer points to people who recognize and report foul play
 (so use our tg announcement channel to view evidence so they can be reported for points)
 add city bounty contest (planter must have more points than normal) to roadmap 
 add roadmap page
+
+// add blog page
