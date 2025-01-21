@@ -35,6 +35,7 @@ export function Timeline({
 
 interface ArticleProps {
   href: string;
+  priority?: boolean;
   publishedAt: Date;
   imageSrc: string;
   title: string;
@@ -44,6 +45,7 @@ interface ArticleProps {
 function Article({
   publishedAt,
   imageSrc,
+  priority,
   title,
   children,
   href,
@@ -63,7 +65,11 @@ function Article({
             src={imageSrc}
             fill={true}
             alt={title}
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
             className="object-cover"
+            quality={50}
+            priority={priority}
           />
         </Link>
       </div>

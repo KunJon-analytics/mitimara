@@ -54,20 +54,21 @@ export default function Post() {
           </Button>
         }
       >
-        {posts.map((post) => (
+        {posts.map((post, i) => (
           <Timeline.Article
             key={post.slug}
             publishedAt={toDate(post.metadata.publishedAt)}
             imageSrc={`/${post.metadata.image ?? "assets/og/blog/default.png"}`}
             title={post.metadata.title}
             href={`./blog/${post.slug}`}
+            priority={i < 2}
           >
             <div className="prose dark:prose-invert">
               <p>{post.metadata.summary}</p>
             </div>
             <div>
               <Button variant="outline" className="rounded-full" asChild>
-                <Link href={`./blog/${post.slug}`}>Read more</Link>
+                <Link href={`./blog/${post.slug}`}>Read the Article</Link>
               </Button>
             </div>
           </Timeline.Article>
