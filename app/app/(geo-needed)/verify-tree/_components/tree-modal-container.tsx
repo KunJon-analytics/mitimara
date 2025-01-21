@@ -38,7 +38,7 @@ const TreeModalContainer = ({
           planterId=""
           treeId={nearbyTree.id}
           verificationStarted
-          security={security}
+          fileSecurity={security}
         />
       )}
       <AdditionalInfoModal nearbyTree={nearbyTree} />
