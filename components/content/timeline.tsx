@@ -68,7 +68,7 @@ function Article({
             placeholder="blur"
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
             className="object-cover"
-            quality={50}
+            quality={40}
             priority={priority}
           />
         </Link>
