@@ -1,27 +1,36 @@
 import type { MetadataRoute } from "next";
 
 import { env } from "@/env.mjs";
-import { allPosts } from "@/lib/blogs";
+import {
+  getBlogPosts,
+  getContentPosts,
+  getLegalPosts,
+} from "@/lib/content/utils";
 
 const addPathToBaseURL = (path: string) => `${env.NEXT_PUBLIC_APP_URL}${path}`;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const blogs = allPosts.map((post) => ({
+  const blogs = getBlogPosts().map((post) => ({
     url: `${env.NEXT_PUBLIC_APP_URL}/blog/${post.slug}`,
-    lastModified: post.publishedAt, // date format should be YYYY-MM-DD
+    lastModified: post.metadata.publishedAt, // date format should be YYYY-MM-DD
   }));
 
-  const routes = [
-    "/",
-    "/about",
-    "/roadmap",
-    "/app/invite",
-    "/legal/privacy",
-    "/legal/terms",
-  ].map((route) => ({
-    url: addPathToBaseURL(route),
-    lastModified: new Date(),
+  const legalPosts = getLegalPosts().map((post) => ({
+    url: `${env.NEXT_PUBLIC_APP_URL}/legal/${post.slug}`,
+    lastModified: post.metadata.publishedAt,
   }));
 
-  return [...routes, ...blogs];
+  const contentPosts = getContentPosts().map((post) => ({
+    url: `${env.NEXT_PUBLIC_APP_URL}/${post.slug}`,
+    lastModified: post.metadata.publishedAt,
+  }));
+
+  const routes = ["/", "/about", "/roadmap", "/app/invite", "/blog"].map(
+    (route) => ({
+      url: addPathToBaseURL(route),
+      lastModified: new Date(),
+    })
+  );
+
+  return [...routes, ...blogs, ...legalPosts, ...contentPosts];
 }

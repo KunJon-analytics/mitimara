@@ -46,6 +46,13 @@ export const marketingPagesConfig = [
     icon: "cog",
   },
   {
+    href: "/blog",
+    title: "Blog",
+    description: `All the latest articles and news from ${siteConfig.name}.`,
+    segment: "blog",
+    icon: "book",
+  },
+  {
     href: "/#faq",
     title: "FAQ",
     description: "Find answers to common questions.",

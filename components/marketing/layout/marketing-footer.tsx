@@ -34,6 +34,7 @@ export function MarketingFooter({ className }: Props) {
           <div className="order-2 flex flex-col gap-3 text-sm">
             <p className="font-semibold text-foreground">Resources</p>
             <FooterLink href="/#faq" label="FAQ" />
+            <FooterLink href="/blog" label="Blog" />
             <FooterLink href="/about" label="About" />
           </div>
           <div className="order-3 flex flex-col gap-3 text-sm">

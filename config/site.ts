@@ -15,9 +15,10 @@ export const siteConfig: SiteConfig = {
     "Join MitiMara, the decentralized platform that rewards tree planting and verification with Pi tokens. Promote sustainability, boost environmental efforts, and earn rewards. 🌳🌱",
   url: baseUrl,
   ogImage: `${baseUrl}/og.jpg`,
+  admin: { email: "kunjonng@gmail.com", name: "KunJon" },
   links: {
     twitter: "https://x.com/MitimaraPi",
-    github: "https://github.com/shadcn/taxonomy",
+    github: "https://github.com/KunJon-analytics/mitimara",
     telegram: "https://t.me/mitimara_pi",
   },
 };

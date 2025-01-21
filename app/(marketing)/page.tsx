@@ -6,7 +6,7 @@ import HowItWorks from "@/components/marketing/home/how-it-works";
 import { Stats } from "@/components/marketing/home/stats";
 import StatsSkeleton from "@/components/marketing/home/stats-skeleton";
 
-export const revalidate = 600;
+export const revalidate = 3600;
 
 export default function Home() {
   return (

@@ -3,6 +3,7 @@ export type SiteConfig = {
   description: string;
   url: string;
   ogImage: string;
+  admin: { email: string; name: string };
   links: {
     twitter: string;
     github: string;

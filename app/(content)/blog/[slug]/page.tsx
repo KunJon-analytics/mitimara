@@ -10,6 +10,7 @@ import {
 } from "@/app/shared-metadata";
 import { env } from "@/env.mjs";
 import { blogComponents } from "@/content/blog/snippets";
+import { BackButton } from "@/components/content/back-button";
 
 type ContentPageProps = {
   params: Promise<{ slug: string }>;
@@ -74,7 +75,12 @@ export default async function ContentPage({ params }: ContentPageProps) {
     notFound();
   }
 
-  return <CustomMDX source={blogPosts.content} components={blogComponents} />;
+  return (
+    <>
+      <BackButton href="/blog" />
+      <CustomMDX source={blogPosts.content} components={blogComponents} />;
+    </>
+  );
 }
 
 export async function generateStaticParams() {
