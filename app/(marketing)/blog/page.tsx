@@ -58,7 +58,9 @@ export default function Post() {
           <Timeline.Article
             key={post.slug}
             publishedAt={toDate(post.metadata.publishedAt)}
-            imageSrc={`/${post.metadata.image ?? "assets/og/default.png"} `}
+            imageSrc={`/${
+              post.metadata.image ?? "assets/og/blog/default.png"
+            } `}
             title={post.metadata.title}
             href={`./blog/${post.slug}`}
           >
