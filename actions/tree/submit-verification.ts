@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { treeVerificationSchema } from "@/lib/validations/tree";
 import { treeVerified } from "@/lib/tree/utils";
 import { inngest } from "@/inngest/client";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 
 export async function submitVerification(params: unknown) {
   const validatedFields = treeVerificationSchema.safeParse(params);
@@ -17,6 +18,13 @@ export async function submitVerification(params: unknown) {
 
   const { accessToken, isAuthentic, treeId, type, url, additionalInfo, code } =
     validatedFields.data;
+
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("Failed to submit verification:", "Invalid Access Token");
+    return { error: "Unauthorized!", success: false };
+  }
+
   try {
     const user = await prisma.user.findFirst({
       where: {

@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { editTreeInfoSchema } from "@/lib/validations/tree";
 import { inngest } from "@/inngest/client";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 
 export async function editTreeInfo(params: unknown) {
   const validatedFields = editTreeInfoSchema.safeParse(params);
@@ -14,6 +15,13 @@ export async function editTreeInfo(params: unknown) {
   }
 
   const { accessToken, treeId: id, additionalInfo } = validatedFields.data;
+
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("Failed to update tree info:", "Invalid Access Token");
+    return { error: "Unauthorized!", success: false };
+  }
+
   try {
     const user = await prisma.user.findFirst({
       where: {
@@ -61,7 +69,7 @@ export async function editTreeInfo(params: unknown) {
 
     return { success: true, updatedTreeId: updatedTree.id };
   } catch (error) {
-    console.error("Failed to update tree:", error);
+    console.error("Failed to update tree info:", error);
     return { success: false, error: "Failed to update tree" };
   }
 }

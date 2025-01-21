@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { createTreeSchema } from "@/lib/validations/tree";
 import { treeLogicConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 
 export async function createTree(params: unknown) {
   const validatedFields = createTreeSchema.safeParse(params);
@@ -15,6 +16,12 @@ export async function createTree(params: unknown) {
   }
 
   const { accessToken, latitude, longitude } = validatedFields.data;
+
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("Failed to create tree:", "Invalid Access Token");
+    return { error: "Unauthorized!", success: false };
+  }
 
   try {
     const user = await prisma.user.findFirst({

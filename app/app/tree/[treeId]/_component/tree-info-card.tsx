@@ -49,7 +49,7 @@ export default function TreeInfoCard({
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
           Tree #{" "}
-          <span className="text-sm text-primary">{treeId.slice(0, 6)}...</span>
+          <span className="text-sm text-primary">{treeId.slice(-6)}...</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { treeEvidenceSchema } from "@/lib/validations/tree";
 import { treeLogicConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 
 export async function addTreeEvidence(params: unknown) {
   const validatedFields = treeEvidenceSchema.safeParse(params);
@@ -15,6 +16,12 @@ export async function addTreeEvidence(params: unknown) {
   }
 
   const { accessToken, url, treeId, type, handle } = validatedFields.data;
+
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("Failed to add tree evidence:", "Invalid Access Token");
+    return { error: "Unauthorized!", success: false };
+  }
 
   try {
     const planter = await prisma.user.findFirst({

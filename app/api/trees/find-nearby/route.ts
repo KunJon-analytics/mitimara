@@ -4,6 +4,7 @@ import { createTreeSchema } from "@/lib/validations/tree";
 import prisma from "@/lib/prisma";
 import { treeLogicConfig } from "@/config/site";
 import { findNearbyTree } from "@/lib/tree/services";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 
 export async function GET(request: NextRequest) {
   const sp = request.nextUrl.searchParams;
@@ -22,6 +23,13 @@ export async function GET(request: NextRequest) {
   }
 
   const { accessToken, latitude, longitude } = validatedFields.data;
+
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("Failed to find nearby tree:", "Invalid Access Token");
+    return Response.json(null);
+  }
+
   try {
     const user = await prisma.user.findFirst({
       where: {

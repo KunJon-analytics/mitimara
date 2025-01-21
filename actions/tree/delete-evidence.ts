@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { deleteEvidenceSchema } from "@/lib/validations/tree";
 import { inngest } from "@/inngest/client";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 
 export async function deleteTreeEvidence(params: unknown) {
   const validatedFields = deleteEvidenceSchema.safeParse(params);
@@ -14,6 +15,12 @@ export async function deleteTreeEvidence(params: unknown) {
   }
 
   const { accessToken, evidenceId } = validatedFields.data;
+
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("Failed to delete tree evidence:", "Invalid Access Token");
+    return { error: "Unauthorized!", success: false };
+  }
 
   try {
     const planter = await prisma.user.findFirst({

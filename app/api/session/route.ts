@@ -2,7 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 import { authResultSchema, defaultSession } from "@/lib/validations/session";
-import platformAPIClient from "@/lib/pi/platform-api-client";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 import prisma from "@/lib/prisma";
 import { inngest } from "@/inngest/client";
 
@@ -16,13 +16,9 @@ export async function GET(request: NextRequest) {
     return Response.json(defaultSession);
   }
 
-  try {
-    // Verify the user's access token with the /me endpoint:
-    await platformAPIClient.get(`/me`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-  } catch (err) {
-    console.error("[GET_SESSION]", err);
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("[GET_SESSION]", "Invalid Access Token");
     return Response.json(defaultSession);
   }
 
@@ -60,13 +56,9 @@ export async function POST(request: NextRequest) {
 
   const auth = parsedParam.data;
 
-  try {
-    // Verify the user's access token with the /me endpoint:
-    await platformAPIClient.get(`/me`, {
-      headers: { Authorization: `Bearer ${auth.accessToken}` },
-    });
-  } catch (err) {
-    console.error("[LOGIN_API]", err);
+  const validToken = await isValidAccessToken(auth.accessToken);
+  if (!validToken) {
+    console.error("[LOGIN_API]", "Invalid Access Token");
     return new NextResponse("Invalid access token", { status: 400 });
   }
 

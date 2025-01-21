@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 
 import { getTreeCodeSchema } from "@/lib/validations/tree";
 import prisma from "@/lib/prisma";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 
 export async function GET(
   request: NextRequest,
@@ -21,6 +22,13 @@ export async function GET(
   }
 
   const { accessToken, treeId } = validatedFields.data;
+
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("Failed to get tree code:", "Invalid Access Token");
+    return Response.json(null);
+  }
+
   try {
     const treeCode = await prisma.tree.findFirst({
       where: {
