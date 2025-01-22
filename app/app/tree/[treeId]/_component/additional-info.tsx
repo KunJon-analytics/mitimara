@@ -96,13 +96,15 @@ export function AdditionalInfo({
                 <FormControl>
                   <Textarea
                     disabled={!isEditing || isPending}
-                    className={isEditing ? "" : "opacity-70 text-sm"}
+                    className={isEditing ? "" : "opacity-70 text-sm border-0"}
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  Any info that will help with verification.
-                </FormDescription>
+                {isEditing && (
+                  <FormDescription>
+                    Any info that will help with verification.
+                  </FormDescription>
+                )}
                 <FormMessage />
               </FormItem>
             )}

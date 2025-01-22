@@ -23,7 +23,12 @@ export function LocationProvider({
   children,
   locationTimeout,
 }: LocationProviderProps) {
-  const state = useGeolocation({ timeout: locationTimeout || defaultTimeout });
+  const state = useGeolocation({
+    timeout: locationTimeout || defaultTimeout,
+    enableHighAccuracy: true,
+    maximumAge: 0,
+  });
+
   return (
     <LocationContext.Provider value={{ state }}>
       {children}
