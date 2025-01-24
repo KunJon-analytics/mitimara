@@ -23,13 +23,10 @@ import {
 import CodeDisplayBlock from "./code-display-block";
 import { MemoizedMarkdown } from "./memoized-markdown";
 import ChatInputForm from "./chat-input-form";
-import useCurrentSession from "../providers/session-provider";
 
 export default function ChatSupport() {
   const [isGenerating, setIsGenerating] = useState(false);
-  const {
-    session: { isLoggedIn },
-  } = useCurrentSession();
+
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
       maxSteps: 5,
