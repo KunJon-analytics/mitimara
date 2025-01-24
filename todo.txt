@@ -45,9 +45,6 @@ we will also transfer points to people who recognize and report foul play
 add city bounty contest (planter must have more points than normal) to roadmap 
 add roadmap page
 
-// deploy
-// train ai model
-
 
 // create donate page and link users to the page throughout the app (fix links apart)
 

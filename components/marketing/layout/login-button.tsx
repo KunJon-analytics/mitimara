@@ -24,6 +24,7 @@ export function LoginButton({ className, ...props }: ButtonProps) {
   return (
     <LoginModal
       redirect={pathname.startsWith("/app") ? undefined : "/app"}
+      className={className}
       {...props}
     />
   );

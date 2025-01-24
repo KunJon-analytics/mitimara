@@ -29,7 +29,7 @@ export default function CTA({ className }: { className?: string }) {
         >
           <LoginButton />
         </Suspense>
-        <Donate size={"lg"} variant={"secondary"} />
+        <Donate size={"lg"} variant={"secondary"} className="rounded-full" />
       </div>
     </div>
   );
