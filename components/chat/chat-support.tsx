@@ -42,7 +42,7 @@ export default function ChatSupport() {
       },
       onError(error) {
         toast.error(`Error while processing your request`, {
-          description: error.message,
+          description: "please come back later or chat us up on telegram",
         });
         console.log({ error: error });
         setIsGenerating(false);
@@ -73,7 +73,7 @@ export default function ChatSupport() {
     }
   };
 
-  if (!isLoggedIn) {
+  if (process.env.NODE_ENV !== "development") {
     return null;
   }
 

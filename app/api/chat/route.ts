@@ -14,6 +14,9 @@ export const maxDuration = 30;
 export const runtime = "edge";
 
 export async function POST(req: Request) {
+  if (process.env.NODE_ENV !== "development") {
+    return NextResponse.json({ error: "Server Error" }, { status: 500 });
+  }
   try {
     const body = await req.json();
 
