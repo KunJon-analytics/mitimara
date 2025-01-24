@@ -25,12 +25,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: post.metadata.publishedAt,
   }));
 
-  const routes = ["/", "/about", "/roadmap", "/app/invite", "/blog"].map(
-    (route) => ({
-      url: addPathToBaseURL(route),
-      lastModified: new Date(),
-    })
-  );
+  const routes = [
+    "/",
+    "/about",
+    "/roadmap",
+    "/app/invite",
+    "/blog",
+    "/revenue-pots",
+  ].map((route) => ({
+    url: addPathToBaseURL(route),
+    lastModified: new Date(),
+  }));
 
   return [...routes, ...blogs, ...legalPosts, ...contentPosts];
 }

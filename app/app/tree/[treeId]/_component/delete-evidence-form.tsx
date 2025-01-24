@@ -57,10 +57,10 @@ const DeleteEvidenceForm = ({ evidenceId }: DeleteEvidenceFormProps) => {
         } else {
           // TODO: Handle error (e.g., show error message to user)
           toast.error(result.error);
-          console.error(result.error);
+          console.log(result.error);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
         toast.error("Network error");
       }
     });

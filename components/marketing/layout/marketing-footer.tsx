@@ -45,7 +45,7 @@ export function MarketingFooter({ className }: Props) {
           </div>
           <div className="order-3 flex flex-col gap-3 text-sm">
             <p className="font-semibold text-foreground">Tools</p>
-            <FooterLink href="/#how-it-works" label="How it Works" />
+            <FooterLink href="/revenue-pots" label="Revenue Pots" />
             <FooterLink href="/blog/how-to-plant-a-tree" label="Plant a Tree" />
             <FooterLink
               href="/blog/how-to-verify-a-tree"

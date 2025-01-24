@@ -36,7 +36,7 @@ export function Timeline({
 interface ArticleProps {
   href: string;
   priority?: boolean;
-  publishedAt: Date;
+  publishedAt: string;
   imageSrc: string;
   title: string;
   children?: React.ReactNode;
@@ -55,7 +55,7 @@ function Article({
       <div className="relative row-span-2">
         <div className="sticky top-20">
           <time className="order-2 font-mono text-muted-foreground text-sm md:order-1 md:col-span-1">
-            {formatDate(publishedAt.toDateString())}
+            {formatDate(publishedAt)}
           </time>
         </div>
       </div>

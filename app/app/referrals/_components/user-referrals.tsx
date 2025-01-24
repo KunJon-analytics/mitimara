@@ -22,7 +22,7 @@ export default function UserReferrals() {
     try {
       await window.Pi.openShareDialog("Your Invite Link", referralLink);
     } catch (error) {
-      console.error("share ERROR", { error });
+      console.log("share ERROR", { error });
       if (error instanceof Error) {
         // Inside this block, err is known to be a Error
         if (

@@ -3,8 +3,8 @@ import { Suspense } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { LoginButton } from "../layout/login-button";
 import { siteConfig } from "@/config/site";
+import { LoginButton } from "../layout/login-button";
 
 export function Hero() {
   return (

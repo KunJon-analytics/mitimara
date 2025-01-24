@@ -24,6 +24,22 @@ export const env = createEnv({
 
     // SENTRY
     SENTRY_AUTH_TOKEN: z.string().min(1),
+
+    //LANGSMITH
+    LANGSMITH_TRACING: z.coerce.boolean(),
+    LANGSMITH_ENDPOINT: z.string().url(),
+    LANGSMITH_API_KEY: z.string().min(1),
+    LANGSMITH_PROJECT: z.string().min(1),
+
+    // OPENAPI
+    OPENAI_API_KEY: z.string().min(1),
+
+    // OPENROUTER
+    OPENROUTER_API_KEY: z.string().min(1),
+
+    // PINECONE
+    PINECONE_API_KEY: z.string().min(1),
+    PINECONE_INDEX: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
@@ -64,5 +80,21 @@ export const env = createEnv({
     // SENTRY
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
     SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
+
+    // LANGSMITH
+    LANGSMITH_TRACING: process.env.LANGSMITH_TRACING,
+    LANGSMITH_ENDPOINT: process.env.LANGSMITH_ENDPOINT,
+    LANGSMITH_API_KEY: process.env.LANGSMITH_API_KEY,
+    LANGSMITH_PROJECT: process.env.LANGSMITH_PROJECT,
+
+    // OPEN AI
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+
+    // OPENROUTER
+    OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
+
+    // PINECONE
+    PINECONE_API_KEY: process.env.PINECONE_API_KEY,
+    PINECONE_INDEX: process.env.PINECONE_INDEX,
   },
 });

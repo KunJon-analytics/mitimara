@@ -45,14 +45,15 @@ const PlantTreeForm = () => {
         if (result.success) {
           toast.success("Tree added successfully, now you can add more info");
           queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
+          queryClient.invalidateQueries({ queryKey: ["my-trees", session.id] });
           router.push(`/app/tree/${result.treeId}`);
         } else {
           // TODO: Handle error (e.g., show error message to user)
           toast.error(result.error);
-          console.error(result.error);
+          console.log(result.error);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
         toast.error("Network error");
       }
     });

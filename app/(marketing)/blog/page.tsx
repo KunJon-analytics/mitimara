@@ -1,7 +1,6 @@
 import { Rss } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { toDate } from "date-fns";
 
 import {
   defaultMetadata,
@@ -57,7 +56,7 @@ export default function Post() {
         {posts.map((post, i) => (
           <Timeline.Article
             key={post.slug}
-            publishedAt={toDate(post.metadata.publishedAt)}
+            publishedAt={post.metadata.publishedAt}
             imageSrc={`/${post.metadata.image ?? "assets/og/blog/default.png"}`}
             title={post.metadata.title}
             href={`./blog/${post.slug}`}

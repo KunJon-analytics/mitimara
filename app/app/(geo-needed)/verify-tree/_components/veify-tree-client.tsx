@@ -85,6 +85,9 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
       queryClient.invalidateQueries({ queryKey: ["nearby-tree"] });
       queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
       queryClient.invalidateQueries({ queryKey: ["my-trees"] });
+      queryClient.invalidateQueries({
+        queryKey: ["tree-code"],
+      });
     });
   };
 

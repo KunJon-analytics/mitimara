@@ -12,6 +12,7 @@ import {
   ogMetadata,
   twitterMetadata,
 } from "@/app/shared-metadata";
+import ChatSupport from "@/components/chat/chat-support";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
@@ -64,6 +65,9 @@ export default function RootLayout({
               <NuqsAdapter>
                 <div vaul-drawer-wrapper="" className="bg-background">
                   {children}
+
+                  {/* Chat support component */}
+                  <ChatSupport />
                 </div>
               </NuqsAdapter>
             </SessionProvider>

@@ -78,7 +78,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
   return (
     <>
       <BackButton href="/blog" />
-      <CustomMDX source={blogPosts.content} components={blogComponents} />;
+      <CustomMDX source={blogPosts.content} components={blogComponents} />
     </>
   );
 }

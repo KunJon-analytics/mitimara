@@ -75,6 +75,7 @@ const Subscribe = ({
       } finally {
         setOpen(false);
         queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
+        queryClient.invalidateQueries({ queryKey: ["nearby-tree"] });
       }
     });
   }

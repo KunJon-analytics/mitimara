@@ -45,7 +45,7 @@ export default function useLocalStorage<T>(
         window.dispatchEvent(new StorageEvent("storage", { key }));
       }
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
   };
 

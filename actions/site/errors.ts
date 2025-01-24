@@ -10,10 +10,10 @@ export async function reportError(error: Error & { digest?: string }) {
   console.error(error);
   const message = `<b>Site Error Report</b> ⚠️
 
-<b>Message:</b> ${error.message}
-<b>Name:</b> ${error.name}
-<b>Stack:</b> <pre>${error.stack ?? ""}</pre>
-<b>Digest:</b> ${error.digest ?? ""}
+<b>Message:</b> ${error?.message ?? ""}
+<b>Name:</b> ${error?.name ?? ""}
+<b>Stack:</b> <pre>${error?.stack ?? ""}</pre>
+<b>Digest:</b> ${error?.digest ?? ""}
 
 Thank you for helping us improve MitiMara!
 `;

@@ -11,6 +11,7 @@ import {
   treeLogicConfig,
   CUTOFF_VERIFICATIONS,
 } from "@/config/site";
+import ContactUs from "@/content/blog/snippets/contact-us.mdx";
 
 const data = {
   siteName: siteConfig.name,
@@ -111,6 +112,7 @@ const components = {
   a: CustomLink,
   code: Code,
   Table,
+  ContactUs,
 };
 
 export function CustomMDX(props: MDXRemoteProps) {
