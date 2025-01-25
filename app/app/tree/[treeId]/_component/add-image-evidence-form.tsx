@@ -1,6 +1,5 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
 import { useState, useTransition } from "react";
 import { PickerOverlay } from "filestack-react";
 import { type PickerResponse } from "filestack-js";
@@ -32,8 +31,6 @@ const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
   const { accessToken, session } = useCurrentSession();
   const { data } = useProfile(session.id);
 
-  const queryClient = useQueryClient();
-
   const onOpen = () => {
     // toast info message on what to do
     toast.info(
@@ -58,10 +55,7 @@ const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
 
           if (result.success) {
             toast.success("Evidence added successfully");
-            // invalidate trees here too
-            queryClient.invalidateQueries({
-              queryKey: ["profile", session.id],
-            });
+            // invalidate trees here too (probably nearby tree route too)
           } else {
             // TODO: Handle error (e.g., show error message to user)
             toast.error(result.error);

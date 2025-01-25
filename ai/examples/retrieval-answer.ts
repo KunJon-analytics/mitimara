@@ -4,7 +4,7 @@ import { StateGraph } from "@langchain/langgraph";
 
 import { vectorStore } from "../utils/vectore-store";
 import { getRagPromptTemplate } from "../utils/pull";
-import { llm } from "../utils/llm";
+import { openrouterChatModel as llm } from "../utils/llm";
 
 const InputStateAnnotation = Annotation.Root({
   question: Annotation<string>,

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { getUnverifiedTrees } from "@/lib/tree/services";
+import { getTreesAwaitingVerification } from "@/lib/tree/services";
 
 export async function GET(request: NextRequest) {
   const sp = request.nextUrl.searchParams;
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const unverifiedTrees = await getUnverifiedTrees(userId);
+    const unverifiedTrees = await getTreesAwaitingVerification(userId);
 
     return Response.json(unverifiedTrees);
   } catch (error) {

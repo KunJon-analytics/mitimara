@@ -40,6 +40,9 @@ export const env = createEnv({
     // PINECONE
     PINECONE_API_KEY: z.string().min(1),
     PINECONE_INDEX: z.string().min(1),
+
+    // SAMBANOVA
+    // SAMBANOVA_API_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
@@ -96,5 +99,8 @@ export const env = createEnv({
     // PINECONE
     PINECONE_API_KEY: process.env.PINECONE_API_KEY,
     PINECONE_INDEX: process.env.PINECONE_INDEX,
+
+    //SAMBANOVA
+    // SAMBANOVA_API_KEY: process.env.PINECONE_INDEX,
   },
 });

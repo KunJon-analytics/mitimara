@@ -1,4 +1,4 @@
-import { siteConfig, treeLogicConfig } from "@/config/site";
+import { siteConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/prisma";
 
@@ -15,8 +15,7 @@ export const treePlantedEvent = inngest.createFunction(
           id,
         },
         select: {
-          planterId: true,
-          createdAt: true,
+          planter: { select: { username: true } },
           latitude: true,
           longitude: true,
         },
@@ -28,26 +27,13 @@ export const treePlantedEvent = inngest.createFunction(
       return { message: "Invalid Tree" };
     }
 
-    //  reduce planter points
-    const updatedPlanter = await step.run("reduce-planter-points", async () => {
-      return prisma.user.update({
-        where: {
-          id: newTree.planterId,
-        },
-        select: {
-          username: true,
-        },
-        data: { points: { decrement: treeLogicConfig.minPlanterPoints } },
-      });
-    });
-
     const latitude = newTree.latitude.toFixed(6);
     const longitude = newTree.longitude.toFixed(6);
 
     // send TG Admin message for new tree
     const message = `<b>🌳 New Tree Planted!</b>
     
-Planted by <b>${updatedPlanter.username}</b>!
+Planted by <b>${newTree.planter.username}</b>!
 Coordinates:  <b>${latitude}, ${longitude}</b>!
 
 Thank you for contributing to a greener planet with ${siteConfig.name}!

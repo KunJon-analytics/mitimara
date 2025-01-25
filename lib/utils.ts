@@ -6,6 +6,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 function deg2rad(deg: number) {
   return deg * (Math.PI / 180);
 }

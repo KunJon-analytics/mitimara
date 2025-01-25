@@ -1,6 +1,5 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
 import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -32,9 +31,7 @@ type AddVideoEvidenceFormProps = { treeId: string };
 
 const AddVideoEvidenceForm = ({ treeId }: AddVideoEvidenceFormProps) => {
   const [isPending, startTransition] = useTransition();
-  const { accessToken, session } = useCurrentSession();
-
-  const queryClient = useQueryClient();
+  const { accessToken } = useCurrentSession();
 
   // 1. Define your form.
   const form = useForm<TreeEvidenceSchema>({
@@ -57,7 +54,9 @@ const AddVideoEvidenceForm = ({ treeId }: AddVideoEvidenceFormProps) => {
 
         if (result.success) {
           toast.success("Evidence added successfully");
-          queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
+
+          // revalidate tree
+
           form.resetField("url");
         } else {
           // TODO: Handle error (e.g., show error message to user)
@@ -92,7 +91,7 @@ const AddVideoEvidenceForm = ({ treeId }: AddVideoEvidenceFormProps) => {
                 name="url"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Video Link</FormLabel>
+                    <FormLabel>Video Link (New)</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="https://www.youtube.com/watch?v=LXb3EKWsInQ"

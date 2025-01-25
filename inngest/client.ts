@@ -66,6 +66,7 @@ type Events = {
   "tree/tree.planted": TreePlanted;
   "tree/info.updated": TreePlanted;
   "tree/verification.added": TreeVerified;
+  "tree/verification.completed": TreePlanted;
   "filestack/file.delete": DeleteFilestackFile;
   "payments/payment-completed": CompletedPayment;
   "pots/balance-updated": PaymentReceived;

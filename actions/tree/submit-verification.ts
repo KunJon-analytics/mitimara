@@ -5,9 +5,9 @@ import { revalidatePath } from "next/cache";
 import { treeLogicConfig } from "@/config/site";
 import { prisma } from "@/lib/prisma";
 import { treeVerificationSchema } from "@/lib/validations/tree";
-import { treeVerified } from "@/lib/tree/utils";
 import { inngest } from "@/inngest/client";
 import { isValidAccessToken } from "@/lib/pi/platform-api-client";
+import { checkVerificationComplete } from "@/lib/tree/is-verification-complete";
 
 export async function submitVerification(params: unknown) {
   const validatedFields = treeVerificationSchema.safeParse(params);
@@ -38,31 +38,44 @@ export async function submitVerification(params: unknown) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const selectedTree = await prisma.tree.findUnique({
+    const selectedTree = await prisma.tree.update({
       where: {
         id: treeId,
-        dateVerified: null,
+        status: { in: ["LISTED", "VERIFYING"] },
         code,
         planterId: { not: user.id },
         verifications: { none: { verifierId: user.id } },
       },
+      data: { status: "VERIFYING" },
       select: {
-        id: true,
         verifications: { select: { treeIsAuthentic: true } },
       },
     });
 
-    if (!selectedTree) {
-      return { success: false, error: "Unauthorized" };
-    }
+    // check if verification completed
 
-    // Check if the tree has reached the maximum number of verifications
-    const treeIsVerified = treeVerified(selectedTree);
-    if (treeIsVerified) {
-      return {
-        success: false,
-        error: "This tree has already been verified",
-      };
+    const submissions = selectedTree.verifications.map(
+      (verif) => verif.treeIsAuthentic
+    );
+    const newSubmission = isAuthentic;
+
+    const verificationResult = checkVerificationComplete(
+      submissions,
+      newSubmission
+    );
+
+    // if verification complete add date verified to tree,
+    // isauthentic and change status
+
+    if (verificationResult.status === "complete") {
+      await prisma.tree.update({
+        where: { id: treeId },
+        data: {
+          isAuthentic: verificationResult.result,
+          dateVerified: new Date(),
+          status: "VERIFIED",
+        },
+      });
     }
 
     const mediaEvidence = type && url ? { create: { type, url } } : undefined;

@@ -32,25 +32,39 @@ export async function createTree(params: unknown) {
       return { error: "Unauthorized!", success: false };
     }
 
-    const tree = await prisma.tree.create({
+    const treePlanter = await prisma.user.update({
+      where: { id: user.id },
       data: {
-        latitude,
-        longitude,
-        planterId: user.id,
+        points: { decrement: treeLogicConfig.minPlanterPoints },
+        plantedTrees: {
+          create: {
+            latitude,
+            longitude,
+            status: "PLANTED",
+          },
+        },
       },
-      select: { id: true },
+      select: {
+        plantedTrees: {
+          orderBy: { createdAt: "desc" },
+          select: { id: true },
+          take: 1,
+        },
+      },
     });
 
-    // send tree planted event (send TG message, reduce planter points)
+    const createdTree = treePlanter.plantedTrees[0];
+
+    // send tree planted event (send TG message)
     await inngest.send({
       name: "tree/tree.planted",
       data: {
-        treeId: tree.id,
+        treeId: createdTree.id,
       },
     });
 
     revalidatePath("/app");
-    return { success: true, treeId: tree.id };
+    return { success: true, treeId: createdTree.id };
   } catch (error) {
     console.error("Failed to create tree:", error);
     return { success: false, error: "Failed to create tree" };

@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { editTreeInfoSchema } from "@/lib/validations/tree";
 import { inngest } from "@/inngest/client";
 import { isValidAccessToken } from "@/lib/pi/platform-api-client";
+import { verificationNotStartedStatus } from "@/lib/tree/constants";
 
 export async function editTreeInfo(params: unknown) {
   const validatedFields = editTreeInfoSchema.safeParse(params);
@@ -23,36 +24,14 @@ export async function editTreeInfo(params: unknown) {
   }
 
   try {
-    const user = await prisma.user.findFirst({
-      where: {
-        accessToken,
-      },
-      select: { id: true },
-    });
-
-    if (!user) {
-      return { success: false, error: "Unauthorized" };
-    }
-
-    const selectedTree = await prisma.tree.findUnique({
+    //only update LISTED/PUBLIC tree by planter
+    const updatedTree = await prisma.tree.update({
       where: {
         id,
-        dateVerified: null,
-        planterId: user.id,
-        verifications: { none: {} },
+        planter: { accessToken },
+        status: { in: verificationNotStartedStatus },
       },
-      select: { id: true },
-    });
-
-    if (!selectedTree) {
-      return { success: false, error: "Unauthorized" };
-    }
-
-    const updatedTree = await prisma.tree.update({
-      data: {
-        additionalInfo,
-      },
-      where: { id },
+      data: { additionalInfo },
       select: { id: true },
     });
 

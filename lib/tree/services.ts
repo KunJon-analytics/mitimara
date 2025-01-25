@@ -1,7 +1,7 @@
 import { treeLogicConfig } from "@/config/site";
 import prisma from "../prisma";
 import { calculateDistance } from "../utils";
-import { treeVerified } from "./utils";
+import { verificationNotStartedStatus } from "./constants";
 
 export const findNearbyTree = async (
   userId: string,
@@ -14,7 +14,7 @@ export const findNearbyTree = async (
         dateVerified: null,
         planterId: { not: userId },
         verifications: { none: { verifierId: userId } },
-        mediaEvidence: { some: {} },
+        status: { in: ["LISTED", "VERIFYING"] },
       },
       select: {
         planter: { select: { username: true } },
@@ -26,9 +26,8 @@ export const findNearbyTree = async (
         verifications: { select: { treeIsAuthentic: true } },
       },
     });
-    const unverifiedTrees = trees.filter((tree) => !treeVerified(tree));
 
-    const nearbyTrees = unverifiedTrees.filter(
+    const nearbyTrees = trees.filter(
       (tree) =>
         calculateDistance(latitude, longitude, tree.latitude, tree.longitude) <=
         treeLogicConfig.maxVerifierDistance
@@ -48,10 +47,10 @@ export async function getTree(id: string) {
       planter: { select: { id: true, username: true } },
       createdAt: true,
       id: true,
+      status: true,
       isAuthentic: true,
       rewardClaimed: true,
       additionalInfo: true,
-      dateVerified: true,
       mediaEvidence: { select: { id: true, type: true, url: true } },
       latitude: true,
       longitude: true,
@@ -69,14 +68,11 @@ export async function getTree(id: string) {
   return tree;
 }
 
-export async function getUnverifiedTrees(userId: string) {
+export async function getTreesAwaitingVerification(userId: string) {
   return await prisma.tree.findMany({
     where: {
       planterId: userId,
-      isAuthentic: false,
-      verifications: {
-        none: {},
-      },
+      status: { in: verificationNotStartedStatus },
     },
     select: { id: true, latitude: true, longitude: true, createdAt: true },
     orderBy: {

@@ -1,7 +1,6 @@
 "use client";
 
 import { Trash } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
 import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -30,9 +29,7 @@ type DeleteEvidenceFormProps = { evidenceId: string };
 
 const DeleteEvidenceForm = ({ evidenceId }: DeleteEvidenceFormProps) => {
   const [isPending, startTransition] = useTransition();
-  const { accessToken, session } = useCurrentSession();
-
-  const queryClient = useQueryClient();
+  const { accessToken } = useCurrentSession();
 
   // 1. Define your form.
   const form = useForm<DeleteEvidenceSchema>({
@@ -53,7 +50,8 @@ const DeleteEvidenceForm = ({ evidenceId }: DeleteEvidenceFormProps) => {
 
         if (result.success) {
           toast.success("Evidence deleted successfully");
-          queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
+
+          // invalidate tree && nearby tree
         } else {
           // TODO: Handle error (e.g., show error message to user)
           toast.error(result.error);

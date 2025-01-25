@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { getTree } from "@/lib/tree/services";
 import { readPolicy } from "@/lib/services/filestack-policy";
-import { getTreeStage } from "@/lib/tree/utils";
 import { VerificationTable } from "./_component/verification-table";
 import TreeMap from "../../(geo-needed)/plant-tree/_components/tree-map";
 import TreeInfoCard from "./_component/tree-info-card";
@@ -27,13 +26,6 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
 
   if (!tree) notFound();
 
-  const treeStage = getTreeStage({
-    dateVerified: tree.dateVerified,
-    noOfMediaEvidence: tree.mediaEvidence.length,
-    noOfVerifications: tree.verifications.length,
-    rewardClaimed: tree.rewardClaimed,
-  });
-
   return (
     <div className="container mx-auto p-4 space-y-6 mb-16">
       <h1 className="text-3xl font-bold">Tree Details</h1>
@@ -46,7 +38,8 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
           planter={tree.planter}
           security={security}
           treeId={tree.id}
-          treeStage={treeStage}
+          treeStatus={tree.status}
+          treeIsAuthentic={tree.isAuthentic}
         />
 
         <Card>

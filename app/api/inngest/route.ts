@@ -11,6 +11,7 @@ import { deleteFileStackFile } from "@/inngest/functions/filestack/delete-file";
 import { completePayment } from "@/inngest/functions/payments/complete-payment";
 import { updatePots } from "@/inngest/functions/pots/update-pots";
 import { finishSubscription } from "@/inngest/functions/payments/finish-subscription";
+import { treeVerificationCompleted } from "@/inngest/functions/trees/verification-completed";
 
 // Create an API that serves zero functions
 export const { GET, POST, PUT } = serve({
@@ -27,5 +28,6 @@ export const { GET, POST, PUT } = serve({
     completePayment,
     updatePots,
     finishSubscription,
+    treeVerificationCompleted,
   ],
 });

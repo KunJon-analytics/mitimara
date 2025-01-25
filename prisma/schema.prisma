@@ -38,11 +38,12 @@ model User {
 }
 
 model Tree {
-  id             String  @id @default(cuid())
-  code           String  @unique @default(uuid())
+  id             String     @id @default(cuid())
+  code           String     @unique @default(uuid())
   additionalInfo String?
   latitude       Float
   longitude      Float
+  status         TreeStatus @default(PLANTED)
 
   isAuthentic   Boolean   @default(false)
   rewardClaimed Boolean   @default(false)
@@ -129,4 +130,14 @@ enum PiTransactionStatus {
   INITIALIZED
   COMPLETED
   CANCELLED
+}
+
+enum TreeStatus {
+  PLANTED
+  LISTED
+  VERIFYING
+  VERIFIED
+  PLANTERS_PAID
+  VERIFIERS_PAID
+  MATURED
 }

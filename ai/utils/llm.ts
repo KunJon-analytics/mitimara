@@ -1,4 +1,5 @@
 import { ChatOpenAI } from "@langchain/openai";
+import { TogetherAI } from "@langchain/community/llms/togetherai";
 
 import { env } from "@/env.mjs";
 
@@ -32,7 +33,7 @@ const cheapModels = {
  */
 export const activeModelName = cheapModels.metallama323;
 
-export const llm = new ChatOpenAI(
+export const openrouterChatModel = new ChatOpenAI(
   {
     modelName: activeModelName,
     temperature: 0.6,
@@ -47,3 +48,26 @@ export const llm = new ChatOpenAI(
     }, // Optional. Site title for rankings on openrouter.ai.}
   }
 );
+
+const sambanovaApiKey = process.env.SAMBANOVA_API_KEY;
+
+export const SambaNovaCloudChatModel = new ChatOpenAI({
+  temperature: 0.6,
+  model: "Meta-Llama-3.2-3B-Instruct",
+  streaming: true,
+  configuration: {
+    baseURL: "https://api.sambanova.ai/v1",
+    apiKey: sambanovaApiKey,
+  },
+});
+
+export const togetherAIModel = new TogetherAI({
+  model: "meta-llama/Llama-3.2-3B-Instruct-Turbo",
+  temperature: 0.6,
+  streaming: true,
+  maxTokens: 512,
+  topP: 0.7,
+  topK: 50,
+  repetitionPenalty: 1,
+  stop: ["<|eot_id|>", "<|eom_id|>"],
+});

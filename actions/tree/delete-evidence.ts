@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { deleteEvidenceSchema } from "@/lib/validations/tree";
 import { inngest } from "@/inngest/client";
 import { isValidAccessToken } from "@/lib/pi/platform-api-client";
+import { verificationNotStartedStatus } from "@/lib/tree/constants";
 
 export async function deleteTreeEvidence(params: unknown) {
   const validatedFields = deleteEvidenceSchema.safeParse(params);
@@ -23,23 +24,35 @@ export async function deleteTreeEvidence(params: unknown) {
   }
 
   try {
-    const planter = await prisma.user.findFirst({
-      where: { accessToken },
-      select: { id: true },
-    });
-    if (!planter) {
-      return { error: "Unauthorized!", success: false };
-    }
-
-    // ensure media evidence belongs to a tree with no verification
+    // ensure media evidence belongs to a LISTED or  tree
     // and user is tree planter
     const deletedEvidence = await prisma.media.delete({
       where: {
         id: evidenceId,
-        tree: { planterId: planter.id, verifications: { none: {} } },
+        tree: {
+          planter: { accessToken },
+          status: { in: verificationNotStartedStatus },
+        },
       },
-      select: { id: true, handle: true },
+      select: {
+        id: true,
+        handle: true,
+        tree: {
+          select: { _count: { select: { mediaEvidence: true } }, id: true },
+        },
+      },
     });
+
+    // if media evidence was equal to 1 change tree status to PLANTED
+    if (
+      deletedEvidence.tree &&
+      deletedEvidence.tree._count.mediaEvidence === 1
+    ) {
+      await prisma.tree.update({
+        where: { id: deletedEvidence.tree.id },
+        data: { status: "PLANTED" },
+      });
+    }
 
     // send delete filestack file if handle present
     if (deletedEvidence.handle) {
@@ -50,6 +63,8 @@ export async function deleteTreeEvidence(params: unknown) {
         },
       });
     }
+
+    //invalidate tree here
 
     revalidatePath("/app");
 

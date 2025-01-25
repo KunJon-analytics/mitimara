@@ -1,0 +1,32 @@
+tree is created => PLANTED (planter plants trees) [reduce planter points]
+            ^                       |
+            |   (planter adds / delete tree media) [planter can only delete/add/update in PLANTED/LISTED stage]
+            v       |                           [planter can't add more than max media]
+tree has image => LISTED (always change during media add) 
+            |
+            |   (close verifier sends in a verification) [verication only in LISTED / VERIFYING state]
+            v                                           [by only close non planter]
+tree gets verification => VERIFYING (always change during verification add)
+            |
+            |   (tree is verified IF threshold met) [only happen in VERIFYING state]
+            v   
+tree finishes verification => VERIFIED (change immediately, verify then send pay_planter event)
+            |
+            |   (planters paid) [only happen in verified state]
+            v  
+tree planters points returned => PLANTERS_PAID (change immediately, pay planters then send verifiers_paid)
+            |
+            |   (verifiers paid) [only happen in planters_paid state state]
+            v  
+
+tree verifiers points returned => VERIFIERS_PAID (change immediately, pay verifiers, change to MATURE)
+
+
+create => revalidate user profile points
+
+add/delete evidence  => revalidate tree tag and nearby tree
+
+// create reporting model then create fk to tree or verification for community.
+
+// for reward claiming u find all the unclaimed trees / verifications with no report
+// and then u show the eligible rewards (those after cooldown time for example)

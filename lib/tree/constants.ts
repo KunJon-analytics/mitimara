@@ -1,11 +1,10 @@
 import { ValidIcon } from "@/components/common/icons";
+import { $Enums } from "@prisma/client";
 
-export type TreeStageName =
-  | "Planted"
-  | "Listed"
-  | "Verifying"
-  | "Verified"
-  | "Rewarded";
+export const verificationNotStartedStatus: $Enums.TreeStatus[] = [
+  "PLANTED",
+  "LISTED",
+];
 
 export type TreeStageValues = {
   icon: ValidIcon;
@@ -13,36 +12,58 @@ export type TreeStageValues = {
   nextStep: string;
 };
 
-export type TreeStages = Record<TreeStageName, TreeStageValues>;
+export type TreeStages = Record<$Enums.TreeStatus, TreeStageValues>;
+
+type StatusElements = {
+  icon: ValidIcon;
+  badgeVariant: "success" | "destructive" | "outline";
+};
+
+type TreeVerificationStatus = "N/A" | "REAL" | "FAKE";
+
+export const treeVerifications: Record<TreeVerificationStatus, StatusElements> =
+  {
+    "N/A": { badgeVariant: "outline", icon: "shield" },
+    FAKE: { badgeVariant: "destructive", icon: "fake" },
+    REAL: { badgeVariant: "success", icon: "privacy" },
+  };
 
 export const mitimaraTreeStages: TreeStages = {
-  Planted: {
+  PLANTED: {
     description: "The tree is recently planted but not yet shown to verifiers.",
     icon: "sprout",
     nextStep:
       "Add evidence (photos and geolocation) to list the tree for verification.",
   },
-  Listed: {
+  LISTED: {
     description:
       "Tree evidence is added by the planter, so it gets listed for potential verifiers.",
     nextStep: "Verifiers need to start reviewing the tree submission.",
     icon: "globe",
   },
-  Verifying: {
+  VERIFYING: {
     description:
       "Tree verification has started as one verifier has already submitted a verification.",
     nextStep: "Encourage more verifiers to review and verify the tree.",
     icon: "shield-question",
   },
-  Verified: {
+  VERIFIED: {
     description: "The tree is fully verified as the majority vote is reached.",
-    nextStep:
-      "Process the reward payment for both the planter and the verifiers.",
+    nextStep: "Process the reward payment for the tree planter.",
     icon: "privacy",
   },
-  Rewarded: {
-    description:
-      "The tree reward is paid out to both the planter and the verifiers. The cycle is complete!",
+  PLANTERS_PAID: {
+    description: "The tree planter reward is paid out if tree is authentic.",
+    nextStep: "Payment for verifiers need to go out",
+    icon: "coins",
+  },
+  VERIFIERS_PAID: {
+    description: "The tree verifiers reward is paid out.",
+    nextStep: "Complete the tree cycle",
+    icon: "coins",
+  },
+  MATURED: {
+    description: "The tree cycle is complete!",
     nextStep: "",
     icon: "coins",
   },

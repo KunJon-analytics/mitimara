@@ -29,7 +29,7 @@ export default function ChatSupport() {
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
-      maxSteps: 5,
+      maxSteps: 1,
       experimental_throttle: 50,
       onResponse(response) {
         if (response) {

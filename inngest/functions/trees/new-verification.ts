@@ -1,7 +1,7 @@
 import { siteConfig, treeLogicConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/prisma";
-import { treeVerified } from "@/lib/tree/utils";
+import { isTreeVerficationEnded } from "@/lib/tree/utils";
 
 export const treeVerificationAddedEvent = inngest.createFunction(
   { id: "tree-verification-added" },
@@ -16,17 +16,17 @@ export const treeVerificationAddedEvent = inngest.createFunction(
         return prisma.treeVerification.findUnique({
           where: {
             id: verificationId,
+            tree: { status: { in: ["VERIFIED", "VERIFYING"] } },
           },
           select: {
             verifier: { select: { username: true } },
-            createdAt: true,
             additionalInfo: true,
             treeIsAuthentic: true,
             tree: {
               select: {
-                verifications: { select: { treeIsAuthentic: true } },
                 id: true,
-                planter: { select: { username: true, id: true } },
+                status: true,
+                isAuthentic: true,
               },
             },
           },
@@ -39,81 +39,35 @@ export const treeVerificationAddedEvent = inngest.createFunction(
       return { message: "Invalid Tree Verification" };
     }
 
-    const treeVerifiable = treeVerified(newVerification.tree);
+    // check status of tree, if verified send
+    // verified tree event (complete logic,
+    // send verifiers / planter paid TG message)
 
-    if (treeVerifiable) {
-      // if tree is verifiable, mark tree as verified using today date
-      // mark tree authenticity
-      const verifiedTree = await step.run(
-        "update-tree-verified-and-authenticity",
-        async () => {
-          return prisma.tree.update({
-            where: {
-              id: newVerification.tree.id,
-              dateVerified: null,
-            },
-            select: { isAuthentic: true, id: true },
-            data: {
-              dateVerified: new Date(),
-              isAuthentic: newVerification.treeIsAuthentic,
-            },
-          });
-        }
-      );
-
-      // add planter points x2 if tree is authentic
-      if (verifiedTree.isAuthentic) {
-        await step.run("add-planter-ponts", async () => {
-          return prisma.user.update({
-            where: {
-              id: newVerification.tree.planter.id,
-            },
-            select: { id: true },
-            data: {
-              points: {
-                increment:
-                  treeLogicConfig.minPlanterPoints *
-                  treeLogicConfig.planterRewardFactor,
-              },
-            },
-          });
-        });
-      }
-
-      // and verifier with same authenticity x2 points
-
-      await step.run("add-verifiers-points", async () => {
-        return prisma.user.updateMany({
-          where: {
-            treeVerifications: {
-              some: {
-                treeId: verifiedTree.id,
-                treeIsAuthentic: verifiedTree.isAuthentic,
-              },
-            },
-          },
-
-          data: {
-            points: {
-              increment:
-                treeLogicConfig.minVerifierPoints *
-                treeLogicConfig.verifierRewardFactor,
-            },
-          },
-        });
+    if (newVerification.tree.status === "VERIFIED") {
+      // send verification complete event
+      await step.sendEvent("send-tree-verification-complete-event", {
+        name: "tree/verification.completed",
+        data: { treeId: newVerification.tree.id },
       });
     }
 
     // send TG Channel for new verification and let it show if tree was verified
     // show authenticity of tree
 
+    const verifEnded = isTreeVerficationEnded(newVerification.tree.status);
+    const finalAuthenticity = !verifEnded
+      ? "N/A"
+      : newVerification.tree.isAuthentic
+      ? "REAL"
+      : "FAKE";
+
     const message = `<b>🌳 New Tree Verification Submitted!</b>
 
 Verifier Username: <b>${newVerification.verifier.username}</b>
-Tree Authenticity Agreed: <b>${newVerification.treeIsAuthentic}</b>
-Final Tree Authenticity: <b>${
-      treeVerifiable ? newVerification.treeIsAuthentic : "N/A"
+Tree Authenticity Submitted: <b>${
+      newVerification.treeIsAuthentic ? "REAL" : "FAKE"
     }</b>
+Final Tree Authenticity: <b>${finalAuthenticity}</b>
     
 Additional Information: <b>${newVerification.additionalInfo || ""}</b>
 
