@@ -3,7 +3,7 @@ import { LangChainAdapter, Message as VercelChatMessage } from "ai";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 
-import { togetherAIModel as model } from "@/ai/utils/llm";
+import { openrouterChatModel as model } from "@/ai/utils/llm";
 import { vectorStore } from "@/ai/utils/vectore-store";
 import { answerPrompt, condenseQuestionPrompt } from "./_utils/prompts";
 import { combineDocumentsFn, formatVercelMessages } from "./_utils/helpers";
