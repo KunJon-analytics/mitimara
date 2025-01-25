@@ -1,5 +1,5 @@
 import { ChatOpenAI } from "@langchain/openai";
-import { TogetherAI } from "@langchain/community/llms/togetherai";
+// import { TogetherAI } from "@langchain/community/llms/togetherai";
 
 import { env } from "@/env.mjs";
 
@@ -61,13 +61,13 @@ export const SambaNovaCloudChatModel = new ChatOpenAI({
   },
 });
 
-export const togetherAIModel = new TogetherAI({
-  model: "meta-llama/Llama-3.2-3B-Instruct-Turbo",
-  temperature: 0.6,
-  streaming: true,
-  maxTokens: 512,
-  topP: 0.7,
-  topK: 50,
-  repetitionPenalty: 1,
-  stop: ["<|eot_id|>", "<|eom_id|>"],
-});
+// export const togetherAIModel = new TogetherAI({
+//   model: "meta-llama/Llama-3.2-3B-Instruct-Turbo",
+//   temperature: 0.6,
+//   streaming: true,
+//   maxTokens: 512,
+//   topP: 0.7,
+//   topK: 50,
+//   repetitionPenalty: 1,
+//   stop: ["<|eot_id|>", "<|eom_id|>"],
+// });
