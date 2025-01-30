@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTransition } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -22,14 +23,17 @@ import {
 } from "@/components/ui/card";
 import { LoadingAnimation } from "@/components/common/loading-animation";
 import { createBounty } from "@/actions/local-bounty/create-bounty";
+import useCurrentSession from "@/components/providers/session-provider";
 import { Separator } from "@/components/ui/separator";
 import useBountyForm from "./bounty-form-context";
 
 export function FormC() {
   const { formState, setFormStep } = useBountyForm();
+  const { session } = useCurrentSession();
 
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   // 1. Define your form.
   const form = useForm<CreateBountySchema>({
@@ -50,6 +54,7 @@ export function FormC() {
         if (result.success) {
           toast.success("Local Bounty Hunt created successfully");
           router.push(`/app/local-bounty/${result.localBountyId}`);
+          queryClient.invalidateQueries({ queryKey: ["profile", session.id] });
         } else {
           toast.error(result.error);
         }
