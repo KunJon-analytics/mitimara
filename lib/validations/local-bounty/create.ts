@@ -5,8 +5,9 @@ import { z } from "zod";
 // and start date is not later than today
 
 export const createDefaultValues = {
-  title: "Get green Ikeja",
-  description: "Ikeja must go green",
+  title: "Enter Contest Title",
+  description:
+    "Describe your bounty hunt contest here. Include details such as goals, rules, and rewards to attract participants.",
   radius: 0.5,
   startDate: new Date(),
   endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)), // Default to one month from now
