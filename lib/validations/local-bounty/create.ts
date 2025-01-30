@@ -31,9 +31,14 @@ export const createBountySchema = z
       message: "Total bounty must be at least 1 Pi token.",
     }),
     //min radius of 100m
-    radius: z.coerce.number().min(0.1, {
-      message: "Radius must be at least 0.1 km.",
-    }),
+    radius: z.coerce
+      .number()
+      .min(0.1, {
+        message: "Radius must be at least 0.1 km.",
+      })
+      .max(1000, {
+        message: "Radius must be less than 1000 km.",
+      }),
 
     startDate: z.coerce.date().min(subDays(new Date(), 1), {
       message: "The past is not allowed",
@@ -63,9 +68,14 @@ export const formASchema = z.object({
   accessToken: z.string().min(1),
   centerLatitude: z.coerce.number().min(-90).max(90),
   centerLongitude: z.coerce.number().min(-180).max(180),
-  radius: z.coerce.number().min(0.1, {
-    message: "Radius must be at least 0.1 km.",
-  }),
+  radius: z.coerce
+    .number()
+    .min(0.1, {
+      message: "Radius must be at least 0.1 km.",
+    })
+    .max(1000, {
+      message: "Radius must be less than 1000 km.",
+    }),
 });
 
 export const formBSchema = z
