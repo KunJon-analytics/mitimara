@@ -30,3 +30,6 @@ add/delete evidence  => revalidate tree tag and nearby tree
 
 // for reward claiming u find all the unclaimed trees / verifications with no report
 // and then u show the eligible rewards (those after cooldown time for example)
+
+
+// give creator points back after they pay for the event (double points for good behavior)

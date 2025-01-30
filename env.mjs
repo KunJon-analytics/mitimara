@@ -13,6 +13,7 @@ export const env = createEnv({
     PI_PLATFORM_API_URL: z.string().url(),
     PI_EXPLORER_LINK: z.string().url(),
     PI_API_KEY: z.string().min(1),
+    PI_SECRET_KEY: z.string().min(1),
 
     // TELEGRAM
     TELEGRAM_BOT_TOKEN: z.string().min(1),
@@ -41,8 +42,8 @@ export const env = createEnv({
     PINECONE_API_KEY: z.string().min(1),
     PINECONE_INDEX: z.string().min(1),
 
-    // SAMBANOVA
-    // SAMBANOVA_API_KEY: z.string().min(1),
+    // LOCATIONIQ
+    LOCATIONIQ_ACCESS_TOKEN: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
@@ -75,6 +76,7 @@ export const env = createEnv({
     PI_API_KEY: process.env.PI_API_KEY,
     PI_EXPLORER_LINK: process.env.PI_EXPLORER_LINK,
     NEXT_PUBLIC_PINET_URL: process.env.NEXT_PUBLIC_PINET_URL,
+    PI_SECRET_KEY: process.env.PI_SECRET_KEY,
 
     // FILESTACK
     NEXT_PUBLIC_FILESTACK_API_KEY: process.env.NEXT_PUBLIC_FILESTACK_API_KEY,
@@ -100,7 +102,7 @@ export const env = createEnv({
     PINECONE_API_KEY: process.env.PINECONE_API_KEY,
     PINECONE_INDEX: process.env.PINECONE_INDEX,
 
-    //SAMBANOVA
-    // SAMBANOVA_API_KEY: process.env.PINECONE_INDEX,
+    //LOCATIONIQ
+    LOCATIONIQ_ACCESS_TOKEN: process.env.LOCATIONIQ_ACCESS_TOKEN,
   },
 });

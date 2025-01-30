@@ -1,5 +1,6 @@
 import { env } from "@/env.mjs";
 import {
+  LocalBountyLogicConfig,
   SiteConfig,
   SubscriptionConfig,
   TreeLogicConfig,
@@ -34,8 +35,13 @@ export const treeLogicConfig: TreeLogicConfig = {
   maxVerifierDistance: 2,
   minPlanterPoints: 5,
   minVerifierPoints: 3,
-  planterRewardFactor: 3,
+  planterRewardFactor: 6,
   verifierRewardFactor: 2,
+};
+
+export const localBountyLogicConfig: LocalBountyLogicConfig = {
+  minCreatorPoints: 5,
+  tax: 10 / 100,
 };
 
 export const MAX_FILE_SIZE = 1 * 1024 * 1024;

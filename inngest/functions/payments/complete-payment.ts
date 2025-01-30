@@ -46,13 +46,21 @@ export const completePayment = inngest.createFunction(
     }
 
     if (completedPayment.type === "SUBSCRIBE") {
-      // for subscription payment update user points and update pots
-      // just send userId (payment purposeId) and amount
-      await step.sendEvent("finsih-subscription-payment", {
-        name: "payments/subscription-finished",
+      // for subscription payment just update pots since updating
+      // user points ia already done (critical event)
+
+      await step.sendEvent("update-pots-balance", {
+        name: "pots/balance-updated",
+        data: { amount: completedPayment.amount },
+      });
+    }
+
+    if (completedPayment.type === "LOCAL_BOUNTY") {
+      await step.sendEvent("finish-bounty-deposit", {
+        name: "payments/bounty-deposited",
         data: {
-          amount: completedPayment.amount,
-          userId: completedPayment.purposeId,
+          paymentId,
+          localHuntId: completedPayment.purposeId,
         },
       });
     }
@@ -69,7 +77,7 @@ export const completePayment = inngest.createFunction(
 Thank you for your ${type}!
 `;
 
-    await step.sendEvent("send-updated-tree-info-notification", {
+    await step.sendEvent("send-complete-payment-notification", {
       name: "notifications/telegram.post",
       data: { message, type: "BROADCAST" },
     });

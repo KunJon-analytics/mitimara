@@ -38,13 +38,26 @@ export async function submitVerification(params: unknown) {
       return { success: false, error: "Unauthorized" };
     }
 
-    const selectedTree = await prisma.tree.update({
+    const correctTree = await prisma.tree.findUnique({
       where: {
         id: treeId,
         status: { in: ["LISTED", "VERIFYING"] },
-        code,
         planterId: { not: user.id },
         verifications: { none: { verifierId: user.id } },
+      },
+      select: { code: true, id: true },
+    });
+
+    if (
+      !correctTree ||
+      !correctTree.code.toLowerCase().endsWith(code.toLowerCase())
+    ) {
+      return { success: false, error: "Wrong Tree Code" };
+    }
+
+    const selectedTree = await prisma.tree.update({
+      where: {
+        id: correctTree.id,
       },
       data: { status: "VERIFYING" },
       select: {

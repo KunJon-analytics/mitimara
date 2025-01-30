@@ -3,8 +3,9 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { PaymentDTO, PaymentDTOMemo } from "@/types/pi";
 import platformAPIClient from "@/lib/pi/platform-api-client";
-import { inngest } from "@/inngest/client";
 import { verifyPaymentCompletion } from "./utils";
+import { verifyPaymentApproval } from "../approve/utils";
+import { completeCriticalTasks } from "./complete-critical-tasks";
 
 export async function POST(req: Request) {
   try {
@@ -41,6 +42,17 @@ export async function POST(req: Request) {
       return new NextResponse("Wrong payment status", { status: 400 });
     }
 
+    const {
+      amount,
+      metadata: { purpose: purposeId, type },
+    } = currentPayment.data;
+
+    const isApproved = await verifyPaymentApproval({ type, amount, purposeId });
+
+    if (!isApproved) {
+      return new NextResponse("UnApproved Payment", { status: 400 });
+    }
+
     const isVerified = await verifyPaymentCompletion({
       dbPayment: payment,
       txURL: currentPayment.data.transaction?._link as string,
@@ -58,14 +70,10 @@ export async function POST(req: Request) {
     await prisma.payment.update({
       where: { paymentId },
       data: { txId: txid, status: "COMPLETED" },
+      select: { status: true },
     });
 
-    await inngest.send({
-      name: "payments/payment-completed",
-      data: {
-        paymentId,
-      },
-    });
+    await completeCriticalTasks({ paymentId, purposeId, type });
 
     return new NextResponse(`Completed the payment ${paymentId}`, {
       status: 200,

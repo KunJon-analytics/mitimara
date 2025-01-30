@@ -33,7 +33,12 @@ export const treeVerificationCompleted = inngest.createFunction(
             id: verifiedTree.id,
             status: "VERIFIED",
           },
-          select: { id: true, isAuthentic: true, planterId: true },
+          select: {
+            id: true,
+            isAuthentic: true,
+            planterId: true,
+            localBountyId: true,
+          },
           data: {
             status: "PLANTERS_PAID",
           },
@@ -42,9 +47,29 @@ export const treeVerificationCompleted = inngest.createFunction(
     );
 
     // pay planter
-    // add planter points x2 if tree is authentic
+    // add planter points x2 if tree is authentic and
+    // add reward if tree is bounty tree
     if (planterPaidTree.isAuthentic) {
-      await step.run("add-planter-ponts", async () => {
+      await step.run("add-planter-points-and-bounty-reward", async () => {
+        const bountyRewards =
+          planterPaidTree.localBountyId === null
+            ? undefined
+            : {
+                upsert: {
+                  create: {
+                    localBountyId: planterPaidTree.localBountyId,
+                    treesPlanted: 1,
+                  },
+                  update: { treesPlanted: { increment: 1 } },
+                  where: {
+                    bountyRewardId: {
+                      userId: planterPaidTree.planterId,
+                      localBountyId: planterPaidTree.localBountyId,
+                    },
+                  },
+                },
+              };
+
         return prisma.user.update({
           where: {
             id: planterPaidTree.planterId,
@@ -56,6 +81,7 @@ export const treeVerificationCompleted = inngest.createFunction(
                 treeLogicConfig.minPlanterPoints *
                 treeLogicConfig.planterRewardFactor,
             },
+            bountyRewards,
           },
         });
       });
@@ -70,7 +96,7 @@ export const treeVerificationCompleted = inngest.createFunction(
             id: planterPaidTree.id,
             status: "PLANTERS_PAID",
           },
-          select: { isAuthentic: true, id: true },
+          select: { isAuthentic: true, id: true, localBountyId: true },
           data: {
             status: "VERIFIERS_PAID",
           },
@@ -81,25 +107,53 @@ export const treeVerificationCompleted = inngest.createFunction(
     // then pay verifier
     // and verifier with same authenticity x2 points
 
-    await step.run("add-verifiers-points", async () => {
-      return prisma.user.updateMany({
-        where: {
-          treeVerifications: {
-            some: {
-              treeId: verifiersPaidtree.id,
-              treeIsAuthentic: verifiersPaidtree.isAuthentic,
+    const increasedVerifiers = await step.run(
+      "add-verifiers-points",
+      async () => {
+        return prisma.user.updateManyAndReturn({
+          where: {
+            treeVerifications: {
+              some: {
+                treeId: verifiersPaidtree.id,
+                treeIsAuthentic: verifiersPaidtree.isAuthentic,
+              },
             },
           },
-        },
-        data: {
-          points: {
-            increment:
-              treeLogicConfig.minVerifierPoints *
-              treeLogicConfig.verifierRewardFactor,
+          data: {
+            points: {
+              increment:
+                treeLogicConfig.minVerifierPoints *
+                treeLogicConfig.verifierRewardFactor,
+            },
           },
-        },
-      });
-    });
+          select: { id: true },
+        });
+      }
+    );
+
+    //if verierspaidtree has local bounty upsert rewards
+    if (verifiersPaidtree.localBountyId !== null) {
+      for (let index = 0; index < increasedVerifiers.length; index++) {
+        const verifier = increasedVerifiers[index];
+        await step.run(`increase-verifier-reward-${verifier.id}`, async () => {
+          return await prisma.participantReward.upsert({
+            create: {
+              treesVerified: 1,
+              userId: verifier.id,
+              localBountyId: verifiersPaidtree.localBountyId!,
+            },
+            update: { treesVerified: { increment: 1 } },
+            where: {
+              bountyRewardId: {
+                userId: verifier.id,
+                localBountyId: verifiersPaidtree.localBountyId!,
+              },
+            },
+            select: { id: true },
+          });
+        });
+      }
+    }
 
     // CHANGE TREE STATUS TO MATURED
     const maturedTree = await step.run(

@@ -8,6 +8,7 @@ import useCurrentLocation from "@/components/providers/location-provider";
 import { MapModal } from "./map-modal";
 import { AdditionalInfoModal } from "./additional-info-modal";
 import VerifyTreeInfo from "./verify-tree-info";
+import GeneralInfoModal from "../../local-bounty/[bountyId]/_components/general-info-modal";
 
 type TreeModalContainerProps = {
   nearbyTree: NearbyTreeReturnType;
@@ -43,6 +44,9 @@ const TreeModalContainer = ({
       )}
       <AdditionalInfoModal nearbyTree={nearbyTree} />
       <VerifyTreeInfo />
+      {nearbyTree?.localBounty && (
+        <GeneralInfoModal localHunt={nearbyTree.localBounty} />
+      )}
     </div>
   );
 };

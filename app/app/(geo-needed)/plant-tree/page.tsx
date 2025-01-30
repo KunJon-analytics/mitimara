@@ -2,7 +2,7 @@ import PlantTreeForm from "./_components/plant-tree-form";
 import TreeLocationContainer from "./_components/tree-location-container";
 import PlantTreeInfo from "./_components/plant-tree-info";
 
-export default async function PlantTree() {
+export default function PlantTree() {
   return (
     <div className="flex flex-col items-center space-y-4 p-4 -mt-2">
       <div className="flex justify-between items-center">

@@ -40,6 +40,7 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
           treeId={tree.id}
           treeStatus={tree.status}
           treeIsAuthentic={tree.isAuthentic}
+          localBounty={tree.localBounty}
         />
 
         <Card>

@@ -51,6 +51,14 @@ export function UserNav() {
           <DropdownMenuItem asChild>
             <Link href={`/app/referrals`}>Referrals</Link>
           </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`/app/my-trees`}>My Trees</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`/app/local-bounty/creator/${session.id}`}>
+              My Bounty Hunts
+            </Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

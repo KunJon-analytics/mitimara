@@ -70,6 +70,7 @@ import {
   Webhook,
   Youtube,
   Zap,
+  Pi,
 } from "lucide-react";
 import type { LucideIcon, LucideProps } from "lucide-react";
 
@@ -85,6 +86,7 @@ export const Icons = {
   route: Route,
   link: Link,
   siren: Siren,
+  pi: Pi,
   "panel-top": PanelTop,
   table: Table,
   "toy-brick": ToyBrick,

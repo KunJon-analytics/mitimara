@@ -20,8 +20,10 @@ import {
   verificationNotStartedStatus,
 } from "@/lib/tree/constants";
 import { Icons } from "@/components/common/icons";
+import { BountyHuntModalParam } from "@/lib/validations/local-bounty/service";
 import { AdditionalInfo } from "./additional-info";
 import { EvidenceModal } from "./evidence-modal";
+import GeneralInfoModal from "@/app/app/(geo-needed)/local-bounty/[bountyId]/_components/general-info-modal";
 
 type Security = { policy: string; signature: string };
 
@@ -40,6 +42,7 @@ interface TreeInfoCardProps {
   evidences: Evidence[];
   security: Security;
   treeIsAuthentic: boolean;
+  localBounty: BountyHuntModalParam | null;
 }
 
 export default function TreeInfoCard({
@@ -48,6 +51,7 @@ export default function TreeInfoCard({
   datePlanted,
   treeStatus,
   additionalInfo,
+  localBounty,
   evidences,
   security,
   treeIsAuthentic,
@@ -65,9 +69,12 @@ export default function TreeInfoCard({
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">
-          Tree #{" "}
-          <span className="text-sm text-primary">{treeId.slice(-6)}...</span>
+        <CardTitle className="text-2xl font-bold flex items-center">
+          <p>
+            Tree #{" "}
+            <span className="text-sm text-primary">{treeId.slice(-6)}...</span>
+          </p>
+          {localBounty && <GeneralInfoModal localHunt={localBounty} />}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

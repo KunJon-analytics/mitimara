@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       metadata: { purpose: purposeId, type },
     } = currentPayment.data;
 
-    const isVerified = verifyPaymentApproval(type, amount);
+    const isVerified = await verifyPaymentApproval({ type, amount, purposeId });
 
     if (!isVerified) {
       return new NextResponse("Unverified Payment", { status: 400 });

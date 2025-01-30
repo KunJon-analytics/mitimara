@@ -25,3 +25,8 @@ export type TreeLogicConfig = {
   planterRewardFactor: number;
   verifierRewardFactor: number;
 };
+
+export type LocalBountyLogicConfig = {
+  minCreatorPoints: number;
+  tax: number;
+};

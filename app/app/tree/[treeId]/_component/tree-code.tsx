@@ -21,7 +21,9 @@ const TreeCode = ({ treeId }: TreeCodeProps) => {
     <Alert>
       <TreePine className="h-4 w-4" />
       <AlertTitle>Tree Code!</AlertTitle>
-      <AlertDescription className="text-primary">{data.code}</AlertDescription>
+      <AlertDescription className="text-primary">
+        {data.code.slice(-6)}
+      </AlertDescription>
     </Alert>
   );
 };

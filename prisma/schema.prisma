@@ -32,6 +32,8 @@ model User {
   // Relationships
   plantedTrees      Tree[]
   treeVerifications TreeVerification[]
+  createdBounties   LocalBounty[]       @relation("CreatedBounties")
+  bountyRewards     ParticipantReward[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -54,6 +56,8 @@ model Tree {
 
   mediaEvidence Media[]
   verifications TreeVerification[]
+  localBounty   LocalBounty?       @relation(fields: [localBountyId], references: [id])
+  localBountyId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -116,6 +120,57 @@ model Payment {
   updatedAt DateTime @updatedAt
 }
 
+model LocalBounty {
+  id            String  @id @default(cuid())
+  title         String
+  /// Additional information about the bounty to help participants
+  description   String?
+  /// total Pi tokens offered
+  totalBounty   Float
+  /// total Pi tokens claimed
+  bountyClaimed Float   @default(0)
+
+  /// tree planting distance from center allowed in kilometers
+  radius          Float
+  centerLatitude  Float
+  centerLongitude Float
+  /// Bounty address gotten from  reverse coding center using Geolocation API 
+  location        String?
+
+  startDate DateTime
+  endDate   DateTime
+
+  /// Payment PaymentId (only added when payment completed)
+  paymentId String?
+
+  creatorId String
+  creator   User   @relation("CreatedBounties", fields: [creatorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  trees              Tree[]
+  participantRewards ParticipantReward[]
+}
+
+model ParticipantReward {
+  id String @id @default(cuid())
+
+  localBountyId String
+  localBounty   LocalBounty @relation(fields: [localBountyId], references: [id])
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+
+  treesPlanted  Int     @default(0) // Number of trees planted
+  treesVerified Int     @default(0) // Number of trees verified
+  isClaimed     Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique(name: "bountyRewardId", [localBountyId, userId])
+}
+
 enum MediaType {
   IMAGE
   VIDEO
@@ -124,6 +179,8 @@ enum MediaType {
 enum PiTransactionType {
   DONATE
   SUBSCRIBE
+  LOCAL_BOUNTY
+  CLAIM_REWARD
 }
 
 enum PiTransactionStatus {
@@ -140,4 +197,9 @@ enum TreeStatus {
   PLANTERS_PAID
   VERIFIERS_PAID
   MATURED
+}
+
+enum RewardType {
+  PLANTER
+  VERIFIER
 }

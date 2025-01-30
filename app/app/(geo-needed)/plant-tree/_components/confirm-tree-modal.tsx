@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingAnimation } from "@/components/common/loading-animation";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import {
   Credenza,
   CredenzaBody,
@@ -14,8 +14,9 @@ import {
   CredenzaTrigger,
 } from "@/components/ui/credenza";
 import { siteConfig, treeLogicConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
 
-type ConfirmTreeModalProps = {
+type ConfirmTreeModalProps = ButtonProps & {
   handleConfirm(): Promise<void>;
   isPending: boolean;
 };
@@ -30,11 +31,15 @@ const notifications = [
 const ConfirmTreeModal = ({
   handleConfirm,
   isPending,
+  className,
+  ...props
 }: ConfirmTreeModalProps) => {
   return (
     <Credenza>
       <CredenzaTrigger asChild>
-        <Button className="w-full sm:w-auto">Confirm Tree Location</Button>
+        <Button className={cn("w-full sm:w-auto", className)} {...props}>
+          Confirm Tree Location
+        </Button>
       </CredenzaTrigger>
       <CredenzaContent>
         <CredenzaHeader>

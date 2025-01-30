@@ -8,6 +8,15 @@ export const getUserprofile = async (userId: string) => {
       _count: { select: { plantedTrees: true, treeVerifications: true } },
       noOfReferrals: true,
       points: true,
+      bountyRewards: {
+        where: { isClaimed: false },
+        select: {
+          id: true,
+          treesPlanted: true,
+          treesVerified: true,
+          localBounty: { select: { title: true } },
+        },
+      },
     },
   });
 

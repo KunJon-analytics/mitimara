@@ -8,6 +8,9 @@ export const getTGPaymentType = (type: $Enums.PiTransactionType) => {
     case "SUBSCRIBE":
       return "Subscription";
 
+    case "LOCAL_BOUNTY":
+      return "Local Bounty Hunt Deposit";
+
     default:
       return "Donation";
   }

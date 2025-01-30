@@ -8,6 +8,14 @@ export const profileSchema = z
       plantedTrees: z.number(),
       treeVerifications: z.number(),
     }),
+    bountyRewards: z
+      .object({
+        id: z.string(),
+        treesPlanted: z.number(),
+        treesVerified: z.number(),
+        localBounty: z.object({ title: z.string() }),
+      })
+      .array(),
     security: z.object({
       policy: z.string(),
       signature: z.string(),

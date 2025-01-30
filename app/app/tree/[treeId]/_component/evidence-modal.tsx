@@ -62,13 +62,18 @@ export function EvidenceModal({
   const alertPlanter = evidences?.length < 1 && isAuthorized;
 
   useEffect(() => {
+    let toastId: string | number;
     if (alertPlanter) {
-      toast.info("Add media evidence to list tree for verification", {
+      toastId = toast.info("Add media evidence to list tree for verification", {
         icon: <ImageIcon />,
         position: "top-right",
       });
       setIsOpen(true);
     }
+
+    return () => {
+      toast.dismiss(toastId);
+    };
   }, [alertPlanter]);
 
   return (

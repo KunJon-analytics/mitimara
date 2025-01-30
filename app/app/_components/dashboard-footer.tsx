@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Trees, CheckSquare, User } from "lucide-react";
+import { Home, Trees, CheckSquare, Target } from "lucide-react";
 
 const navItems = [
   { href: "/app", Icon: Home, label: "Home" },
   { href: "/app/plant-tree", Icon: Trees, label: "Plant" },
   { href: "/app/verify-tree", Icon: CheckSquare, label: "Verify" },
-  { href: "/app/my-trees", Icon: User, label: "My Trees" },
+  { href: "/app/local-bounty", Icon: Target, label: "Hunts" },
 ];
 
 const DashboardFooter = () => {

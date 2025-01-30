@@ -7,6 +7,7 @@ import { createTreeSchema } from "@/lib/validations/tree";
 import { treeLogicConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
 import { isValidAccessToken } from "@/lib/pi/platform-api-client";
+import { isWithinEvent } from "@/lib/local-bounty/utils";
 
 export async function createTree(params: unknown) {
   const validatedFields = createTreeSchema.safeParse(params);
@@ -15,7 +16,8 @@ export async function createTree(params: unknown) {
     return { error: "Invalid params!", success: false };
   }
 
-  const { accessToken, latitude, longitude } = validatedFields.data;
+  const { accessToken, latitude, longitude, localBountyId } =
+    validatedFields.data;
 
   const validToken = await isValidAccessToken(accessToken);
   if (!validToken) {
@@ -32,6 +34,31 @@ export async function createTree(params: unknown) {
       return { error: "Unauthorized!", success: false };
     }
 
+    if (!!localBountyId) {
+      const now = new Date();
+      const localBounty = await prisma.localBounty.findUnique({
+        where: {
+          id: localBountyId,
+          paymentId: { not: null },
+          startDate: { lte: now },
+          endDate: { gte: now },
+        },
+        select: { centerLatitude: true, centerLongitude: true, radius: true },
+      });
+      if (
+        !localBounty ||
+        !isWithinEvent({
+          eventLat: localBounty.centerLatitude,
+          eventLng: localBounty.centerLongitude,
+          eventRadius: localBounty.radius,
+          userLat: latitude,
+          userLng: longitude,
+        }).withinEvent
+      ) {
+        return { error: "Unauthorized!", success: false };
+      }
+    }
+
     const treePlanter = await prisma.user.update({
       where: { id: user.id },
       data: {
@@ -41,6 +68,7 @@ export async function createTree(params: unknown) {
             latitude,
             longitude,
             status: "PLANTED",
+            localBountyId,
           },
         },
       },

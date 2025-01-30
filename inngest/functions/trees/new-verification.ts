@@ -1,4 +1,4 @@
-import { siteConfig, treeLogicConfig } from "@/config/site";
+import { siteConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/prisma";
 import { isTreeVerficationEnded } from "@/lib/tree/utils";
