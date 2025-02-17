@@ -65,15 +65,15 @@ export const appToUserPayment = inngest.createFunction(
       return { message: "Transaction was not completed!!!" };
     }
 
+    const txLink = `${env.PI_EXPLORER_LINK}/tx/${transaction.txid}`;
+
     const message = `<b>🎉 Reward Sent! 🎉</b>
 
 We are excited to announce that a reward of <b>${amount.toFixed(
       2
     )}</b> Pi has been successfully sent out!
 
-Check the transaction details on Pi Explorer: <a href="${
-      transaction._link
-    }">View Transaction</a>
+Check the transaction details on Pi Explorer: <a href="${txLink}">View Transaction</a>
 
 Thank you for being a valued member of the MitiMara community!
     `;

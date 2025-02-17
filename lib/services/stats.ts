@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import prisma from "../prisma";
 import { getActiveBountyContests } from "./bounty-hunt";
 
@@ -26,7 +27,11 @@ export const getAnnouncement = async (): Promise<string> => {
       )}), Bounty: π${contest.totalBounty.toFixed(2)}!`
   );
 
-  return `🌳 Bounty Hunt Contest is Live! Join now, create contests, and win Pi tokens! 🎉 | ${
+  return `${
+    env.NEXT_PUBLIC_TESTNET_REWARD
+      ? "🌳 Support MitiMara! 🌳 Help us get listed in the Pi Network ecosystem apps! We need testnet Pi payments from 10+ unique wallets. Please donate or subscribe using your wallet to support our mission for a greener future. 🌍💚 | "
+      : ""
+  }🌳 Bounty Hunt Contest is Live! Join now, create contests, and win Pi tokens! 🎉 | ${
     contestAnnouncements.length > 0 ? "Active Bounty Hunts:" : ""
   } ${contestAnnouncements.join(" | ")}`;
 };
