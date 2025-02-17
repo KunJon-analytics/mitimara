@@ -12,6 +12,10 @@ import LoginModal from "@/components/auth/login-modal";
 export function LoginButton({ className, ...props }: ButtonProps) {
   const { session } = useCurrentSession();
   const pathname = usePathname();
+  const redirect =
+    pathname.startsWith("/app") || pathname === "/revenue-pots"
+      ? undefined
+      : "/app";
 
   if (session.isLoggedIn) {
     return (
@@ -21,11 +25,5 @@ export function LoginButton({ className, ...props }: ButtonProps) {
     );
   }
 
-  return (
-    <LoginModal
-      redirect={pathname.startsWith("/app") ? undefined : "/app"}
-      className={className}
-      {...props}
-    />
-  );
+  return <LoginModal redirect={redirect} className={className} {...props} />;
 }

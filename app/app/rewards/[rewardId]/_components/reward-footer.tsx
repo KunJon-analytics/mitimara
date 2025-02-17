@@ -2,12 +2,12 @@
 
 import { AlertCircle, CheckCircle } from "lucide-react";
 import axios from "axios";
+import { useTransition } from "react";
+import { toast } from "sonner";
 
 import useCurrentSession from "@/components/providers/session-provider";
 import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
-import { useTransition } from "react";
-import { toast } from "sonner";
 import { LoadingAnimation } from "@/components/common/loading-animation";
 
 type RewardFooterProps = {
@@ -37,7 +37,9 @@ const RewardFooter = ({
         );
 
         if (response.data.success) {
-          toast.success("Local Bounty Hunt deleted successfully");
+          toast.success(
+            "Pi rewards will arrive in your wallet soon (check wallet in 2 minutes)"
+          );
           // revalidate queries
           // Handle successful creation (e.g., show success message, redirect)
         } else {

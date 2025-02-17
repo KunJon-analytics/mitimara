@@ -2,6 +2,7 @@ import { Inngest, EventSchemas } from "inngest";
 
 import { TelegramEventType } from "@/lib/notifications/telegram";
 import { siteConfig } from "@/config/site";
+import { $Enums } from "@prisma/client";
 
 type UserCreated = {
   data: {
@@ -18,6 +19,16 @@ type EvidenceAdded = {
 type TreePlanted = {
   data: {
     treeId: string;
+  };
+};
+
+type AppToUser = {
+  data: {
+    memo: string;
+    amount: number;
+    purpose: string;
+    uid: string;
+    type: $Enums.PiTransactionType;
   };
 };
 
@@ -59,6 +70,13 @@ type HuntBountyDeposited = {
   };
 };
 
+type RewardTestnet = {
+  data: {
+    purpose: string;
+    uid: string;
+  };
+};
+
 type Events = {
   "notifications/telegram.post": TelegramEvent;
   "auth/user.created": UserCreated;
@@ -66,11 +84,13 @@ type Events = {
   "tree/tree.planted": TreePlanted;
   "tree/info.updated": TreePlanted;
   "tree/verification.added": TreeVerified;
+  "payments/app-to-user": AppToUser;
   "tree/verification.completed": TreePlanted;
   "filestack/file.delete": DeleteFilestackFile;
   "payments/payment-completed": CompletedPayment;
   "pots/balance-updated": PaymentReceived;
   "payments/bounty-deposited": HuntBountyDeposited;
+  "payments/reward-testnet": RewardTestnet;
 };
 
 // Create a client to send and receive events

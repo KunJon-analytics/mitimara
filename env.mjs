@@ -59,6 +59,9 @@ export const env = createEnv({
 
     // SENTRY
     NEXT_PUBLIC_SENTRY_DSN: z.string().url(),
+
+    //TESTNET_REWARD
+    NEXT_PUBLIC_TESTNET_REWARD: z.coerce.boolean(),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -104,5 +107,8 @@ export const env = createEnv({
 
     //LOCATIONIQ
     LOCATIONIQ_ACCESS_TOKEN: process.env.LOCATIONIQ_ACCESS_TOKEN,
+
+    //TESTNET_REWARD
+    NEXT_PUBLIC_TESTNET_REWARD: process.env.NEXT_PUBLIC_TESTNET_REWARD,
   },
 });

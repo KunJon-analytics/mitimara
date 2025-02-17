@@ -12,6 +12,10 @@ import { completePayment } from "@/inngest/functions/payments/complete-payment";
 import { updatePots } from "@/inngest/functions/pots/update-pots";
 import { treeVerificationCompleted } from "@/inngest/functions/trees/verification-completed";
 import { finishBountyDeposit } from "@/inngest/functions/payments/finish-bounty-deposit";
+import { appToUserPayment } from "@/inngest/functions/payments/app-to-user";
+import { testnetReward } from "@/inngest/functions/payments/testnet-reward";
+
+export const maxDuration = 60;
 
 // Create an API that serves zero functions
 export const { GET, POST, PUT } = serve({
@@ -29,5 +33,7 @@ export const { GET, POST, PUT } = serve({
     updatePots,
     treeVerificationCompleted,
     finishBountyDeposit,
+    appToUserPayment,
+    testnetReward,
   ],
 });
