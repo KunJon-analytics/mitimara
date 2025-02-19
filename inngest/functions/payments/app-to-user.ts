@@ -3,10 +3,10 @@ import PiNetwork from "pi-backend";
 import { env } from "@/env.mjs";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/prisma";
-import { PaymentData, PaymentDTOMemo } from "@/types/pi";
+import { PaymentData, PaymentDTO, PaymentDTOMemo } from "@/types/pi";
 
 export const appToUserPayment = inngest.createFunction(
-  { id: "app-to-user-payment" },
+  { id: "app-to-user-payment", retries: 1 },
   { event: "payments/app-to-user" },
   async ({ event, step }) => {
     const { amount, memo, purpose, type, uid } = event.data;
@@ -27,7 +27,79 @@ export const appToUserPayment = inngest.createFunction(
     // It is critical that you store paymentId in your database
     // so that you don't double-pay the same user, by keeping track of the payment.
 
-    const paymentId = await step.run("create-payment", async () => {
+    // check if there is incomplete payment
+    const incompletePayments = await step.run("get-incomplete-payments", () => {
+      return pi.getIncompleteServerPayments() as unknown as {
+        incomplete_server_payments: PaymentDTO<PaymentDTOMemo>[];
+      };
+    });
+
+    // if there is get db payment
+    if (incompletePayments.incomplete_server_payments.length > 0) {
+      const incompletePayment =
+        incompletePayments.incomplete_server_payments[0];
+
+      await step.run("upsert-db-incomplete-payments", () => {
+        return prisma.payment.upsert({
+          where: { paymentId: incompletePayment.identifier },
+          create: {
+            paymentId: incompletePayment.identifier,
+            amount: incompletePayment.amount,
+            purposeId: incompletePayment.metadata.purpose,
+            type: incompletePayment.metadata.type,
+          },
+          update: {},
+          select: { status: true },
+        });
+      });
+      // submit and complete transaction if no transaction
+      if (incompletePayment.transaction === null) {
+        // It is strongly recommended that you store the txId along with the paymentId you stored earlier for your reference.
+        const txId = await step
+          .run("submit-incomplete-payment", async () => {
+            return pi.submitPayment(incompletePayment.identifier);
+          })
+          .catch((err) => {
+            console.log({ err });
+            step.run("cancel-incomplete-payment", async () => {
+              await pi.cancelPayment(incompletePayment.identifier);
+            });
+          });
+
+        if (txId) {
+          await step.run("update-db-incomplete-payment", async () => {
+            return prisma.payment.update({
+              where: { paymentId: incompletePayment.identifier },
+              data: { txId, status: "COMPLETED" },
+              select: { paymentId: true },
+            });
+          });
+
+          await step.run("complete-incomplete-payment", async () => {
+            return pi.completePayment(incompletePayment.identifier, txId);
+          });
+        }
+
+        // just complete transaction
+      } else {
+        await step.run("update-db-incomplete-payment", async () => {
+          return prisma.payment.update({
+            where: { paymentId: incompletePayment.identifier },
+            data: {
+              txId: incompletePayment.transaction?.txid,
+              status: "COMPLETED",
+            },
+            select: { paymentId: true },
+          });
+        });
+
+        await step.run("complete-incomplete-payment", async () => {
+          return pi.completePayment(incompletePayment.identifier, txId);
+        });
+      }
+    }
+
+    const paymentId = await step.run("create-payment", () => {
       return pi.createPayment(paymentData);
     });
 
