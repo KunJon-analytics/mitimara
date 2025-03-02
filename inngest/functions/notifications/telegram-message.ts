@@ -13,7 +13,7 @@ export const telegramMessage = inngest.createFunction(
     const { message, type } = event.data;
     const token = env.TELEGRAM_BOT_TOKEN;
     const chat_id =
-      env.NODE_ENV === "development"
+      env.NODE_ENV === "development" || env.PI_EXPLORER_LINK.includes("testnet")
         ? getTelegramChannel("DEV_MODE")
         : getTelegramChannel(type);
     const data = {

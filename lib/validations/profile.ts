@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { $Enums } from "@prisma/client";
 
 export const profileSchema = z
   .object({
@@ -23,6 +24,25 @@ export const profileSchema = z
   })
   .nullable();
 
+export const profileRewardsSchema = z
+  .object({
+    points: z.number(),
+    verifiedOrPlantedAuthTrees: z.boolean(),
+    hasPendingExchange: z.boolean(),
+    nextClaimDate: z.coerce.date(),
+
+    exchangeHistory: z
+      .object({
+        id: z.string(),
+        amount: z.number(),
+        updatedAt: z.coerce.date(),
+        status: z.nativeEnum($Enums.PointsExchangeStatus),
+      })
+      .array(),
+  })
+  .nullable();
+
 export type ProfileData = z.infer<typeof profileSchema>;
+export type ProfileRewardsData = z.infer<typeof profileRewardsSchema>;
 
 export const defaultProfile: ProfileData = null;

@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "build": "next build",
     "start": "next start",
     "ai": "tsx --env-file=.env ai/examples/index.ts",

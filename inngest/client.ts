@@ -77,6 +77,12 @@ type RewardTestnet = {
   };
 };
 
+type ExchangeCreated = {
+  data: {
+    id: string;
+  };
+};
+
 type Events = {
   "notifications/telegram.post": TelegramEvent;
   "auth/user.created": UserCreated;
@@ -91,6 +97,7 @@ type Events = {
   "pots/balance-updated": PaymentReceived;
   "payments/bounty-deposited": HuntBountyDeposited;
   "payments/reward-testnet": RewardTestnet;
+  "points/exchange.added": ExchangeCreated;
 };
 
 // Create a client to send and receive events

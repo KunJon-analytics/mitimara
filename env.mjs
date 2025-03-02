@@ -54,20 +54,21 @@ export const env = createEnv({
     // MAPTILER
     NEXT_PUBLIC_MAPTILER_TOKEN: z.string().min(1),
 
+    // TELEGRAM
+    NEXT_PUBLIC_TELEGRAM_GROUP: z.string().min(1),
+
     // FILESTACK
     NEXT_PUBLIC_FILESTACK_API_KEY: z.string().min(1),
 
     // SENTRY
     NEXT_PUBLIC_SENTRY_DSN: z.string().url(),
-
-    //TESTNET_REWARD
-    NEXT_PUBLIC_TESTNET_REWARD: z.coerce.boolean(),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
     TELEGRAM_PUBLIC_CHANNEL: process.env.TELEGRAM_PUBLIC_CHANNEL,
     TELEGRAM_PRIVATE_CHANNEL: process.env.TELEGRAM_PRIVATE_CHANNEL,
+    NEXT_PUBLIC_TELEGRAM_GROUP: process.env.NEXT_PUBLIC_TELEGRAM_GROUP,
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
 
@@ -107,8 +108,5 @@ export const env = createEnv({
 
     //LOCATIONIQ
     LOCATIONIQ_ACCESS_TOKEN: process.env.LOCATIONIQ_ACCESS_TOKEN,
-
-    //TESTNET_REWARD
-    NEXT_PUBLIC_TESTNET_REWARD: process.env.NEXT_PUBLIC_TESTNET_REWARD,
   },
 });

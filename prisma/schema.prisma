@@ -32,8 +32,9 @@ model User {
   // Relationships
   plantedTrees      Tree[]
   treeVerifications TreeVerification[]
-  createdBounties   LocalBounty[]       @relation("CreatedBounties")
+  createdBounties   LocalBounty[]         @relation("CreatedBounties")
   bountyRewards     ParticipantReward[]
+  pointsExchanges   PointsForPiExchange[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -171,6 +172,22 @@ model ParticipantReward {
   @@unique(name: "bountyRewardId", [localBountyId, userId])
 }
 
+model PointsForPiExchange {
+  id String @id @default(cuid())
+
+  amount       Float
+  pointsTraded Float
+  status       PointsExchangeStatus @default(INITIATED)
+  lastExchange DateTime
+  type         PointsExchangeType
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum MediaType {
   IMAGE
   VIDEO
@@ -181,6 +198,7 @@ enum PiTransactionType {
   SUBSCRIBE
   LOCAL_BOUNTY
   CLAIM_REWARD
+  POINTS_EXCHANGE
 }
 
 enum PiTransactionStatus {
@@ -202,4 +220,16 @@ enum TreeStatus {
 enum RewardType {
   PLANTER
   VERIFIER
+}
+
+enum PointsExchangeStatus {
+  INITIATED
+  VERIFIED
+  PAYMENT_CREATED
+  DENIED
+}
+
+enum PointsExchangeType {
+  PLANTER_VERIFIER
+  REFERRAL
 }

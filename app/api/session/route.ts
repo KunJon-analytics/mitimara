@@ -5,6 +5,7 @@ import { authResultSchema, defaultSession } from "@/lib/validations/session";
 import { isValidAccessToken } from "@/lib/pi/platform-api-client";
 import prisma from "@/lib/prisma";
 import { inngest } from "@/inngest/client";
+import { STARTER_POINTS } from "@/config/site";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -92,6 +93,7 @@ export async function POST(request: NextRequest) {
         uid: auth.user.uid,
         username: auth.user.username,
         referrer: auth.referral,
+        points: STARTER_POINTS,
       },
       select: { id: true, username: true },
     });

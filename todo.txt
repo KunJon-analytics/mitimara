@@ -46,6 +46,57 @@ add city bounty contest (planter must have more points than normal) to roadmap
 add roadmap page
 
 
+create report verification feature for planters of fake trees
+create biggest earners leaderboard
+remove testnet pi payment
+add env
+add prisma deploy to CI/CD pipeline
+
+create points exchange list (user list, and only initiated list) and detail page 
+    exchange point button should link to user list (on profile dropdown)
+
+    user list page should show exchange points modal button 
+        disabled when prechecks below are false
+        alert message of reason when button disabled
+        countdown to next claimmable
+        alert points needed to enable exchange points
+        alert pending exchange
+
+        modal alert user that all available points will be forfeited if foul play is spotted
+        for all planting / verification activities carried out between last claim / 
+        account created date and today
+
+    detail page should show all real trees planted or verified by user within stipulated time
+        show link to tree 
+        
+        
+
+
+
+
+for points exchange creation
+    pre-checks 
+        user must have above subscription points
+        there must be no pending points exchange
+        previous exchange / account must be at least a month old 
+        must have planted or verified a real tree within stipulated time
+
+    creation
+        create exchange coefficient func = planter or verifier pot balance / total user points
+        calculate claimmable pi amount (user points - 10) * exchange coefficient
+        get last claimed date (latest uesr exchange or created date )
+        set user points to 10
+
+
+    post-creation
+        send link of exchange to notif group
+        send a create payment event that will start in 24 hours if exchange is VERIFIED
+        mark exchange as PAYMENT_CREATED
+
+pre deploy
+    remove testnet from environment var
+    add pub telegram group to env
+
 // create donate page and link users to the page throughout the app (fix links apart)
 
 https://www.prisma.io/docs/orm/prisma-client/queries/filtering-and-sorting

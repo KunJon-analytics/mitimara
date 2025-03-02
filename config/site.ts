@@ -44,8 +44,15 @@ export const localBountyLogicConfig: LocalBountyLogicConfig = {
   tax: 10 / 100,
 };
 
+export const STARTER_POINTS = 10;
+
+export const REWARD_COOLDOWN_DAYS = 28;
+
 export const MAX_FILE_SIZE = 1 * 1024 * 1024;
 
 export const CUTOFF_VERIFICATIONS = Math.ceil(
   treeLogicConfig.maxNoOfTreeVerifications / 2
 );
+
+export const MIN_EXCHANGE_POINTS =
+  subscriptionConfig.userPointsPerPi + STARTER_POINTS;

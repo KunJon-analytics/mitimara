@@ -4,9 +4,6 @@ import { localBountyLogicConfig, subscriptionConfig } from "@/config/site";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/prisma";
 import { $Enums } from "@prisma/client";
-import { env } from "@/env.mjs";
-
-const TESTNETYPES = ["DONATE", "SUBSCRIBE"];
 
 type CompleteTasksParams = {
   paymentId: string;
@@ -54,20 +51,4 @@ export const completeCriticalTasks = async ({
       paymentId,
     },
   });
-
-  if (TESTNETYPES.includes(type) && env.NEXT_PUBLIC_TESTNET_REWARD) {
-    const user = await prisma.user.findUnique({
-      where: { id: purposeId },
-      select: { uid: true },
-    });
-    if (user) {
-      await inngest.send({
-        name: "payments/reward-testnet",
-        data: {
-          purpose: purposeId,
-          uid: user.uid,
-        },
-      });
-    }
-  }
 };

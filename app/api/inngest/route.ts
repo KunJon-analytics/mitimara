@@ -14,6 +14,7 @@ import { treeVerificationCompleted } from "@/inngest/functions/trees/verificatio
 import { finishBountyDeposit } from "@/inngest/functions/payments/finish-bounty-deposit";
 import { appToUserPayment } from "@/inngest/functions/payments/app-to-user";
 import { testnetReward } from "@/inngest/functions/payments/testnet-reward";
+import { exchangeCreated } from "@/inngest/functions/points/exchange-created";
 
 export const maxDuration = 60;
 
@@ -35,5 +36,6 @@ export const { GET, POST, PUT } = serve({
     finishBountyDeposit,
     appToUserPayment,
     testnetReward,
+    exchangeCreated,
   ],
 });

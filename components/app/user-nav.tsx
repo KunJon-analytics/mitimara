@@ -59,6 +59,9 @@ export function UserNav() {
               My Bounty Hunts
             </Link>
           </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`/app/exchange`}>Exchange Points</Link>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
