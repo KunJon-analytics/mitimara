@@ -12,7 +12,7 @@ const addPathToBaseURL = (path: string) => `${env.NEXT_PUBLIC_APP_URL}${path}`;
 export default function sitemap(): MetadataRoute.Sitemap {
   const blogs = getBlogPosts().map((post) => ({
     url: `${env.NEXT_PUBLIC_APP_URL}/blog/${post.slug}`,
-    lastModified: post.metadata.publishedAt, // date format should be YYYY-MM-DD
+    lastModified: post.metadata.publishedAt,
   }));
 
   const legalPosts = getLegalPosts().map((post) => ({
