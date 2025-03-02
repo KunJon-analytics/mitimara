@@ -66,7 +66,6 @@ export default function RootLayout({
                 <div vaul-drawer-wrapper="" className="bg-background">
                   {children}
 
-                  {/* Chat support component */}
                   {/* <ChatSupport /> */}
                 </div>
               </NuqsAdapter>
