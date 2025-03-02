@@ -14,6 +14,7 @@ export const env = createEnv({
     PI_EXPLORER_LINK: z.string().url(),
     PI_API_KEY: z.string().min(1),
     PI_SECRET_KEY: z.string().min(1),
+    PI_VALIDATION_KEY: z.string().min(1),
 
     // TELEGRAM
     TELEGRAM_BOT_TOKEN: z.string().min(1),
@@ -81,6 +82,7 @@ export const env = createEnv({
     PI_EXPLORER_LINK: process.env.PI_EXPLORER_LINK,
     NEXT_PUBLIC_PINET_URL: process.env.NEXT_PUBLIC_PINET_URL,
     PI_SECRET_KEY: process.env.PI_SECRET_KEY,
+    PI_VALIDATION_KEY: process.env.PI_VALIDATION_KEY,
 
     // FILESTACK
     NEXT_PUBLIC_FILESTACK_API_KEY: process.env.NEXT_PUBLIC_FILESTACK_API_KEY,
