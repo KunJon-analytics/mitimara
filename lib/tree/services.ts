@@ -57,7 +57,7 @@ export const findNearbyTree = async (
 
 export async function getTree(id: string) {
   const tree = await prisma.tree.findUnique({
-    where: { id },
+    where: { id, archivedAt: null },
     select: {
       localBounty: {
         select: {
@@ -83,6 +83,7 @@ export async function getTree(id: string) {
       mediaEvidence: { select: { id: true, type: true, url: true } },
       latitude: true,
       longitude: true,
+      report: { select: { id: true } },
       verifications: {
         select: {
           id: true,
@@ -101,11 +102,24 @@ export async function getTreesAwaitingVerification(userId: string) {
   return await prisma.tree.findMany({
     where: {
       planterId: userId,
-      status: { in: verificationNotStartedStatus },
+      archivedAt: null,
+      OR: [
+        { status: { in: verificationNotStartedStatus } },
+        {
+          status: "MATURED",
+          isAuthentic: false,
+        },
+      ],
     },
-    select: { id: true, latitude: true, longitude: true, createdAt: true },
+    select: {
+      id: true,
+      latitude: true,
+      longitude: true,
+      createdAt: true,
+      status: true,
+    },
     orderBy: {
-      createdAt: "desc",
+      updatedAt: "desc",
     },
   });
 }

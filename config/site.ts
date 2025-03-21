@@ -46,6 +46,12 @@ export const localBountyLogicConfig: LocalBountyLogicConfig = {
 
 export const STARTER_POINTS = 10;
 
+export const MONTHS_BEFORE_TREES_ARCHIVE = 3;
+
+export const MIN_POLICING_POINTS = 1;
+
+export const POLICING_REWARDS = 2 * MIN_POLICING_POINTS;
+
 export const REWARD_COOLDOWN_DAYS = 28;
 
 export const MAX_FILE_SIZE = 1 * 1024 * 1024;

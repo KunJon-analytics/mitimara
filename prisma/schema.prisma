@@ -21,13 +21,15 @@ model User {
   accessToken String
   uid         String @unique
 
-  isActive      Boolean @default(true)
+  isActive       Boolean @default(true)
   /// points accrued for active ecosystem participation / bought
-  points        Float   @default(10)
+  points         Float   @default(10)
   /// username of user's referrer
-  referrer      String?
+  referrer       String?
   /// no of users referred
-  noOfReferrals Int     @default(0)
+  noOfReferrals  Int     @default(0)
+  /// no of users referred
+  policingPoints Int     @default(1)
 
   // Relationships
   plantedTrees      Tree[]
@@ -35,6 +37,7 @@ model User {
   createdBounties   LocalBounty[]         @relation("CreatedBounties")
   bountyRewards     ParticipantReward[]
   pointsExchanges   PointsForPiExchange[]
+  treeReports       TreeReport[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,9 +62,11 @@ model Tree {
   verifications TreeVerification[]
   localBounty   LocalBounty?       @relation(fields: [localBountyId], references: [id])
   localBountyId String?
+  report        TreeReport?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  archivedAt DateTime?
 }
 
 model TreeVerification {
@@ -81,6 +86,23 @@ model TreeVerification {
   updatedAt DateTime @updatedAt
 
   @@unique([treeId, verifierId])
+}
+
+model TreeReport {
+  id       String           @id @default(cuid())
+  /// extra information (including links) to help with report
+  report   String
+  status   TreeReportStatus @default(PENDING)
+  /// username of resolver
+  resolver String?
+
+  tree       Tree   @relation(fields: [treeId], references: [id])
+  treeId     String @unique
+  reporter   User   @relation(fields: [reporterId], references: [id])
+  reporterId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Media {
@@ -188,6 +210,19 @@ model PointsForPiExchange {
   updatedAt DateTime @updatedAt
 }
 
+model AdminLogAction {
+  id     String @id @default(cuid())
+  /// username of admin that took action
+  admin  String
+  /// reason for action (additional info)
+  reason String
+  /// dynamic action done e.g action for reward user: `${input.action}_${input.amount}_${input.pointType}_points_from_${userId}`
+  action String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum MediaType {
   IMAGE
   VIDEO
@@ -232,4 +267,10 @@ enum PointsExchangeStatus {
 enum PointsExchangeType {
   PLANTER_VERIFIER
   REFERRAL
+}
+
+enum TreeReportStatus {
+  PENDING
+  AGREED
+  DECLINED
 }

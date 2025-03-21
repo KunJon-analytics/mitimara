@@ -29,7 +29,7 @@ export const getSiteStats = async () => {
   try {
     const [users, trees, treeVerifications] = await prisma.$transaction([
       prisma.user.count(),
-      prisma.tree.count(),
+      prisma.tree.count({ where: { archivedAt: null } }),
       prisma.treeVerification.count(),
     ]);
     return { users, trees, treeVerifications };

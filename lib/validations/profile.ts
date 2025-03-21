@@ -4,6 +4,7 @@ import { $Enums } from "@prisma/client";
 export const profileSchema = z
   .object({
     points: z.number(),
+    policingPoints: z.number(),
     noOfReferrals: z.number(),
     _count: z.object({
       plantedTrees: z.number(),

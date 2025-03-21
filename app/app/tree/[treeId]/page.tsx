@@ -32,6 +32,7 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
 
       <div className="grid md:grid-cols-2 gap-6">
         <TreeInfoCard
+          report={tree.report}
           additionalInfo={tree.additionalInfo ?? ""}
           datePlanted={tree.createdAt}
           evidences={tree.mediaEvidence}

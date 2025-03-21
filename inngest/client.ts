@@ -83,6 +83,21 @@ type ExchangeCreated = {
   };
 };
 
+type TreeReported = {
+  data: {
+    treeId: string;
+    report: string;
+    reporterId: string;
+  };
+};
+
+type ReportResolved = {
+  data: {
+    reportId: string;
+    notes: string;
+  };
+};
+
 type Events = {
   "notifications/telegram.post": TelegramEvent;
   "auth/user.created": UserCreated;
@@ -98,6 +113,8 @@ type Events = {
   "payments/bounty-deposited": HuntBountyDeposited;
   "payments/reward-testnet": RewardTestnet;
   "points/exchange.added": ExchangeCreated;
+  "tree/tree.reported": TreeReported;
+  "tree/report.resolved": ReportResolved;
 };
 
 // Create a client to send and receive events

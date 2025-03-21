@@ -101,3 +101,55 @@ pre deploy
 
 https://www.prisma.io/docs/orm/prisma-client/queries/filtering-and-sorting
 
+user trees should show unverified trees and unarchived fake trees (done)
+
+archive fake/unverified trees older than 3 months (done)
+
+create admin page to reward/penalize user with points (policing/ecosystem) (done)
+
+add tree evidences and report tree link for real tree notification (done).
+
+add report tree modal to fake mature tree detail page when planter logged in (done)
+
+add resolve tree port modal button for tree with pending report for admin (done)
+
+test new functions
+
+create new blog articles and hyperlink them and train ai
+
+open pull request for pi app licence github
+
+message anthony for pull and community policing chat (ready to move to fireside/chat if api)
+
+Tree Report:
+    - There can be max 1 report for a MATURE tree (creation)
+    - report requires text explaining reason for report (include link if available)
+    - needs id, related tree, reporter, status (PENDING, AGREED, DECLINED), resolver
+    - status only changed during resolve by admin
+    
+    
+    Real Tree: 
+        Only created by non planter and non verifier with 1+ policing points
+        subtracts policing point (1)
+        sends report link to team group (can be changed to private policing group)
+
+
+    Fake Tree:
+    - created by only planter with 1+ planter/verifier point
+    - subtracts point (1)
+    - sends report link to team group (can be changed to private policing group)
+    
+    Resolution:
+    - only admin can for PENDING report
+    - DECLINED report of REAL tree requires no further action
+    - DECLINED report of FAKE tree 
+        - archive tree
+    - AGREED report of FAKE tree (reported by planter)
+        - add planter points for planter
+        - add verifier points for verifier with treeIsAuthentic = true 
+        - subtract (verifier points + penalty) for verifiers with treeIsAuthentic = false 
+    - AGREED report of REAL tree (reported by non participating user)
+        - add policing point (1 * 2) for reporter 
+        - subtract planter points
+        - add verifier points for verifier with treeIsAuthentic = false 
+        - subtract (verifier points + penalty) for verifiers with treeIsAuthentic = true 

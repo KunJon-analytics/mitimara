@@ -2,7 +2,10 @@
 
 import { Calendar, Info, MapPin } from "lucide-react";
 import Link from "next/link";
+import { formatDistanceToNow } from "date-fns";
+import { Terminal } from "lucide-react";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import useCurrentSession from "@/components/providers/session-provider";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,19 +17,31 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import useMyTrees from "@/hooks/queries/use-my-trees";
-import { formatDistanceToNow } from "date-fns";
 
-const MyUnverifiedTrees = () => {
+type MyTreesProps = { filter: "unverified" | "fake" };
+
+const MyTrees = ({ filter }: MyTreesProps) => {
   const { session } = useCurrentSession();
   const { data: trees } = useMyTrees(session.id);
 
   if (!trees || trees.length === 0) {
-    return <p>You haven{"'"}t planted any trees that need verification yet.</p>;
+    return <NoTrees filter={filter} />;
+  }
+
+  const displayedTrees = trees.filter((tree) => {
+    if (filter === "fake") {
+      return tree.status === "MATURED";
+    }
+    return tree.status !== "MATURED";
+  });
+
+  if (displayedTrees.length === 0) {
+    return <NoTrees filter={filter} />;
   }
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {trees.map((tree) => (
+      {displayedTrees.map((tree) => (
         <Card key={tree.id}>
           <CardHeader>
             <CardTitle>Tree #{tree.id.slice(-6)}</CardTitle>
@@ -62,4 +77,16 @@ const MyUnverifiedTrees = () => {
   );
 };
 
-export default MyUnverifiedTrees;
+const NoTrees = ({ filter }: MyTreesProps) => {
+  return (
+    <Alert>
+      <Terminal className="h-4 w-4" />
+      <AlertTitle>Heads up!</AlertTitle>
+      <AlertDescription>
+        You have no {filter} trees that need your action.
+      </AlertDescription>
+    </Alert>
+  );
+};
+
+export default MyTrees;

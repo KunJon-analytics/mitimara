@@ -1,7 +1,8 @@
 import { addDays, isAfter } from "date-fns";
+
+import { REWARD_COOLDOWN_DAYS } from "@/config/site";
 import prisma from "../prisma";
 import { getSecurityPolicy } from "./filestack-policy";
-import { REWARD_COOLDOWN_DAYS } from "@/config/site";
 
 export const getUserprofile = async (userId: string) => {
   const user = await prisma.user.findUnique({
@@ -10,6 +11,7 @@ export const getUserprofile = async (userId: string) => {
       _count: { select: { plantedTrees: true, treeVerifications: true } },
       noOfReferrals: true,
       points: true,
+      policingPoints: true,
       bountyRewards: {
         where: { isClaimed: false },
         select: {

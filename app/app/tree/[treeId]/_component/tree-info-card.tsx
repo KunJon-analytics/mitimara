@@ -24,6 +24,7 @@ import { BountyHuntModalParam } from "@/lib/validations/local-bounty/service";
 import { AdditionalInfo } from "./additional-info";
 import { EvidenceModal } from "./evidence-modal";
 import GeneralInfoModal from "@/app/app/(geo-needed)/local-bounty/[bountyId]/_components/general-info-modal";
+import PlanterReportTreeLink from "./planter-report-tree-link";
 
 type Security = { policy: string; signature: string };
 
@@ -39,6 +40,7 @@ interface TreeInfoCardProps {
   datePlanted: Date;
   treeStatus: $Enums.TreeStatus;
   additionalInfo: string;
+  report: { id: string } | null;
   evidences: Evidence[];
   security: Security;
   treeIsAuthentic: boolean;
@@ -55,6 +57,7 @@ export default function TreeInfoCard({
   evidences,
   security,
   treeIsAuthentic,
+  report,
 }: TreeInfoCardProps) {
   const verifStarted = !verificationNotStartedStatus.includes(treeStatus);
   const verifEnded = isTreeVerficationEnded(treeStatus);
@@ -98,6 +101,13 @@ export default function TreeInfoCard({
             {treeVerification}
           </Badge>
         </div>
+        <PlanterReportTreeLink
+          isAuthentic={treeIsAuthentic}
+          planterId={planter.id}
+          treeId={treeId}
+          treeStage={treeStatus}
+          report={report}
+        />
         <AdditionalInfo
           verificationStarted={verifStarted}
           initialInfo={additionalInfo}

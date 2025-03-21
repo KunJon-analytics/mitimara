@@ -117,3 +117,44 @@ export type VerifyTreeFormState = {
   additionalInfo: string;
   code: string;
 };
+
+export const treeReportFormSchema = z.object({
+  report: z
+    .string()
+    .min(20, {
+      message: "Report must be at least 20 characters",
+    })
+    .max(1000, {
+      message: "Report must not exceed 1000 characters",
+    }),
+  accessToken: z.string().min(1, {
+    message: "User is not authenticated",
+  }),
+  treeId: z.string().min(1, {
+    message: "User is not authenticated",
+  }),
+});
+
+export type TreeReportFormSchema = z.infer<typeof treeReportFormSchema>;
+
+export const resolutionFormSchema = z.object({
+  resolution: z.enum(["AGREED", "DECLINED"], {
+    required_error: "You must select a resolution",
+  }),
+  notes: z
+    .string()
+    .min(10, {
+      message: "Notes must be at least 10 characters",
+    })
+    .max(500, {
+      message: "Notes must not exceed 500 characters",
+    }),
+  reportId: z.string().min(1, {
+    message: "There must be a report ID",
+  }),
+  accessToken: z.string().min(1, {
+    message: "You must be logged in",
+  }),
+});
+
+export type ResolutionFormValues = z.infer<typeof resolutionFormSchema>;
