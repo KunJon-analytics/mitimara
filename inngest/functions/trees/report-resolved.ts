@@ -1,10 +1,7 @@
-import {
-  MIN_POLICING_POINTS,
-  POLICING_REWARDS,
-  treeLogicConfig,
-} from "@/config/site";
+import { POLICING_REWARDS, treeLogicConfig } from "@/config/site";
 import { env } from "@/env.mjs";
 import { inngest } from "@/inngest/client";
+import { resolveUserPoints } from "@/inngest/utils/update-verfier-points";
 import prisma from "@/lib/prisma";
 
 export const reportResolvedEvent = inngest.createFunction(
@@ -78,35 +75,11 @@ export const reportResolvedEvent = inngest.createFunction(
       // Add planter points for planter and policing point
       // and localbounty planter reward
       await step.run("increase-planter-ecosystem-policing-points", async () => {
-        const bountyRewards =
-          tree.localBountyId === null
-            ? undefined
-            : {
-                upsert: {
-                  create: {
-                    localBountyId: tree.localBountyId,
-                    treesPlanted: 1,
-                  },
-                  update: { treesPlanted: { increment: 1 } },
-                  where: {
-                    bountyRewardId: {
-                      userId: tree.planterId,
-                      localBountyId: tree.localBountyId,
-                    },
-                  },
-                },
-              };
-
-        return prisma.user.update({
-          where: { id: tree.planterId },
-          select: { points: true, policingPoints: true },
-          data: {
-            points: {
-              increment: planterRewards, // Adjust the point value as needed
-            },
-            policingPoints: { increment: MIN_POLICING_POINTS },
-            bountyRewards,
-          },
+        return resolveUserPoints({
+          action: "increment",
+          localBountyId: tree.localBountyId,
+          userId: tree.planterId,
+          userIsPlanter: true,
         });
       });
 
@@ -118,35 +91,11 @@ export const reportResolvedEvent = inngest.createFunction(
           await step.run(
             `increase-authentic-verifier-points-${verification.verifierId}`,
             async () => {
-              const bountyRewards =
-                tree.localBountyId === null
-                  ? undefined
-                  : {
-                      upsert: {
-                        create: {
-                          localBountyId: tree.localBountyId,
-                          treesVerified: 1,
-                        },
-                        update: { treesVerified: { increment: 1 } },
-                        where: {
-                          bountyRewardId: {
-                            userId: verification.verifierId,
-                            localBountyId: tree.localBountyId,
-                          },
-                        },
-                      },
-                    };
-              return await prisma.user.update({
-                where: { id: verification.verifierId },
-                select: { points: true, policingPoints: true },
-                data: {
-                  points: {
-                    increment:
-                      treeLogicConfig.minVerifierPoints *
-                      treeLogicConfig.verifierRewardFactor, // Adjust the point value as needed
-                  },
-                  bountyRewards,
-                },
+              return resolveUserPoints({
+                action: "increment",
+                localBountyId: tree.localBountyId,
+                userId: verification.verifierId,
+                userIsPlanter: false,
               });
             }
           );
@@ -156,30 +105,11 @@ export const reportResolvedEvent = inngest.createFunction(
           await step.run(
             `decrease-fake-verifier-points-${verification.verifierId}`,
             async () => {
-              const bountyRewards = tree.localBountyId
-                ? {
-                    update: {
-                      data: { treesVerified: { decrement: 1 } },
-                      where: {
-                        bountyRewardId: {
-                          userId: verification.verifierId,
-                          localBountyId: tree.localBountyId,
-                        },
-                      },
-                    },
-                  }
-                : undefined;
-              return await prisma.user.update({
-                where: { id: verification.verifierId },
-                select: { points: true, policingPoints: true },
-                data: {
-                  points: {
-                    decrement:
-                      treeLogicConfig.minVerifierPoints *
-                      treeLogicConfig.verifierRewardFactor, // 5 points + 3 penalty (adjust as needed)
-                  },
-                  bountyRewards,
-                },
+              return resolveUserPoints({
+                action: "decrement",
+                localBountyId: tree.localBountyId,
+                userId: verification.verifierId,
+                userIsPlanter: false,
               });
             }
           );
@@ -215,27 +145,11 @@ export const reportResolvedEvent = inngest.createFunction(
 
       // Subtract planter points
       await step.run("decrease-planter-ecosystem-points", async () => {
-        const bountyRewards = tree.localBountyId
-          ? {
-              update: {
-                data: { treesPlanted: { decrement: 1 } },
-                where: {
-                  bountyRewardId: {
-                    userId: tree.planterId,
-                    localBountyId: tree.localBountyId,
-                  },
-                },
-              },
-            }
-          : undefined;
-        return prisma.user.update({
-          where: { id: tree.planterId },
-          data: {
-            points: {
-              decrement: planterRewards, // Adjust the point value as needed
-            },
-            bountyRewards,
-          },
+        return resolveUserPoints({
+          action: "decrement",
+          localBountyId: tree.localBountyId,
+          userId: tree.planterId,
+          userIsPlanter: true,
         });
       });
 
@@ -246,35 +160,11 @@ export const reportResolvedEvent = inngest.createFunction(
           await step.run(
             `increase-verifier-ecosystem-points-${verification.verifierId}`,
             async () => {
-              const bountyRewards =
-                tree.localBountyId === null
-                  ? undefined
-                  : {
-                      upsert: {
-                        create: {
-                          localBountyId: tree.localBountyId,
-                          treesVerified: 1,
-                        },
-                        update: { treesVerified: { increment: 1 } },
-                        where: {
-                          bountyRewardId: {
-                            userId: verification.verifierId,
-                            localBountyId: tree.localBountyId,
-                          },
-                        },
-                      },
-                    };
-              return prisma.user.update({
-                where: { id: verification.verifierId },
-                select: { points: true, policingPoints: true },
-                data: {
-                  points: {
-                    increment:
-                      treeLogicConfig.minVerifierPoints *
-                      treeLogicConfig.verifierRewardFactor, // Adjust the point value as needed
-                  },
-                  bountyRewards,
-                },
+              return resolveUserPoints({
+                action: "increment",
+                localBountyId: tree.localBountyId,
+                userId: verification.verifierId,
+                userIsPlanter: false,
               });
             }
           );
@@ -283,30 +173,11 @@ export const reportResolvedEvent = inngest.createFunction(
           await step.run(
             `decrease-verifier-ecosystem-points-${verification.verifierId}`,
             async () => {
-              const bountyRewards = tree.localBountyId
-                ? {
-                    update: {
-                      data: { treesVerified: { decrement: 1 } },
-                      where: {
-                        bountyRewardId: {
-                          userId: verification.verifierId,
-                          localBountyId: tree.localBountyId,
-                        },
-                      },
-                    },
-                  }
-                : undefined;
-              return prisma.user.update({
-                where: { id: verification.verifierId },
-                select: { points: true, policingPoints: true },
-                data: {
-                  points: {
-                    decrement:
-                      treeLogicConfig.minVerifierPoints *
-                      treeLogicConfig.verifierRewardFactor, // 5 points + 3 penalty (adjust as needed)
-                  },
-                  bountyRewards,
-                },
+              return resolveUserPoints({
+                action: "decrement",
+                localBountyId: tree.localBountyId,
+                userId: verification.verifierId,
+                userIsPlanter: false,
               });
             }
           );
