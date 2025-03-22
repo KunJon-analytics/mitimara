@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 const ContentContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <article className="mx-auto max-w-xl px-6 py-20">
+    <article className="mx-auto max-w-sm sm:max-w-xl px-6 py-20">
       <div className="">
         <div
           className={cn(
