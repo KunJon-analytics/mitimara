@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import prisma from "../prisma";
 import { getActiveBountyContests } from "./bounty-hunt";
 import { treeRewardPot } from "../pots/constants";
@@ -53,4 +54,31 @@ export const getAnnouncement = async (): Promise<string> => {
   return `🌳 Bounty Hunt Contest is Live! Join now, create contests, and win Pi tokens! 🎉 | ${
     contestAnnouncements.length > 0 ? "Active Bounty Hunts:" : ""
   } ${contestAnnouncements.join(" | ")}`;
+};
+
+const mainnetAnnouncements = [
+  "🌱 MitiMara is now LIVE on mainnet! Plant trees, earn Pi, change the world. Learn more →",
+  "🌍 Want to earn Pi while helping the planet? MitiMara is now on mainnet! Discover how →",
+  "🚀 Just launched: Turn tree planting into real rewards with MitiMara on mainnet! See how it works →",
+  "🌳 Join pioneers already planting trees and earning Pi on MitiMara — now live on mainnet! Learn more →",
+  "🔥 Breaking: MitiMara launches on mainnet! Be among the first to plant, verify, and earn. Explore now →",
+];
+
+const introAnnouncements = [
+  "🌱 MitiMara is now LIVE! Plant trees, earn Pi, change the world. Learn more →",
+  "🌍 Want to earn Pi while helping the planet? Discover MitiMara today! Learn how →",
+  "🚀 Just launched: Turn tree planting into real rewards with MitiMara! See how it works →",
+  "🌳 Join the movement! Plant trees, earn rewards, build community with MitiMara. Learn more →",
+  "🔥 Introducing MitiMara: The tree-planting platform that rewards your environmental impact. Explore now →",
+];
+
+export const getIntroAnnouncement = () => {
+  const selectedAnnouncement = env.NEXT_PUBLIC_PINET_URL.includes("testnet")
+    ? introAnnouncements
+    : mainnetAnnouncements;
+  const randomElement =
+    selectedAnnouncement[
+      Math.floor(Math.random() * selectedAnnouncement.length)
+    ];
+  return randomElement;
 };
