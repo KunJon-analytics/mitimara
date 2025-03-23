@@ -6,4 +6,4 @@ export const namespace = "mitimura-testnet";
 
 export const directoryPath = "content";
 
-export const deployedSiteUrl = "https://mitimara.vercel.app/";
+export const deployedSiteUrl = "https://mitimara.com/";

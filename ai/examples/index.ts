@@ -4,7 +4,7 @@ import { retrieveAnswer } from "./retrieval-answer";
 
 async function main() {
   // await storeDocs(deployedSiteUrl);
-  await retrieveAnswer("How Can I Earn Pi tokens with MitiMara");
+  await retrieveAnswer("How does mitimara ensure trees are really planted");
 }
 
 main()

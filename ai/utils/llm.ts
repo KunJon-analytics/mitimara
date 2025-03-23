@@ -26,12 +26,15 @@ const cheapModels = {
   // act like a baby, talks cheap and still more expensive
   // than metallama323 on deepinfra
   gemma: "google/gemma-2-9b-it:free",
+  deepseekr1: "deepseek/deepseek-r1:free",
+  mistralsmall: "mistralai/mistral-small-3.1-24b-instruct:free",
+  deepseekchat: "deepseek/deepseek-chat:free",
 } as const;
 
 /**
  * Model used for RAG.
  */
-export const activeModelName = cheapModels.metallama323;
+export const activeModelName = cheapModels.deepseekchat;
 
 export const openrouterChatModel = new ChatOpenAI(
   {

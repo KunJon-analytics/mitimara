@@ -29,8 +29,8 @@ export default function ChatSupport() {
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
-      maxSteps: 1,
-      experimental_throttle: 50,
+      // experimental_throttle: 50,
+      api: "/api/ai-chat",
       onResponse(response) {
         if (response) {
           console.log(response);
@@ -69,10 +69,6 @@ export default function ChatSupport() {
       onSubmit(e as unknown as React.FormEvent<HTMLFormElement>);
     }
   };
-
-  if (process.env.NODE_ENV !== "development") {
-    return null;
-  }
 
   return (
     <ExpandableChat
