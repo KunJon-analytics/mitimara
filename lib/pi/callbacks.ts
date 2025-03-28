@@ -23,7 +23,7 @@ const onReadyForServerApproval = (paymentId: string) => {
 const onReadyForServerCompletion = (paymentId: string, txid: string) => {
   console.log("onReadyForServerCompletion", paymentId, txid);
   axiosClient.post(`/payments/complete`, { paymentId, txid }, axiosConfig);
-  toast.success("Thanks for your donation");
+  toast.success("Payment successfully completed");
 };
 
 const onCancel = (paymentId: string) => {

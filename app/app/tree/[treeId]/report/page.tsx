@@ -6,7 +6,7 @@ import { TreeReportContent } from "./_components/tree-report-content";
 
 type Params = Promise<{ id: string }>;
 
-export default function TreeReportPage(props: { params: Params }) {
+export default async function TreeReportPage(props: { params: Params }) {
   return (
     <div className="container mx-auto p-4 space-y-6">
       <h1 className="text-2xl font-bold">Report Tree</h1>

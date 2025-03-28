@@ -10,7 +10,7 @@ import { SlidingBannerSkeleton } from "@/components/marketing/home/sliding-banne
 
 export const revalidate = 3600;
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="grid gap-12">
       <div className="w-full mx-auto mb-8">

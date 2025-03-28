@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { CheckCircle, XCircle } from "lucide-react";
+import Link from "next/link";
 
 import {
   Card,
@@ -11,7 +12,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { getTreeForReport } from "../service";
 import ReportFormContainer from "./report-form-container";
-import Link from "next/link";
 
 type Params = Promise<{ id: string }>;
 
