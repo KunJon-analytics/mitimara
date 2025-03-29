@@ -13,10 +13,10 @@ import { Badge } from "@/components/ui/badge";
 import { getTreeForReport } from "../service";
 import ReportFormContainer from "./report-form-container";
 
-type Params = Promise<{ id: string }>;
+type Params = Promise<{ treeId: string }>;
 
 export async function TreeReportContent({ params }: { params: Params }) {
-  const treeId = (await params).id;
+  const treeId = (await params).treeId;
 
   const tree = await getTreeForReport(treeId);
 

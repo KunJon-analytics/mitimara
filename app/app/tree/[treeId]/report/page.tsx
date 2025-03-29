@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TreeReportContent } from "./_components/tree-report-content";
 
-type Params = Promise<{ id: string }>;
+type Params = Promise<{ treeId: string }>;
 
 export default async function TreeReportPage(props: { params: Params }) {
   return (
