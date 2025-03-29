@@ -26,7 +26,7 @@ export async function TreeReportContent({ params }: { params: Params }) {
 
   return (
     <div className="space-y-6">
-      <Card>
+      <Card className="mb-16">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Tree #{tree.id.slice(-6)}</span>

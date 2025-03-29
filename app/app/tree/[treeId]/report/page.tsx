@@ -8,7 +8,7 @@ type Params = Promise<{ treeId: string }>;
 
 export default async function TreeReportPage(props: { params: Params }) {
   return (
-    <div className="container mx-auto p-4 space-y-6 mb-116">
+    <div className="container mx-auto p-4 space-y-6">
       <h1 className="text-2xl font-bold">Report Tree</h1>
       <Suspense fallback={<TreeReportSkeleton />}>
         <TreeReportContent params={props.params} />
