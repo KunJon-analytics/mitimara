@@ -84,7 +84,7 @@ export function TreeReportForm({
 
   return (
     <div className="space-y-4">
-      <div className="p-4 border rounded-md bg-yellow-50">
+      <div className="p-4 border rounded-md bg-background">
         <p className="font-medium">Important Information</p>
         <ul className="list-disc list-inside text-sm mt-2 space-y-1">
           <li>
