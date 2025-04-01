@@ -35,7 +35,7 @@ export function RewardItem({
           </div>
         </div>
         <Link
-          href={`/app/rewards/${id}`}
+          href={`/app/rewards/bounty-contest/${id}`}
           className="mt-2 text-sm text-blue-500 hover:underline block"
         >
           View Details

@@ -34,7 +34,7 @@ export function ExchangePointsModal({ disabled }: { disabled: boolean }) {
 
         if (response.success) {
           toast.success("You will receive your Pi rewards in 24-48 hours.");
-          router.push(`/app/exchange/${response.exchangeId}`);
+          router.push(`/app/exchange/ecosystem/${response.exchangeId}`);
         } else {
           toast.error(response.error);
         }

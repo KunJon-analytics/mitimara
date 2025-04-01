@@ -1,15 +1,11 @@
-import { Suspense } from "react";
-
-import { RewardsList } from "./_components/rewards-list";
-import { RewardsListSkeleton } from "./_components/reward-list-skeleton";
+import RewardLinks from "./_components/reward-links";
 
 export default function RewardsPage() {
   return (
-    <div className="container mx-auto p-4 space-y-6">
-      <h1 className="text-2xl font-bold">Unclaimed Rewards</h1>
-      <Suspense fallback={<RewardsListSkeleton />}>
-        <RewardsList />
-      </Suspense>
+    <div className="space-y-4 sm:space-y-6 mb-16">
+      <h1 className="text-3xl font-bold">Your Rewards</h1>
+
+      <RewardLinks />
     </div>
   );
 }

@@ -70,7 +70,7 @@ export const exchangeCreated = inngest.createFunction(
     // send tg message for new exchange
     // send telegram message for exchange.
 
-    const exchangeLink = `${env.NEXT_PUBLIC_PINET_URL}/app/exchange/${exchange.id}`;
+    const exchangeLink = `${env.NEXT_PUBLIC_PINET_URL}/app/exchange/ecosystem/${exchange.id}`;
 
     const message = `<b>🚨 Exchange Notification 🚨</b>
 

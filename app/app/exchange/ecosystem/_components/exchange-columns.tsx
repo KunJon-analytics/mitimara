@@ -60,7 +60,7 @@ export const columns: ColumnDef<ExchangeData>[] = [
 
       return (
         <Button variant="ghost" asChild className="h-8 w-8 p-0">
-          <Link href={`/app/exchange/${item.id}`}>
+          <Link href={`/app/exchange/ecosystem/${item.id}`}>
             <span className="sr-only">View Details</span>
             <Eye />
           </Link>
