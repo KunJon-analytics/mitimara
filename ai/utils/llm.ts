@@ -26,6 +26,7 @@ const cheapModels = {
   // act like a baby, talks cheap and still more expensive
   // than metallama323 on deepinfra
   gemma: "google/gemma-2-9b-it:free",
+  gemini2: "google/gemini-2.0-flash-exp:free",
   deepseekr1: "deepseek/deepseek-r1:free",
   mistralsmall: "mistralai/mistral-small-3.1-24b-instruct:free",
   deepseekchat: "deepseek/deepseek-chat:free",
@@ -34,11 +35,15 @@ const cheapModels = {
 /**
  * Model used for RAG.
  */
-export const activeModelName = cheapModels.deepseekchat;
+export const ragModelName = cheapModels.deepseekchat;
+/**
+ * Model used for Recommendation agent.
+ */
+export const recommendationModel = cheapModels.gemini2;
 
 export const openrouterChatModel = new ChatOpenAI(
   {
-    modelName: activeModelName,
+    modelName: ragModelName,
     temperature: 0.6,
     streaming: true,
     openAIApiKey: env.OPENROUTER_API_KEY,

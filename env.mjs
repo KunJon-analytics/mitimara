@@ -45,6 +45,10 @@ export const env = createEnv({
 
     // LOCATIONIQ
     LOCATIONIQ_ACCESS_TOKEN: z.string().min(1),
+
+    // UNSPLASH
+    UNSPLASH_ACCESS_KEY: z.string().min(1),
+    UNSPLASH_SECRET_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
@@ -110,5 +114,9 @@ export const env = createEnv({
 
     //LOCATIONIQ
     LOCATIONIQ_ACCESS_TOKEN: process.env.LOCATIONIQ_ACCESS_TOKEN,
+
+    //UNSPLASH
+    UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
+    UNSPLASH_SECRET_KEY: process.env.UNSPLASH_SECRET_KEY,
   },
 });

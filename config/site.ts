@@ -54,6 +54,8 @@ export const POLICING_REWARDS = 2 * MIN_POLICING_POINTS;
 
 export const REWARD_COOLDOWN_DAYS = 28;
 
+export const TREE_RECOMMENDATION_COST = 2;
+
 export const MAX_FILE_SIZE = 1 * 1024 * 1024;
 
 export const CUTOFF_VERIFICATIONS = Math.ceil(

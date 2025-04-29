@@ -18,6 +18,7 @@ import { exchangeCreated } from "@/inngest/functions/points/exchange-created";
 import { archiveOutdatedTrees } from "@/inngest/functions/trees/archive-outdated-trees";
 import { treeReportedEvent } from "@/inngest/functions/trees/new-report";
 import { reportResolvedEvent } from "@/inngest/functions/trees/report-resolved";
+import { treeRecommendationRequested } from "@/inngest/functions/tree-recommendations/requested";
 
 export const maxDuration = 60;
 
@@ -43,5 +44,6 @@ export const { GET, POST, PUT } = serve({
     archiveOutdatedTrees,
     treeReportedEvent,
     reportResolvedEvent,
+    treeRecommendationRequested,
   ],
 });

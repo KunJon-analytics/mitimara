@@ -21,6 +21,19 @@ export const getUserprofile = async (userId: string) => {
           localBounty: { select: { title: true } },
         },
       },
+      treeRecommendations: {
+        select: {
+          commonName: true,
+          status: true,
+          id: true,
+          scientificName: true,
+          latitude: true,
+          longitude: true,
+          description: true,
+          error: true,
+        },
+        orderBy: { updatedAt: "desc" },
+      },
     },
   });
 

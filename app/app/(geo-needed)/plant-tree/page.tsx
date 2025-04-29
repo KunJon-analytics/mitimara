@@ -1,6 +1,7 @@
 import PlantTreeForm from "./_components/plant-tree-form";
 import TreeLocationContainer from "./_components/tree-location-container";
 import PlantTreeInfo from "./_components/plant-tree-info";
+import { TreeRecommendation } from "./_components/tree-recommendation";
 
 export default function PlantTree() {
   return (
@@ -8,6 +9,7 @@ export default function PlantTree() {
       <div className="flex justify-between items-center">
         <p className="font-bold">Plant Tree</p>
         <PlantTreeInfo />
+        <TreeRecommendation />
       </div>
 
       <TreeLocationContainer />

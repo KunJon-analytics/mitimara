@@ -98,6 +98,26 @@ type ReportResolved = {
   };
 };
 
+type TreeRecommendationRequested = {
+  data: {
+    latitude: number;
+    longitude: number;
+    requestId: string;
+  };
+};
+// type TreeRecommendationCompleted = {
+//   data: {
+//     requestId: string;
+//     treeId: string;
+//   };
+// };
+// type TreeRecommendationFailed = {
+//   data: {
+//     requestId: string;
+//     error: string;
+//   };
+// };
+
 type Events = {
   "notifications/telegram.post": TelegramEvent;
   "auth/user.created": UserCreated;
@@ -115,6 +135,9 @@ type Events = {
   "points/exchange.added": ExchangeCreated;
   "tree/tree.reported": TreeReported;
   "tree/report.resolved": ReportResolved;
+  "tree.recommendation.requested": TreeRecommendationRequested;
+  // "tree.recommendation.completed": TreeRecommendationCompleted;
+  // "tree.recommendation.failed": TreeRecommendationFailed;
 };
 
 // Create a client to send and receive events

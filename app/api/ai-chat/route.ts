@@ -1,9 +1,7 @@
 import { Message, streamText } from "ai";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 
 import { getContext } from "@/ai/utils/context";
-import { env } from "@/env.mjs";
-import { activeModelName } from "@/ai/utils/llm";
+import { ragModel } from "@/ai/utils/model";
 
 export async function POST(req: Request) {
   try {
@@ -13,10 +11,6 @@ export async function POST(req: Request) {
 
     // Get the last message
     const lastMessage = messages[messages.length - 1];
-
-    const openrouter = createOpenRouter({
-      apiKey: env.OPENROUTER_API_KEY,
-    });
 
     // Get the context from the last message
     const context = await getContext(lastMessage.content);
@@ -59,7 +53,7 @@ Your goal is to empower users with knowledge, inspire action, and ensure trust i
 
     // Ask OpenAI for a streaming chat completion given the prompt
     const response = streamText({
-      model: openrouter(activeModelName),
+      model: ragModel,
       messages: [
         ...prompt,
         ...messages.filter((message: Message) => message.role === "user"),

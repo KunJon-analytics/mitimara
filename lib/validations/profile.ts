@@ -18,6 +18,18 @@ export const profileSchema = z
         localBounty: z.object({ title: z.string() }),
       })
       .array(),
+    treeRecommendations: z
+      .object({
+        id: z.string(),
+        commonName: z.string().nullable(),
+        description: z.string().nullable(),
+        scientificName: z.string().nullable(),
+        error: z.string().nullable(),
+        latitude: z.number().min(-90).max(90),
+        longitude: z.number().min(-180).max(180),
+        status: z.nativeEnum($Enums.TreeRecommendationStatus),
+      })
+      .array(),
     security: z.object({
       policy: z.string(),
       signature: z.string(),

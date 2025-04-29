@@ -93,3 +93,5 @@ export interface PiCallbacks<T> {
   onCancel: (paymentId: string) => Promise<AxiosResponse<any, any>>;
   onError: (error: Error, payment?: PaymentDTO<T>) => void;
 }
+
+export type LocalNursery = { address: string; name: string; distance: string };

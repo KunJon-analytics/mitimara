@@ -49,7 +49,9 @@ export function UserNav() {
             <Link href={`/app/settings/appearance`}>Appearance</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href={`/app/referrals`}>Referrals</Link>
+            <Link href={`/app/my-recommendations`}>
+              My Tree Recommendations
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href={`/app/my-trees`}>My Trees</Link>

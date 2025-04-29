@@ -32,12 +32,13 @@ model User {
   policingPoints Int     @default(1)
 
   // Relationships
-  plantedTrees      Tree[]
-  treeVerifications TreeVerification[]
-  createdBounties   LocalBounty[]         @relation("CreatedBounties")
-  bountyRewards     ParticipantReward[]
-  pointsExchanges   PointsForPiExchange[]
-  treeReports       TreeReport[]
+  plantedTrees        Tree[]
+  treeVerifications   TreeVerification[]
+  createdBounties     LocalBounty[]         @relation("CreatedBounties")
+  bountyRewards       ParticipantReward[]
+  pointsExchanges     PointsForPiExchange[]
+  treeReports         TreeReport[]
+  treeRecommendations TreeRecommendation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -223,6 +224,58 @@ model AdminLogAction {
   updatedAt DateTime @updatedAt
 }
 
+model TreeRecommendation {
+  id        String                   @id @default(cuid())
+  requestId String                   @unique
+  status    TreeRecommendationStatus @default(PENDING)
+  userId    String
+  user      User                     @relation(fields: [userId], references: [id])
+
+  // Tree species information
+  commonName     String?
+  scientificName String?
+  description    String? @db.Text
+  imageUrl       String?
+
+  // Planting guidance
+  plantingSeason String?
+  plantingDepth  String?
+  spacing        String?
+
+  // Care instructions
+  wateringNeeds    String?
+  sunlightNeeds    String?
+  soilRequirements String?
+  growthRate       String?
+  matureHeight     String?
+  matureWidth      String?
+
+  // Location suitability
+  recommendedClimate String?
+  nativeToRegion     Boolean @default(false)
+  indigenousUses     String? @db.Text
+
+  // Environmental benefits
+  carbonSequestration String?
+  wildlifeValue       String?
+  otherBenefits       String? @db.Text
+
+  // Additional resources
+  plantingTutorialUrl String?
+  localNurseries      Json? // Stores array of nearby nurseries where this tree can be purchased
+
+  // Recommendation metadata
+  recommendationReason String?  @db.Text
+  recommendedAt        DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // Location data that generated this recommendation
+  latitude  Float
+  longitude Float
+
+  error String? @db.Text
+}
+
 enum MediaType {
   IMAGE
   VIDEO
@@ -273,4 +326,10 @@ enum TreeReportStatus {
   PENDING
   AGREED
   DECLINED
+}
+
+enum TreeRecommendationStatus {
+  PENDING
+  COMPLETED
+  FAILED
 }
