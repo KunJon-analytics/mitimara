@@ -27,7 +27,7 @@ import useCurrentSession from "../providers/session-provider";
 
 export default function ChatSupport() {
   const [isGenerating, setIsGenerating] = useState(false);
-  const { session } = useCurrentSession();
+  const { session, accessToken } = useCurrentSession();
 
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
     useChat({
@@ -60,7 +60,7 @@ export default function ChatSupport() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsGenerating(true);
-    handleSubmit(e);
+    handleSubmit(e, { body: { accessToken } });
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

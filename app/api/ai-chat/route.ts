@@ -2,13 +2,23 @@ import { Message, streamText } from "ai";
 
 import { getContext } from "@/ai/utils/context";
 import { ragModel } from "@/ai/utils/model";
+import { isValidAccessToken } from "@/lib/pi/platform-api-client";
+
+type RequestData = {
+  messages: Message[];
+  accessToken: string;
+};
 
 export async function POST(req: Request) {
+  const { messages, accessToken }: RequestData = await req.json();
+
+  const validToken = await isValidAccessToken(accessToken);
+  if (!validToken) {
+    console.error("Error ai assistant:", "Invalid Access Token");
+    throw new Error("Unauthorized");
+  }
+
   try {
-    const body = await req.json();
-
-    const messages: Message[] = body.messages ?? [];
-
     // Get the last message
     const lastMessage = messages[messages.length - 1];
 
