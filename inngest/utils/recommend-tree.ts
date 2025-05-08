@@ -58,6 +58,7 @@ export async function getClimateZone(latitude: number, longitude: number) {
       return climateZoneFallback(latitude);
     }
   } catch (error) {
+    console.error("Error fetching climate zone:", error);
     return climateZoneFallback(latitude);
   }
 }
