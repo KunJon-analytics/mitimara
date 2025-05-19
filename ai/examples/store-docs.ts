@@ -32,7 +32,8 @@ export async function storeDocs(siteUrl: string) {
   for (let i = 0; i < newDocuments.length; i += batchSize) {
     const batch = newDocuments.slice(i, i + batchSize);
     const result = await vectorStore.addDocuments(batch, { namespace });
-    console.log({ result });
+    const completed = i === 0 ? result.length : batchSize * i + result.length;
+    console.log({ total: newDocuments.length, completed });
   }
   console.log(
     `Finished Storing ${newDocuments.length} sub-documents in pinecone`
