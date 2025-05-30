@@ -50,7 +50,7 @@ type CompletedPayment = {
   };
 };
 
-type DeleteFilestackFile = {
+type DeleteCloudFile = {
   data: {
     fileHandle: string;
   };
@@ -127,7 +127,8 @@ type Events = {
   "tree/verification.added": TreeVerified;
   "payments/app-to-user": AppToUser;
   "tree/verification.completed": TreePlanted;
-  "filestack/file.delete": DeleteFilestackFile;
+  "filestack/file.delete": DeleteCloudFile;
+  "uploadthing/file.delete": DeleteCloudFile;
   "payments/payment-completed": CompletedPayment;
   "pots/balance-updated": PaymentReceived;
   "payments/bounty-deposited": HuntBountyDeposited;

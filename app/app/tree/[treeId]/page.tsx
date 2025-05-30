@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getTree } from "@/lib/tree/services";
-import { readPolicy } from "@/lib/services/filestack-policy";
 import { VerificationTable } from "./_component/verification-table";
 import TreeMap from "../../(geo-needed)/plant-tree/_components/tree-map";
 import TreeInfoCard from "./_component/tree-info-card";
@@ -22,7 +21,6 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
   const treeId = (await params).treeId;
 
   const tree = await getTree(treeId);
-  const security = readPolicy;
 
   if (!tree) notFound();
 
@@ -37,7 +35,6 @@ export default async function TreeDetail({ params }: TreeDetailPageParams) {
           datePlanted={tree.createdAt}
           evidences={tree.mediaEvidence}
           planter={tree.planter}
-          security={security}
           treeId={tree.id}
           treeStatus={tree.status}
           treeIsAuthentic={tree.isAuthentic}

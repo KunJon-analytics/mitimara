@@ -1,7 +1,5 @@
 "use client";
 
-import { type Security } from "filestack-js";
-
 import { NearbyTreeReturnType } from "@/lib/validations/tree";
 import { EvidenceModal } from "@/app/app/tree/[treeId]/_component/evidence-modal";
 import useCurrentLocation from "@/components/providers/location-provider";
@@ -12,13 +10,9 @@ import GeneralInfoModal from "../../local-bounty/[bountyId]/_components/general-
 
 type TreeModalContainerProps = {
   nearbyTree: NearbyTreeReturnType;
-  security: Security;
 };
 
-const TreeModalContainer = ({
-  nearbyTree,
-  security,
-}: TreeModalContainerProps) => {
+const TreeModalContainer = ({ nearbyTree }: TreeModalContainerProps) => {
   const {
     state: { latitude, longitude },
   } = useCurrentLocation();
@@ -39,7 +33,6 @@ const TreeModalContainer = ({
           planterId=""
           treeId={nearbyTree.id}
           verificationStarted
-          fileSecurity={security}
         />
       )}
       <AdditionalInfoModal nearbyTree={nearbyTree} />

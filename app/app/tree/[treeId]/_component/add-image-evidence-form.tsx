@@ -1,8 +1,5 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { PickerOverlay } from "filestack-react";
-import { type PickerResponse } from "filestack-js";
 import { toast } from "sonner";
 
 import {
@@ -11,63 +8,14 @@ import {
   CardHeader,
   CardFooter,
   CardTitle,
-  CardContent,
 } from "@/components/ui/card";
-import { env } from "@/env.mjs";
-import { Button } from "@/components/ui/button";
 import useCurrentSession from "@/components/providers/session-provider";
-import { addTreeEvidence } from "@/actions/tree/add-evidence";
-import { TreeEvidenceSchema } from "@/lib/validations/tree";
-import { LoadingAnimation } from "@/components/common/loading-animation";
-import useProfile from "@/hooks/queries/use-profile";
-import { MAX_FILE_SIZE } from "@/config/site";
+import { UploadButton } from "@/lib/uploadthing/client";
 
 type AddImageEvidenceFormProps = { treeId: string };
 
 const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
-  const [showPicker, setShowPicker] = useState(false);
-  const [isPending, startTransition] = useTransition();
-
-  const { accessToken, session } = useCurrentSession();
-  const { data } = useProfile(session.id);
-
-  const onOpen = () => {
-    // toast info message on what to do
-    toast.info(
-      "Image should capture the tree, tree code and any other landmark."
-    );
-  };
-
-  function onUploadDone(result: PickerResponse) {
-    startTransition(async () => {
-      const url = result.filesUploaded[0]?.url;
-      const handle = result.filesUploaded[0]?.handle;
-      if (url) {
-        const values: TreeEvidenceSchema = {
-          accessToken,
-          treeId,
-          type: "IMAGE",
-          url,
-          handle,
-        };
-        try {
-          const result = await addTreeEvidence(values);
-
-          if (result.success) {
-            toast.success("Evidence added successfully");
-            // invalidate trees here too (probably nearby tree route too)
-          } else {
-            // TODO: Handle error (e.g., show error message to user)
-            toast.error(result.error);
-            console.log(result.error);
-          }
-        } catch (error) {
-          console.log(error);
-          toast.error("Network error");
-        }
-      }
-    });
-  }
+  const { accessToken } = useCurrentSession();
 
   return (
     <Card>
@@ -77,32 +25,23 @@ const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
           Image should capture the tree, tree code and any other landmark.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        {showPicker && data && (
-          <PickerOverlay
-            apikey={env.NEXT_PUBLIC_FILESTACK_API_KEY}
-            onUploadDone={onUploadDone}
-            clientOptions={{ security: data.security }}
-            pickerOptions={{
-              accept: "image/*",
-              fromSources: ["webcam"],
-              maxFiles: 1,
-              maxSize: MAX_FILE_SIZE,
-              onClose: () => setShowPicker(false),
-              onOpen,
-              uploadConfig: { tags: { treeId, for: "TREE_EVIDENCE" } },
-            }}
-          />
-        )}
-      </CardContent>
       <CardFooter>
-        <Button
-          className="w-full"
-          onClick={() => setShowPicker(true)}
-          disabled={isPending}
-        >
-          {isPending ? <LoadingAnimation /> : "Add Image Evidence"}
-        </Button>
+        <UploadButton
+          endpoint="treeVerificationImageUpload"
+          className="w-full ut-button:bg-primary ut-button:ring-0 ut-button:text-primary-foreground ut-button:ut-readying:bg-primary/50"
+          input={{ accessToken, treeId }}
+          onClientUploadComplete={() => {
+            // Do something with the response
+
+            toast.success("Evidence added successfully");
+            // invalidate trees here too (probably nearby tree route too)
+          }}
+          onUploadError={(error: Error) => {
+            // Do something with the error.
+            toast.error(error.message);
+            console.log(error);
+          }}
+        />
       </CardFooter>
     </Card>
   );

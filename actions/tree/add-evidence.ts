@@ -41,7 +41,7 @@ export async function addTreeEvidence(params: unknown) {
     }
 
     if (tree._count.mediaEvidence >= treeLogicConfig.maxNoOfTreeEvidences) {
-      // if evidence type is image send delete image from filestack
+      // if evidence type is image send delete image from uploadthing
       return { error: "Forbidden!", success: false };
     }
 

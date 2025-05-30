@@ -26,8 +26,6 @@ import { EvidenceModal } from "./evidence-modal";
 import GeneralInfoModal from "@/app/app/(geo-needed)/local-bounty/[bountyId]/_components/general-info-modal";
 import PlanterReportTreeLink from "./planter-report-tree-link";
 
-type Security = { policy: string; signature: string };
-
 type Evidence = {
   id: string;
   type: $Enums.MediaType;
@@ -42,7 +40,6 @@ interface TreeInfoCardProps {
   additionalInfo: string;
   report: { id: string } | null;
   evidences: Evidence[];
-  security: Security;
   treeIsAuthentic: boolean;
   localBounty: BountyHuntModalParam | null;
 }
@@ -55,7 +52,6 @@ export default function TreeInfoCard({
   additionalInfo,
   localBounty,
   evidences,
-  security,
   treeIsAuthentic,
   report,
 }: TreeInfoCardProps) {
@@ -121,7 +117,6 @@ export default function TreeInfoCard({
           treeId={treeId}
           evidences={evidences}
           planterId={planter.id}
-          fileSecurity={security}
           className="w-full"
         />
       </CardFooter>

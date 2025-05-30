@@ -1,6 +1,5 @@
 "use client";
 
-import type { Security } from "filestack-js";
 import type { Dispatch, SetStateAction } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,6 @@ type VerifyTreeFormProps = {
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   formState: VerifyTreeFormState;
   setFormState: Dispatch<SetStateAction<VerifyTreeFormState>>;
-  security: Security;
 };
 
 const VerifyTreeForm = ({
@@ -33,7 +31,6 @@ const VerifyTreeForm = ({
   formState,
   setFormState,
   handleSubmit,
-  security,
 }: VerifyTreeFormProps) => {
   if (!nearbyTree) {
     return null;
@@ -51,7 +48,7 @@ const VerifyTreeForm = ({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <TreeModalContainer nearbyTree={nearbyTree} security={security} />
+        <TreeModalContainer nearbyTree={nearbyTree} />
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="code">Tree Code</Label>

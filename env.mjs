@@ -24,6 +24,9 @@ export const env = createEnv({
     // FILESTACK
     FILESTACK_APP_SECRET: z.string().min(1),
 
+    // UPLOADTHING
+    UPLOADTHING_TOKEN: z.string().min(1),
+
     // SENTRY
     SENTRY_AUTH_TOKEN: z.string().min(1),
 
@@ -91,6 +94,9 @@ export const env = createEnv({
     // FILESTACK
     NEXT_PUBLIC_FILESTACK_API_KEY: process.env.NEXT_PUBLIC_FILESTACK_API_KEY,
     FILESTACK_APP_SECRET: process.env.FILESTACK_APP_SECRET,
+
+    // UPLOADTHING
+    UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
 
     // SENTRY
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,

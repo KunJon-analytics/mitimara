@@ -2,8 +2,6 @@ import { siteConfig, treeLogicConfig } from "@/config/site";
 import { env } from "@/env.mjs";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/prisma";
-import { readPolicy } from "@/lib/services/filestack-policy";
-import { getImageUrlWithPolicy } from "@/lib/utils";
 
 export const treeVerificationCompleted = inngest.createFunction(
   { id: "tree-verification-completed" },
@@ -196,11 +194,7 @@ export const treeVerificationCompleted = inngest.createFunction(
       policingMessage = policingMessage.concat(`View all Tree Evidence: \n`);
       // evidence 1 evidence 2 and new line
       const evidences = maturedTree.mediaEvidence.map((me, i) => {
-        const evidenceUrl =
-          me.type === "VIDEO"
-            ? me.url
-            : getImageUrlWithPolicy(me.url, readPolicy);
-        return `<a href='${evidenceUrl}'>Evidence ${i + 1}</a>`;
+        return `<a href='${me.url}'>Evidence ${i + 1}</a>`;
       });
       policingMessage = policingMessage.concat("- ", evidences.join(" "), `\n`);
 

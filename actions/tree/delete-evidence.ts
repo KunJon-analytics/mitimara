@@ -54,10 +54,10 @@ export async function deleteTreeEvidence(params: unknown) {
       });
     }
 
-    // send delete filestack file if handle present
+    // send delete uploadthing file if handle present
     if (deletedEvidence.handle) {
       await inngest.send({
-        name: "filestack/file.delete",
+        name: "uploadthing/file.delete",
         data: {
           fileHandle: deletedEvidence.handle,
         },

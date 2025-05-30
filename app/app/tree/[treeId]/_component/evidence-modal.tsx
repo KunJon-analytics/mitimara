@@ -18,13 +18,11 @@ import { $Enums } from "@prisma/client";
 import { treeLogicConfig } from "@/config/site";
 import VideoPlayer from "@/components/common/video-player";
 import useCurrentSession from "@/components/providers/session-provider";
-import { cn, getImageUrlWithPolicy } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import DeleteEvidenceForm from "./delete-evidence-form";
 import AddEvidenceTabs from "./add-evidence-tabs";
 import MediaModal from "./media-modal";
 import TreeCode from "./tree-code";
-
-type Security = { policy: string; signature: string };
 
 type Evidence = {
   id: string;
@@ -37,7 +35,6 @@ type EvidenceModalProps = ButtonProps & {
   evidences: Evidence[];
   planterId: string;
   verificationStarted: boolean;
-  fileSecurity: Security;
 };
 
 export function EvidenceModal({
@@ -45,7 +42,6 @@ export function EvidenceModal({
   evidences,
   planterId,
   verificationStarted,
-  fileSecurity,
   className,
   ...props
 }: EvidenceModalProps) {
@@ -109,7 +105,7 @@ export function EvidenceModal({
             >
               {evidence.type === "IMAGE" ? (
                 <img
-                  src={getImageUrlWithPolicy(evidence.url, fileSecurity)}
+                  src={evidence.url}
                   alt="Tree evidence"
                   className="w-40 h-40 object-cover rounded"
                 />
@@ -117,14 +113,7 @@ export function EvidenceModal({
                 <VideoPlayer url={evidence.url} height={160} width={160} />
               )}
               <div className="flex gap-4 items-center justify-center mb-20">
-                <MediaModal
-                  type={evidence.type}
-                  url={
-                    evidence.type === "IMAGE"
-                      ? getImageUrlWithPolicy(evidence.url, fileSecurity)
-                      : evidence.url
-                  }
-                />
+                <MediaModal type={evidence.type} url={evidence.url} />
 
                 {isAuthorized && (
                   <DeleteEvidenceForm evidenceId={evidence.id} />

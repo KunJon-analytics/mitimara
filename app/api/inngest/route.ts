@@ -7,7 +7,6 @@ import { newEvidenceEvent } from "@/inngest/functions/trees/new-evidence";
 import { treePlantedEvent } from "@/inngest/functions/trees/tree-planted";
 import { treeInfoUpdatedEvent } from "@/inngest/functions/trees/info-updated";
 import { treeVerificationAddedEvent } from "@/inngest/functions/trees/new-verification";
-import { deleteFileStackFile } from "@/inngest/functions/filestack/delete-file";
 import { completePayment } from "@/inngest/functions/payments/complete-payment";
 import { updatePots } from "@/inngest/functions/pots/update-pots";
 import { treeVerificationCompleted } from "@/inngest/functions/trees/verification-completed";
@@ -19,6 +18,7 @@ import { archiveOutdatedTrees } from "@/inngest/functions/trees/archive-outdated
 import { treeReportedEvent } from "@/inngest/functions/trees/new-report";
 import { reportResolvedEvent } from "@/inngest/functions/trees/report-resolved";
 import { treeRecommendationRequested } from "@/inngest/functions/tree-recommendations/requested";
+import { deleteUploadThingFile } from "@/inngest/functions/uploadthing/delete-file";
 
 export const maxDuration = 60;
 
@@ -33,7 +33,7 @@ export const { GET, POST, PUT } = serve({
     treePlantedEvent,
     treeInfoUpdatedEvent,
     treeVerificationAddedEvent,
-    deleteFileStackFile,
+    deleteUploadThingFile,
     completePayment,
     updatePots,
     treeVerificationCompleted,

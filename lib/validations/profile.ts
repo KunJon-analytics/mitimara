@@ -30,10 +30,6 @@ export const profileSchema = z
         status: z.nativeEnum($Enums.TreeRecommendationStatus),
       })
       .array(),
-    security: z.object({
-      policy: z.string(),
-      signature: z.string(),
-    }),
   })
   .nullable();
 

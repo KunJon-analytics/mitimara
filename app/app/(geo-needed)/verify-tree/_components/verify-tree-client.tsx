@@ -3,7 +3,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { Security } from "filestack-js";
 
 import { submitVerification } from "@/actions/tree/submit-verification";
 import useCurrentSession from "@/components/providers/session-provider";
@@ -21,9 +20,7 @@ import NoNearbyTree from "./no-nearby-tree";
 import VerifyTreeForm from "./verify-tree-form";
 import InsufficientPoints from "../../_components/insufficient-points";
 
-type VerifyTreeProps = { security: Security };
-
-export default function VerifyTreeClient({ security }: VerifyTreeProps) {
+export default function VerifyTreeClient() {
   const [formState, setFormState] = useState<VerifyTreeFormState>({
     additionalInfo: "",
     isAuthentic: null,
@@ -155,7 +152,6 @@ export default function VerifyTreeClient({ security }: VerifyTreeProps) {
       nearbyTree={nearbyTree}
       formState={formState}
       setFormState={setFormState}
-      security={security}
     />
   );
 }
