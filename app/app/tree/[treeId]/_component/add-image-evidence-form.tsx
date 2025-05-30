@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import {
@@ -16,6 +17,7 @@ type AddImageEvidenceFormProps = { treeId: string };
 
 const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
   const { accessToken } = useCurrentSession();
+  const router = useRouter();
 
   return (
     <Card>
@@ -35,6 +37,7 @@ const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
 
             toast.success("Evidence added successfully");
             // invalidate trees here too (probably nearby tree route too)
+            router.refresh();
           }}
           onUploadError={(error: Error) => {
             // Do something with the error.
