@@ -10,21 +10,6 @@ import {
 import { env } from "@/env.mjs";
 import { utapi } from "../lib/uploadthing/server";
 
-// const sampleUploadData = {
-//   key: "LwzNyEBuVqEXovf7g6A38VI5Odo2UL4QxlFzw90XMNuqyBbt",
-//   url: "https://utfs.io/f/LwzNyEBuVqEXovf7g6A38VI5Odo2UL4QxlFzw90XMNuqyBbt",
-//   appUrl:
-//     "https://utfs.io/a/tjq2u0sn85/LwzNyEBuVqEXovf7g6A38VI5Odo2UL4QxlFzw90XMNuqyBbt",
-//   ufsUrl:
-//     "https://tjq2u0sn85.ufs.sh/f/LwzNyEBuVqEXovf7g6A38VI5Odo2UL4QxlFzw90XMNuqyBbt",
-//   lastModified: 1748630550706,
-//   name: "zAHawa0OR2W8s8htaQGn",
-//   size: 899418,
-//   type: "application/octet-stream",
-//   customId: null,
-//   fileHash: "ab2411c8fbc373b5d7a47feb580b31fe",
-// };
-
 const prisma = new PrismaClient();
 
 async function main() {
