@@ -32,6 +32,8 @@ export const ourFileRouter = {
 
       const validToken = await isValidAccessToken(accessToken);
 
+      console.log({ validToken });
+
       // If you throw, the user will not be able to upload
       if (!validToken) throw new UploadThingError("Unauthorized");
 
@@ -45,6 +47,8 @@ export const ourFileRouter = {
         },
         select: { _count: { select: { mediaEvidence: true } } },
       });
+
+      console.log({ tree });
 
       if (!tree) {
         throw new UploadThingError("Unauthorized");
@@ -65,6 +69,8 @@ export const ourFileRouter = {
         data: { type: "IMAGE", url: file.ufsUrl, treeId, handle: file.key },
         select: { id: true },
       });
+
+      console.log({ treeEvidence });
 
       // send tree evidence added event (send TG message)
       await inngest.send({
