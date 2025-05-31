@@ -26,6 +26,7 @@ export const env = createEnv({
 
     // UPLOADTHING
     UPLOADTHING_TOKEN: z.string().min(1),
+    UPLOADTHING_CALLBACK_URL: z.string().url(),
 
     // SENTRY
     SENTRY_AUTH_TOKEN: z.string().min(1),
@@ -97,6 +98,7 @@ export const env = createEnv({
 
     // UPLOADTHING
     UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
+    UPLOADTHING_CALLBACK_URL: process.env.UPLOADTHING_CALLBACK_URL,
 
     // SENTRY
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
