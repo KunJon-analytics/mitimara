@@ -73,7 +73,7 @@ export function EvidenceModal({
   }, [alertPlanter]);
 
   return (
-    <Credenza open={isOpen} onOpenChange={setIsOpen}>
+    <Credenza open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <CredenzaTrigger asChild>
         <Button
           onClick={() => setIsOpen(true)}
@@ -90,7 +90,7 @@ export function EvidenceModal({
             : "View Evidence"}
         </Button>
       </CredenzaTrigger>
-      <CredenzaContent className="sm:max-w-[425px]">
+      <CredenzaContent className="sm:max-w-[425px]" noInteractOutside>
         <CredenzaHeader>
           <CredenzaTitle>Tree Evidence</CredenzaTitle>
           <CredenzaDescription>

@@ -19,6 +19,7 @@ import { treeReportedEvent } from "@/inngest/functions/trees/new-report";
 import { reportResolvedEvent } from "@/inngest/functions/trees/report-resolved";
 import { treeRecommendationRequested } from "@/inngest/functions/tree-recommendations/requested";
 import { deleteUploadThingFile } from "@/inngest/functions/uploadthing/delete-file";
+import { deleteCloudinaryFile } from "@/inngest/functions/cloudinary/delete-file";
 
 export const maxDuration = 60;
 
@@ -45,5 +46,6 @@ export const { GET, POST, PUT } = serve({
     treeReportedEvent,
     reportResolvedEvent,
     treeRecommendationRequested,
+    deleteCloudinaryFile,
   ],
 });

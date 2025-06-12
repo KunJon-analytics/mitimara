@@ -53,6 +53,9 @@ export const env = createEnv({
     // UNSPLASH
     UNSPLASH_ACCESS_KEY: z.string().min(1),
     UNSPLASH_SECRET_KEY: z.string().min(1),
+
+    // CLOUDINARY
+    CLOUDINARY_API_SECRET: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
@@ -68,6 +71,10 @@ export const env = createEnv({
 
     // FILESTACK
     NEXT_PUBLIC_FILESTACK_API_KEY: z.string().min(1),
+
+    // CLOUDINARY
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
+    NEXT_PUBLIC_CLOUDINARY_API_KEY: z.string().min(1),
 
     // SENTRY
     NEXT_PUBLIC_SENTRY_DSN: z.string().url(),
@@ -126,5 +133,11 @@ export const env = createEnv({
     //UNSPLASH
     UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
     UNSPLASH_SECRET_KEY: process.env.UNSPLASH_SECRET_KEY,
+
+    //CLOUDINARY
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:
+      process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+    NEXT_PUBLIC_CLOUDINARY_API_KEY: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
   },
 });

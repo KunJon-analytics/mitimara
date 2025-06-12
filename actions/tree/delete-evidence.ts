@@ -37,6 +37,7 @@ export async function deleteTreeEvidence(params: unknown) {
       select: {
         id: true,
         handle: true,
+        url: true,
         tree: {
           select: { _count: { select: { mediaEvidence: true } }, id: true },
         },
@@ -55,13 +56,23 @@ export async function deleteTreeEvidence(params: unknown) {
     }
 
     // send delete uploadthing file if handle present
+
     if (deletedEvidence.handle) {
-      await inngest.send({
-        name: "uploadthing/file.delete",
-        data: {
-          fileHandle: deletedEvidence.handle,
-        },
-      });
+      if (deletedEvidence.url.includes("ufs.sh/f")) {
+        await inngest.send({
+          name: "uploadthing/file.delete",
+          data: {
+            fileHandle: deletedEvidence.handle,
+          },
+        });
+      } else {
+        await inngest.send({
+          name: "cloudinary/file.delete",
+          data: {
+            fileHandle: deletedEvidence.handle,
+          },
+        });
+      }
     }
 
     //invalidate tree here

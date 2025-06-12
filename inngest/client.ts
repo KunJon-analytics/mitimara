@@ -127,8 +127,8 @@ type Events = {
   "tree/verification.added": TreeVerified;
   "payments/app-to-user": AppToUser;
   "tree/verification.completed": TreePlanted;
-  "filestack/file.delete": DeleteCloudFile;
   "uploadthing/file.delete": DeleteCloudFile;
+  "cloudinary/file.delete": DeleteCloudFile;
   "payments/payment-completed": CompletedPayment;
   "pots/balance-updated": PaymentReceived;
   "payments/bounty-deposited": HuntBountyDeposited;

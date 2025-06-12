@@ -1,8 +1,3 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-
 import {
   Card,
   CardDescription,
@@ -10,15 +5,11 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
-import useCurrentSession from "@/components/providers/session-provider";
-import { UploadButton } from "@/lib/uploadthing/client";
+import CloudinaryButton from "./cloudinary-button";
 
 type AddImageEvidenceFormProps = { treeId: string };
 
 const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
-  const { accessToken } = useCurrentSession();
-  const router = useRouter();
-
   return (
     <Card>
       <CardHeader>
@@ -28,23 +19,7 @@ const AddImageEvidenceForm = ({ treeId }: AddImageEvidenceFormProps) => {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <UploadButton
-          endpoint="treeVerificationImageUpload"
-          className="w-full ut-button:bg-primary ut-button:ring-0 ut-button:text-primary-foreground ut-button:ut-readying:bg-primary/50"
-          input={{ accessToken, treeId }}
-          onClientUploadComplete={() => {
-            // Do something with the response
-
-            toast.success("Evidence added successfully");
-            // invalidate trees here too (probably nearby tree route too)
-            router.refresh();
-          }}
-          onUploadError={(error: Error) => {
-            // Do something with the error.
-            toast.error(error.message);
-            console.log(error);
-          }}
-        />
+        <CloudinaryButton treeId={treeId} />
       </CardFooter>
     </Card>
   );

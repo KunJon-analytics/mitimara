@@ -31,11 +31,13 @@ interface BaseProps {
 
 interface RootCredenzaProps extends BaseProps {
   open?: boolean;
+  modal?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
 interface CredenzaProps extends BaseProps {
   className?: string;
+  noInteractOutside?: boolean;
   asChild?: true;
 }
 
@@ -70,12 +72,23 @@ const CredenzaClose = ({ className, children, ...props }: CredenzaProps) => {
   );
 };
 
-const CredenzaContent = ({ className, children, ...props }: CredenzaProps) => {
+const CredenzaContent = ({
+  className,
+  children,
+  noInteractOutside,
+  ...props
+}: CredenzaProps) => {
   const isDesktop = useMediaQuery(desktop);
   const CredenzaContent = isDesktop ? DialogContent : DrawerContent;
 
   return (
-    <CredenzaContent className={className} {...props}>
+    <CredenzaContent
+      className={className}
+      {...props}
+      onInteractOutside={
+        noInteractOutside ? (event) => event.preventDefault() : undefined
+      }
+    >
       {children}
     </CredenzaContent>
   );
