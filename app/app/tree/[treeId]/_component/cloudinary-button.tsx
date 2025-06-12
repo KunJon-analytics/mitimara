@@ -3,6 +3,7 @@
 import { CldUploadWidget } from "next-cloudinary";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import useCurrentSession from "@/components/providers/session-provider";
@@ -13,6 +14,7 @@ type CloudinaryButtonProps = { treeId: string };
 const CloudinaryButton = ({ treeId }: CloudinaryButtonProps) => {
   const router = useRouter();
   const { accessToken, session } = useCurrentSession();
+  const [savingImage, setSavingImage] = useState(false);
 
   return (
     <CldUploadWidget
@@ -34,6 +36,8 @@ const CloudinaryButton = ({ treeId }: CloudinaryButtonProps) => {
             "secure_url" in results.info
           ) {
             console.log("Public ID", results.info.public_id);
+            setSavingImage(true);
+            const toastId = toast.loading("Saving tree evidence");
             const result = await addTreeEvidence({
               accessToken,
               treeId,
@@ -42,19 +46,21 @@ const CloudinaryButton = ({ treeId }: CloudinaryButtonProps) => {
               handle: results.info.public_id,
             });
             if (result.success) {
-              toast.success("Evidence added successfully");
+              toast.success("Evidence added successfully", { id: toastId });
               // invalidate trees here too (probably nearby tree route too)
 
               router.refresh();
             } else {
               // TODO: Handle error (e.g., show error message to user)
-              toast.error(result.error);
+              toast.error(result.error, { id: toastId });
               console.log(result.error);
             }
           }
         } catch (error) {
           console.log(error);
           toast.error("Network error");
+        } finally {
+          setSavingImage(false);
         }
       }}
     >
@@ -64,9 +70,9 @@ const CloudinaryButton = ({ treeId }: CloudinaryButtonProps) => {
             className="w-full"
             type="button"
             onClick={() => open()}
-            disabled={!session.isLoggedIn}
+            disabled={!session.isLoggedIn || savingImage}
           >
-            Upload an Image
+            {savingImage ? "Saving Image..." : "Upload an Image"}
           </Button>
         );
       }}
