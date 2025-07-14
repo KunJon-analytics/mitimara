@@ -1,8 +1,10 @@
 "use client";
 
-import Map, { Marker } from "react-map-gl/maplibre";
+import Map from "react-map-gl/maplibre";
 
 import { env } from "@/env.mjs";
+import UserMarker from "../../_components/user-marker";
+import TreeMarker from "../../_components/tree-marker";
 
 type TreeMapProps = {
   latitude: number;
@@ -21,14 +23,9 @@ const TreeMap = ({ latitude, longitude, userLocation }: TreeMapProps) => {
       style={{ width: "100%", height: "100%" }}
       mapStyle={`https://api.maptiler.com/maps/streets/style.json?key=${env.NEXT_PUBLIC_MAPTILER_TOKEN}`}
     >
-      {userLocation && (
-        <Marker
-          latitude={userLocation.latitude}
-          longitude={userLocation.longitude}
-          color="purple"
-        />
-      )}
-      <Marker latitude={latitude} longitude={longitude} color="green" />
+      {userLocation && <UserMarker userLocation={userLocation} />}
+
+      <TreeMarker tree={{ latitude, longitude }} />
     </Map>
   );
 };

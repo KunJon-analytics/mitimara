@@ -3,8 +3,8 @@ import { Suspense } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/config/site";
 import { LoginButton } from "../layout/login-button";
+import NearestTreesButton from "@/app/app/(geo-needed)/verify-tree/_components/nearest-trees-button";
 
 export function Hero() {
   return (
@@ -36,9 +36,12 @@ export function Hero() {
           </Suspense>
         </div>
         <div className="text-center sm:block sm:text-left">
-          <Button variant="outline" className="rounded-full" asChild>
-            <Link href={"/about"}>About {siteConfig.name}</Link>
-          </Button>
+          <NearestTreesButton
+            buttontext="View all Trees"
+            searchParams={{}}
+            variant={"outline"}
+            className="rounded-full"
+          />
         </div>
       </div>
     </div>
