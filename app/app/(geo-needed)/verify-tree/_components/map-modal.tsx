@@ -60,7 +60,7 @@ export function MapModal({ nearbyTree, userLocation }: MapModalProps) {
             longitude,
             userLocation.latitude,
             userLocation.longitude
-          )}{" "}
+          ).toFixed(2)}{" "}
           km away from the tree
         </p>
       </CredenzaContent>

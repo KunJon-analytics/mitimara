@@ -21,12 +21,14 @@ import VerifyTreeForm from "./verify-tree-form";
 import InsufficientPoints from "../../_components/insufficient-points";
 
 export default function VerifyTreeClient() {
-  const [formState, setFormState] = useState<VerifyTreeFormState>({
+  const defaultFormState = {
     additionalInfo: "",
     isAuthentic: null,
     videoUrl: "",
     code: "",
-  });
+  };
+  const [formState, setFormState] =
+    useState<VerifyTreeFormState>(defaultFormState);
   const [isLoading, startTransition] = useTransition();
 
   const {
@@ -36,7 +38,7 @@ export default function VerifyTreeClient() {
   const queryClient = useQueryClient();
 
   const { accessToken, session } = useCurrentSession();
-  const { data: nearbyTree, status } = useFindNearbyTree({
+  const { data: nearbyTree, isLoading: isFetchingData } = useFindNearbyTree({
     accessToken,
     latitude,
     longitude,
@@ -74,6 +76,7 @@ export default function VerifyTreeClient() {
         toast.success("Verification submitted", {
           description: "Thank you for verifying this tree!",
         });
+        setFormState(defaultFormState);
       } else {
         toast.error("Error", {
           description: result.error,
@@ -121,7 +124,7 @@ export default function VerifyTreeClient() {
     return <LoadingSkeleton loadingText="Loading user Location..." />;
   }
 
-  if (isLoading || status === "pending") {
+  if (isLoading || isFetchingData) {
     return <LoadingSkeleton loadingText="Loading..." />;
   }
 
@@ -148,6 +151,7 @@ export default function VerifyTreeClient() {
 
   return (
     <VerifyTreeForm
+      isLoading={isLoading}
       handleSubmit={handleSubmit}
       nearbyTree={nearbyTree}
       formState={formState}

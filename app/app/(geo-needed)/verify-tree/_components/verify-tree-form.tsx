@@ -17,6 +17,7 @@ import {
   NearbyTreeReturnType,
   VerifyTreeFormState,
 } from "@/lib/validations/tree";
+import { LoadingAnimation } from "@/components/common/loading-animation";
 import TreeModalContainer from "./tree-modal-container";
 
 type VerifyTreeFormProps = {
@@ -24,6 +25,7 @@ type VerifyTreeFormProps = {
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   formState: VerifyTreeFormState;
   setFormState: Dispatch<SetStateAction<VerifyTreeFormState>>;
+  isLoading: boolean;
 };
 
 const VerifyTreeForm = ({
@@ -31,6 +33,7 @@ const VerifyTreeForm = ({
   formState,
   setFormState,
   handleSubmit,
+  isLoading,
 }: VerifyTreeFormProps) => {
   if (!nearbyTree) {
     return null;
@@ -56,6 +59,7 @@ const VerifyTreeForm = ({
               id="code"
               placeholder="Input unique tree code shown on tree evidence media"
               value={code}
+              disabled={isLoading}
               onChange={(e) =>
                 setFormState((prevValue) => ({
                   ...prevValue,
@@ -70,6 +74,7 @@ const VerifyTreeForm = ({
               <Button
                 type="button"
                 className="w-full sm:w-2/5"
+                disabled={isLoading}
                 variant={isAuthentic === true ? "success" : "outline"}
                 onClick={() =>
                   setFormState((prevValue) => ({
@@ -84,6 +89,7 @@ const VerifyTreeForm = ({
                 type="button"
                 className="w-full sm:w-2/5"
                 variant={isAuthentic === false ? "destructive" : "outline"}
+                disabled={isLoading}
                 onClick={() =>
                   setFormState((prevValue) => ({
                     ...prevValue,
@@ -99,6 +105,7 @@ const VerifyTreeForm = ({
             <Label htmlFor="videoUrl">Video URL (optional)</Label>
             <Input
               id="videoUrl"
+              disabled={isLoading}
               type="url"
               placeholder="https://youtube.com/..."
               value={videoUrl}
@@ -116,6 +123,7 @@ const VerifyTreeForm = ({
               id="additionalInfo"
               placeholder="Provide any additional details about your verification..."
               value={additionalInfo}
+              disabled={isLoading}
               onChange={(e) =>
                 setFormState((prevValue) => ({
                   ...prevValue,
@@ -127,9 +135,15 @@ const VerifyTreeForm = ({
           <Button
             className="w-full"
             type="submit"
-            disabled={isAuthentic === null || !code}
+            disabled={isAuthentic === null || !code || isLoading}
           >
-            Submit Verification
+            {isLoading ? (
+              <>
+                <LoadingAnimation /> Submitting...
+              </>
+            ) : (
+              "Submit Verification"
+            )}
           </Button>
         </form>
       </CardContent>
