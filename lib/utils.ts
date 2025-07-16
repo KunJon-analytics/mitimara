@@ -43,3 +43,13 @@ export function numberFormatter(value: number) {
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
   return formatter.format(value);
 }
+
+export function truncateText(str: string, maxLength: number, ending = "...") {
+  if (str.length > maxLength) {
+    // Subtract the length of the ending from maxLength to ensure total length
+    // including the ending does not exceed maxLength.
+    return str.slice(0, maxLength - ending.length) + ending;
+  } else {
+    return str;
+  }
+}

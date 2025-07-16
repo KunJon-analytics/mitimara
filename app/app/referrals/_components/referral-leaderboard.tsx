@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/lib/prisma";
+import { truncateText } from "@/lib/utils";
 
 export default async function ReferralLeaderboard() {
   const leaderboardData = await prisma.user.findMany({
@@ -36,7 +37,7 @@ export default async function ReferralLeaderboard() {
               {leaderboardData.map((user, index) => (
                 <TableRow key={user.username}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell>{user.username}</TableCell>
+                  <TableCell>{truncateText(user.username, 15)}</TableCell>
                   <TableCell className="text-right">
                     {user.noOfReferrals}
                   </TableCell>
