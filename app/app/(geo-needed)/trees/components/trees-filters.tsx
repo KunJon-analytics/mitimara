@@ -126,7 +126,7 @@ export function TreesFilters() {
           )}
         </Button>
       </CredenzaTrigger>
-      <CredenzaContent className="max-w-[425px]">
+      <CredenzaContent className="px-2">
         <CredenzaHeader>
           <CredenzaTitle>Filter & Sort Trees</CredenzaTitle>
           <CredenzaDescription>

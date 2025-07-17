@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function TreesPageSkeleton() {
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-[75vh]flex flex-col">
       {/* Header skeleton */}
       <div className="flex-shrink-0 bg-background border-b p-4">
         <div className="flex items-center justify-between">
