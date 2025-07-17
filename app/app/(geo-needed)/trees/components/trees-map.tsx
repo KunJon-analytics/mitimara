@@ -51,7 +51,7 @@ export function TreesMap({ trees }: TreesMapProps) {
   }, [initialViewState.latitude, initialViewState.longitude]);
 
   return (
-    <div className="h-72 w-full md:h-[600px] rounded-lg overflow-hidden border">
+    <div className="h-full w-full rounded-lg overflow-hidden border">
       <Map
         ref={mapRef}
         initialViewState={initialViewState}

@@ -1,9 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { numberFormatter } from "@/lib/utils";
 import { getTrees } from "../services";
 import { TreesMap } from "../components/trees-map";
 import { TreesFilters } from "../components/trees-filters";
 import { searchParamsCache } from "../searchParams";
+import UserLocationLegend from "./user-location-legend";
 
 async function TreesContent() {
   const searchParams = searchParamsCache.all();
@@ -11,43 +12,46 @@ async function TreesContent() {
   const trees = await getTrees(searchParams);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold">Trees Map</h1>
-          <p className="text-muted-foreground">
-            Explore trees in your area and help verify plantings
-          </p>
-        </div>
-        <div className="text-sm text-muted-foreground">
-          Showing {numberFormatter(trees.length)} tree
-          {trees.length !== 1 ? "s" : ""}
+    <div className="h-screen flex flex-col">
+      {/* Header - Fixed at top */}
+      <div className="flex-shrink-0 bg-background border-b p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold">Trees Map</h1>
+            <p className="text-sm text-muted-foreground">
+              {numberFormatter(trees.length)} tree
+              {trees.length !== 1 ? "s" : ""} found
+            </p>
+          </div>
+          <TreesFilters />
         </div>
       </div>
 
-      <TreesFilters />
+      {/* Map - Takes remaining space */}
+      <div className="flex-1 relative">
+        <TreesMap trees={trees} />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Interactive Map</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <TreesMap trees={trees} />
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-amber-500 rounded-full"></div>
-          <span>Unverified Trees</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-          <span>Verified Trees</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-          <span>Rejected Trees</span>
+        {/* Legend - Floating overlay */}
+        <div className="absolute bottom-4 left-4 right-4 z-10">
+          <Card className="bg-background/95 backdrop-blur-sm">
+            <CardContent className="p-3">
+              <div className="flex justify-between items-center text-xs">
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+                  <span>Unverified</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span>Verified</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <span>Rejected</span>
+                </div>
+                <UserLocationLegend />
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
