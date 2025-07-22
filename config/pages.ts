@@ -27,6 +27,20 @@ export const marketingCompanyPagesConfig = [
     segment: "roadmap",
     icon: "route",
   },
+  {
+    href: "/#how-it-works",
+    title: "How It Works",
+    description: "Learn how to contribute to the planet.",
+    segment: "",
+    icon: "cog",
+  },
+  {
+    href: "/#faq",
+    title: "FAQ",
+    description: "Find answers to common questions.",
+    segment: "FAQ",
+    icon: "puzzle",
+  },
 ] as const satisfies Page[];
 
 export const marketingPagesConfig = [
@@ -39,11 +53,11 @@ export const marketingPagesConfig = [
     children: marketingCompanyPagesConfig,
   },
   {
-    href: "/#how-it-works",
-    title: "How It Works",
-    description: "Learn how to contribute to the planet.",
+    href: "/donate",
+    title: "Donate",
+    description: "Support our mission.",
     segment: "",
-    icon: "cog",
+    icon: "donate",
   },
   {
     href: "/blog",
@@ -53,10 +67,10 @@ export const marketingPagesConfig = [
     icon: "book",
   },
   {
-    href: "/#faq",
-    title: "FAQ",
-    description: "Find answers to common questions.",
-    segment: "FAQ",
-    icon: "puzzle",
+    href: "/app/trees",
+    title: "Trees",
+    description: "View our network of trees.",
+    segment: "trees",
+    icon: "trees",
   },
 ] satisfies Page[];

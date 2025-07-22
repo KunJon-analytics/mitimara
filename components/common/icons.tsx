@@ -71,6 +71,8 @@ import {
   Youtube,
   Zap,
   Pi,
+  Trees,
+  Heart,
 } from "lucide-react";
 import type { LucideIcon, LucideProps } from "lucide-react";
 
@@ -87,6 +89,8 @@ export const Icons = {
   link: Link,
   siren: Siren,
   pi: Pi,
+  trees: Trees,
+  donate: Heart,
   "panel-top": PanelTop,
   table: Table,
   "toy-brick": ToyBrick,
