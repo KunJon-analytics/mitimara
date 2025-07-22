@@ -14,6 +14,7 @@ export type SiteConfig = {
 export type SubscriptionConfig = {
   userPointsPerPi: number;
   fee: number;
+  treesPlantedPerPi: number;
 };
 
 export type TreeLogicConfig = {

@@ -15,6 +15,8 @@ export default withUt({
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        pi: "hsl(var(--pi))",
+        info: "hsl(var(--info))",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

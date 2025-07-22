@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition, useState, ReactNode } from "react";
 import { Pi } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
@@ -24,7 +24,7 @@ import { Button, ButtonProps } from "../ui/button";
 import useCurrentSession from "../providers/session-provider";
 
 type SubscribeProps = ButtonProps & {
-  buttonText?: string;
+  buttonText?: ReactNode;
   modalDescription?: string;
 };
 
@@ -42,6 +42,17 @@ const Subscribe = ({
   const defaultDescription = `Unlock ${subscriptionConfig.userPointsPerPi} ${siteConfig.name} points
             with a Pi subscription. Help grow our green community and get
             rewarded. Your support means the world (literally). 🌍💚`;
+
+  const renderedText =
+    props.size === "icon" ? (
+      <Pi className="h-4 w-4" />
+    ) : (
+      buttonText ?? (
+        <>
+          <Pi className="h-4 w-4" /> Donate
+        </>
+      )
+    );
 
   function subscribe() {
     startTransition(async () => {
@@ -92,7 +103,7 @@ const Subscribe = ({
           {...props}
           onClick={() => setOpen(true)}
         >
-          <Pi className="h-4 w-4" /> {buttonText ? buttonText : "Subscribe"}
+          {renderedText}
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>

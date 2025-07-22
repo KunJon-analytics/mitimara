@@ -27,6 +27,7 @@ export const siteConfig: SiteConfig = {
 export const subscriptionConfig: SubscriptionConfig = {
   userPointsPerPi: 100,
   fee: 1,
+  treesPlantedPerPi: 9,
 };
 
 export const treeLogicConfig: TreeLogicConfig = {
@@ -55,6 +56,8 @@ export const POLICING_REWARDS = 2 * MIN_POLICING_POINTS;
 export const REWARD_COOLDOWN_DAYS = 28;
 
 export const TREE_RECOMMENDATION_COST = 2;
+
+export const ACTIVE_COUNTRIES = 23;
 
 export const CUTOFF_VERIFICATIONS = Math.ceil(
   treeLogicConfig.maxNoOfTreeVerifications / 2

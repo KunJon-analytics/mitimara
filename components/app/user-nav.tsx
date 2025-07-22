@@ -27,7 +27,7 @@ export function UserNav() {
   }
 
   if (!session.isLoggedIn || status === "error") {
-    return <LoginButton size={"icon"} variant={"outline"} />;
+    return <LoginButton size={"icon"} />;
   }
 
   return (

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { ReactNode, useState, useTransition } from "react";
 import { HandCoins } from "lucide-react";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { siteConfig } from "@/config/site";
+import { siteConfig, subscriptionConfig } from "@/config/site";
 import { LoadingAnimation } from "@/components/common/loading-animation";
 import {
   Credenza,
@@ -36,16 +36,37 @@ import { cn } from "@/lib/utils";
 import { Button, ButtonProps } from "../ui/button";
 import useCurrentSession from "../providers/session-provider";
 
-const Donate = ({ className, ...props }: ButtonProps) => {
+type DonateProps = ButtonProps & {
+  buttonText?: ReactNode;
+  defaultAmount?: number;
+};
+
+const Donate = ({
+  className,
+  defaultAmount,
+  buttonText,
+  ...props
+}: DonateProps) => {
   const [open, setOpen] = useState(false);
   const { session, logout, status } = useCurrentSession();
   const [isPending, startTransition] = useTransition();
+
+  const renderedText =
+    props.size === "icon" ? (
+      <HandCoins className="h-4 w-4" />
+    ) : (
+      buttonText ?? (
+        <>
+          <HandCoins className="h-4 w-4" /> Donate
+        </>
+      )
+    );
 
   // 1. Define your form.
   const form = useForm<DonationSchema>({
     resolver: zodResolver(donationSchema),
     defaultValues: {
-      amount: 1,
+      amount: defaultAmount ?? subscriptionConfig.fee,
     },
   });
 
@@ -96,7 +117,7 @@ const Donate = ({ className, ...props }: ButtonProps) => {
           {...props}
           onClick={() => setOpen(true)}
         >
-          <HandCoins className="h-4 w-4" /> {props.size !== "icon" && "Donate"}
+          {renderedText}
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>

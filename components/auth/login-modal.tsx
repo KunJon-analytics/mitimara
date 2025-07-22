@@ -1,6 +1,7 @@
 "use client";
 
 import { LogIn } from "lucide-react";
+import { ReactNode } from "react";
 
 import {
   Credenza,
@@ -20,17 +21,19 @@ import useCurrentSession from "../providers/session-provider";
 import { Button, ButtonProps } from "../ui/button";
 import { LoadingAnimation } from "../common/loading-animation";
 
-type LoginModalProps = ButtonProps & LoginParams;
+type LoginModalProps = ButtonProps & LoginParams & { buttonText?: ReactNode };
 
 const LoginModal = ({
   className,
   redirect,
   referral,
+  buttonText,
   ...props
 }: LoginModalProps) => {
   const { isPending, login, session } = useCurrentSession();
 
-  const size = props.size;
+  const renderedText =
+    props.size === "icon" ? <LogIn /> : buttonText ?? "Get Started";
 
   const onClick = async () => {
     await login({ redirect, referral });
@@ -44,7 +47,7 @@ const LoginModal = ({
     <Credenza>
       <CredenzaTrigger asChild>
         <Button className={cn("rounded-full", className)} {...props}>
-          {size === "icon" ? <LogIn /> : "Get Started"}
+          {renderedText}
         </Button>
       </CredenzaTrigger>
       <CredenzaContent>

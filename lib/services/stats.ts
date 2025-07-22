@@ -28,12 +28,18 @@ export const getPointCoefficient = async () => {
 
 export const getSiteStats = async () => {
   try {
-    const [users, trees, treeVerifications] = await prisma.$transaction([
+    const [users, trees, treeVerifications, pots] = await prisma.$transaction([
       prisma.user.count(),
       prisma.tree.count({ where: { archivedAt: null } }),
       prisma.treeVerification.count(),
+      prisma.pot.findMany({
+        where: { isPublic: true, isOpen: true },
+        select: { balance: true, name: true, revenueFraction: true },
+      }),
     ]);
-    return { users, trees, treeVerifications };
+
+    const totalBalance = pots.reduce((sum, pot) => sum + pot.balance, 0);
+    return { users, trees, treeVerifications, totalBalance, pots };
   } catch (error) {
     console.error("GET_SITE_STATS", error);
     return { users: 0, trees: 0, treeVerifications: 0 };

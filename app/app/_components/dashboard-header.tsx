@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { Globe, Heart } from "lucide-react";
 
 import { BrandName } from "@/components/marketing/layout/brand-name";
 import { Button } from "@/components/ui/button";
@@ -13,17 +13,23 @@ const DashboardHeader = () => {
     <header className="bg-foreground/5 px-3 py-3 backdrop-blur-lg md:px-6 md:py-3">
       <div className="flex w-full items-center justify-between">
         <BrandName homeLink="/" />
+        <ul className="gap-1 flex">
+          <li className="w-full">
+            <Button variant={"secondary"} asChild className="rounded-full">
+              <Link href="/donate#one-time-impact">
+                <Heart className="h-4 w-4 flex-shrink-0" />
+              </Link>
+            </Button>
+          </li>
+          <li className="w-full">
+            <Button variant={"secondary"} asChild className="rounded-full">
+              <Link href="/telegram" target="_blank">
+                <Globe className="h-4 w-4 flex-shrink-0" />
+              </Link>
+            </Button>
+          </li>
+        </ul>
         <div className="flex items-center gap-1">
-          <ul className="gap-1">
-            <li className="w-full">
-              <Button variant="link" asChild>
-                <Link href="/telegram" target="_blank">
-                  Telegram
-                  <ArrowUpRight className="ml-1 h-4 w-4 flex-shrink-0" />
-                </Link>
-              </Button>
-            </li>
-          </ul>
           <div className="relative">
             <Skeleton className="h-8 w-8 rounded-full" />
             <div className="absolute inset-0">
