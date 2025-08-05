@@ -2,6 +2,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserReferrals from "./_components/user-referrals";
 import ReferralLeaderboard from "./_components/referral-leaderboard";
 
+export const revalidate = 18000;
+
 export default function ReferralsPage() {
   return (
     <div className="container mx-auto px-4 py-8">

@@ -57,7 +57,7 @@ export const REWARD_COOLDOWN_DAYS = 28;
 
 export const TREE_RECOMMENDATION_COST = 2;
 
-export const ACTIVE_COUNTRIES = 23;
+export const ACTIVE_COUNTRIES = 29;
 
 export const CUTOFF_VERIFICATIONS = Math.ceil(
   treeLogicConfig.maxNoOfTreeVerifications / 2

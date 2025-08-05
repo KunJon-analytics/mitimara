@@ -8,7 +8,7 @@ import StatsSkeleton from "@/components/marketing/home/stats-skeleton";
 import { SlidingBanner } from "@/components/marketing/home/sliding-banner";
 import { SlidingBannerSkeleton } from "@/components/marketing/home/sliding-banner-skeleton";
 
-export const revalidate = 3600;
+export const revalidate = 18000;
 
 export default async function Home() {
   return (

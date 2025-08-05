@@ -9,6 +9,8 @@ import { DonationOptions } from "./_components/donation-options";
 // import { SubscriptionTiers } from "./_components/subscription-tiers";
 // import { CommunityTestimonials } from "./_components/community-testimonials";
 
+export const revalidate = 18000;
+
 export default function DonatePage() {
   return (
     <div className="min-h-screen">

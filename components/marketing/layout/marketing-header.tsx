@@ -16,6 +16,7 @@ import {
 import { marketingPagesConfig } from "@/config/pages";
 import { cn } from "@/lib/utils";
 import { Icons, type ValidIcon } from "@/components/common/icons";
+import { Button } from "@/components/ui/button";
 import { BrandName } from "./brand-name";
 import { LoginButton } from "./login-button";
 import { MarketingMenu } from "./marketing-menu";
@@ -97,7 +98,13 @@ export function MarketingHeader({ className }: Props) {
         <div className="block md:hidden">
           <MarketingMenu />
         </div>
-        <Suspense>
+        <Suspense
+          fallback={
+            <Button asChild className="rounded-full">
+              <Link href="/app">Get Started</Link>
+            </Button>
+          }
+        >
           <LoginButton />
         </Suspense>
       </div>
