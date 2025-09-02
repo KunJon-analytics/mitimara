@@ -87,14 +87,22 @@ export const appToUserPayment = inngest.createFunction(
             where: { paymentId: incompletePayment.identifier },
             data: {
               txId: incompletePayment.transaction?.txid,
-              status: "COMPLETED",
+              status: incompletePayment.transaction?.txid
+                ? "COMPLETED"
+                : "CANCELLED",
             },
             select: { paymentId: true },
           });
         });
 
         await step.run("complete-incomplete-payment", async () => {
-          return pi.completePayment(incompletePayment.identifier, txId);
+          if (!incompletePayment.transaction?.txid) {
+            return pi.cancelPayment(incompletePayment.identifier);
+          }
+          return pi.completePayment(
+            incompletePayment.identifier,
+            incompletePayment.transaction?.txid
+          );
         });
       }
     }
