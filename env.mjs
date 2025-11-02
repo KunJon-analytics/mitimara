@@ -77,6 +77,9 @@ export const env = createEnv({
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
     NEXT_PUBLIC_CLOUDINARY_API_KEY: z.string().min(1),
 
+    // GOOGLE ADSENSE
+    NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID: z.string().min(1),
+
     // SENTRY
     NEXT_PUBLIC_SENTRY_DSN: z.string().url(),
   },
@@ -141,5 +144,9 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
     NEXT_PUBLIC_CLOUDINARY_API_KEY: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
     CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+
+    //GOOGLE ADSENSE
+    NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID:
+      process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID,
   },
 });

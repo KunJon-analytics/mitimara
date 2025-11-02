@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import Script from "next/script";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
@@ -13,6 +14,7 @@ import {
   twitterMetadata,
 } from "@/app/shared-metadata";
 import ChatSupport from "@/components/chat/chat-support";
+import { env } from "@/env.mjs";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./globals.css";
@@ -54,6 +56,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT_ID}`}
+          crossOrigin="anonymous"
+        ></Script>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
